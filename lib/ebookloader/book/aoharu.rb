@@ -4,6 +4,7 @@ module EBookloader
     class Book
         class Aoharu < ActiBook
             private
+            
             def lazy_load
             	source = get @uri
                 source.body.force_encoding Encoding::UTF_8

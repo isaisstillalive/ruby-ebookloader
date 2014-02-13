@@ -7,6 +7,7 @@ module EBookloader
             attr_lazy_reader :pages
 
             private
+            
             def save_core dir_path
                 dir = dir_path + name
                 dir.mkdir unless dir.exist?
