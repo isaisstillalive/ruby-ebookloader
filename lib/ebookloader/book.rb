@@ -1,3 +1,5 @@
+# coding: utf-8
+
 module EBookloader
     class Book < Class.new
         Base = self.superclass
