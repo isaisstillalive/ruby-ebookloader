@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja" xmlns:fb="http://ogp.me/ns/fb#">
+<head>
+</head>
+<body id="bodyContainer">
+
+<!-- comicViewer -->
+<div id="comicViewer">
+
+<!-- comicDetail -->
+<div id="comicDetail">
+
+<h1><a href="../index.html" title="title">title</a></h1>
+<h2>author</h2>
+<div class="copyright">&copy;author / copyright.</div>
+
+<!-- comicData -->
+
+<div id="comicData">
+<ul>
+<li class="comicTitleDate">episode ｜ 2014/02/13更新</li>
+<li class="comicDataWrapper">
+<ul>
+<li class="comicCount">&nbsp;</li>
+<li class="comicRank">&nbsp;</li>
+</ul>
+</li>
+</ul>
+</div>
+
+<!-- comicData -->
+
+</div>
+<!-- comicDetail -->
+
+<div class="comicContainer">
+
+<script type="text/javascript">
+var agent='pc';
+if ((navigator.userAgent.indexOf('iPhone') > 0 && navigator.userAgent.indexOf('iPad') == -1) || navigator.userAgent.indexOf('iPod') > 0 || navigator.userAgent.indexOf('Android') > 0) {
+	agent='mobile';
+}
+for(var i=1;i<=2;i++){
+var vi=i;
+var nx=i+1;
+if(vi<10){vi='0'+vi;}
+if(24<nx){nx='comicNavi2';}
+else if(nx<10){nx='0'+nx;}
+	document.write('<a href="#'+ nx +'"><img id="'+ vi +'" class="lazy" src="../../comic/loading.gif" data-original="../../comic/identifier/' + agent + '/001/001_001_' + vi + '.jpg" alt="=TITLE= episode"></a><br>');
+}
+</script>
+
+</div>
+
+</div>
+<!-- comicViewer -->
+
+</body>
+</html>
