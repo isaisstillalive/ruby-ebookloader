@@ -13,15 +13,6 @@ module EBookloader
                 @uri = URI(uri)
                 @name = name
             end
-
-            def books
-                to_enum :books_core
-            end
-
-            def books_core &block
-                load
-                @books.each &block
-            end
         end
     end
 end
