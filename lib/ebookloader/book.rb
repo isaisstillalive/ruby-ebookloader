@@ -37,5 +37,6 @@ module EBookloader
         require_relative 'book/direct'
         require_relative 'book/acti_book'
         require_relative 'book/akitashoten_reading_communicator'
+        require_relative 'book/aoharu'
     end
 end
