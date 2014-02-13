@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<book>
+  <FileVersion>2.0</FileVersion>
+  <AuthVersion>ActiBook  [[4.2.0.0_SD]]_3.2.3.0</AuthVersion>
+  <name>name</name>
+  <title></title>
+  <Keywords></Keywords>
+  <description></description>
+  <start>1</start>
+  <total>2</total>
+  <to_type>rich</to_type>
+  <to_open>right</to_open>
+  <Property CategoryName="PageFlip" Name="GrabRange" ValueType="Percent" Value="18"/>
+  <Property CategoryName="PageFlip" Name="GrabType" ValueType="Enum" Value="edge"/>
+  <noanalytics/>
+  <w>640</w>
+  <h>480</h>
+  <PageSizes>
+    <PageSize zoom="1" w="640" h="480"/>
+    <PageSize zoom="2" w="640" h="480"/>
+  </PageSizes>
+<pages>
+<page>
+  <title></title>
+  <Keywords></Keywords>
+  <description></description>
+  <ActiBookPageNumber>1</ActiBookPageNumber>
+  <number>1</number>
+  <numbering>1</numbering>
+  <image>g_1</image>
+  <type>jpg</type>
+  <v_image></v_image>
+  <v_color>003366</v_color>
+  <v_music></v_music>
+  <texts/>
+  <animations/>
+  <insides/>
+  <outsides/>
+</page>
+
+<page>
+  <title></title>
+  <Keywords></Keywords>
+  <description></description>
+  <ActiBookPageNumber>2</ActiBookPageNumber>
+  <number>2</number>
+  <numbering>2</numbering>
+  <image>g_2</image>
+  <type>jpg</type>
+  <v_image></v_image>
+  <v_color>003366</v_color>
+  <v_music></v_music>
+  <texts/>
+  <animations/>
+  <insides/>
+  <outsides/>
+</page>
+
+</pages>
+</book>
