@@ -12,7 +12,8 @@ module EBookloader
 
                 @name ||= doc.elements['/book/name'].text
 
-                @pages = doc.to_enum(:each_element, '/book/pages/page').lazy.map do |page|
+                page_count = doc.elements['/book/total'].text.to_i
+                @pages = doc.to_enum(:each_element, '/book/pages/page'){ page_count }.lazy.map do |page|
                     uri = @uri + "./books/images/2/#{page.elements['number'].text}.#{page.elements['type'].text}"
                     filename = '%03d.%s' % [page.elements['ActiBookPageNumber'].text, page.elements['type'].text]
                     [filename, uri]

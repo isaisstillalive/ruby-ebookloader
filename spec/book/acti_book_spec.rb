@@ -20,6 +20,7 @@ describe EBookloader::Book::ActiBook do
         it 'は@pagesを設定する' do
             subject
 
+            expect( book.pages.size ).to eql 2
             expect( book.pages.to_a ).to eql [
                 ['001.jpg', URI('http://example.com/dir/books/images/2/1.jpg')],
                 ['002.jpg', URI('http://example.com/dir/books/images/2/2.jpg')],
