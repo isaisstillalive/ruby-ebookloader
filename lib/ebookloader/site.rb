@@ -25,5 +25,6 @@ module EBookloader
         end
 
         require_relative 'site/comic_meteor'
+        require_relative 'site/champion_tap'
     end
 end
