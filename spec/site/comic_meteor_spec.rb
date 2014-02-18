@@ -17,11 +17,11 @@ describe EBookloader::Site::ComicMeteor do
         subject{ site.__send__ :lazy_load }
 
         before{
-            allow( site ).to receive(:get).and_return( double('responce', {:body => IO.readlines(File.dirname(__FILE__) + '/fixtures/comic_meteor/identifier.html', nil).first}) )
+            allow( site ).to receive(:get).and_return(responce('/site/comic_meteor/identifier.html'))
         }
 
         it 'はhtmlを取得する' do
-            expect( site ).to receive(:get).with(URI('http://comic-meteor.jp/identifier/')).and_return( double('responce', {:body => IO.readlines(File.dirname(__FILE__) + '/fixtures/comic_meteor/identifier.html', nil).first}) )
+            expect( site ).to receive(:get).with(URI('http://comic-meteor.jp/identifier/')).and_return(responce('/site/comic_meteor/identifier.html'))
             expect( subject ).to eql true
         end
 

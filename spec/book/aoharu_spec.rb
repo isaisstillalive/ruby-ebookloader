@@ -9,17 +9,17 @@ describe EBookloader::Book::Aoharu do
         subject{ book.__send__ :lazy_load }
 
         before{
-            allow( book ).to receive(:get).and_return( double('responce', {:body => IO.readlines(File.dirname(__FILE__) + '/fixtures/aoharu/1_vertical.html', nil).first}) )
+            allow( book ).to receive(:get).and_return(responce('/book/aoharu/1_vertical.html'))
         }
 
         it 'はhtmlを取得する' do
-            expect( book ).to receive(:get).with(URI('http://aoharu.jp/comic/identifier/1/')).and_return( double('responce', {:body => IO.readlines(File.dirname(__FILE__) + '/fixtures/aoharu/1_vertical.html', nil).first}) )
+            expect( book ).to receive(:get).with(URI('http://aoharu.jp/comic/identifier/1/')).and_return(responce('/book/aoharu/1_vertical.html'))
             expect( subject ).to eql true
         end
 
         context '縦型ビューアの場合' do
             before{
-                allow( book ).to receive(:get).and_return( double('responce', {:body => IO.readlines(File.dirname(__FILE__) + '/fixtures/aoharu/1_vertical.html', nil).first}) )
+                allow( book ).to receive(:get).and_return(responce('/book/aoharu/1_vertical.html'))
             }
 
             it 'は@pagesを設定する' do
@@ -50,7 +50,7 @@ describe EBookloader::Book::Aoharu do
 
         context '横型ビューアの場合' do
             # before{
-            #     allow( book ).to receive(:get).and_return( double('responce', {:body => IO.readlines(File.dirname(__FILE__) + '/fixtures/aoharu/1_horizonal.html', nil).first}) )
+            #     allow( book ).to receive(:get).and_return(responce('/fixtures/aoharu/1_horizonal.html'))
             # }
 
             # it 'はsuperを使用する' do

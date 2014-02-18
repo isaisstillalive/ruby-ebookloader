@@ -9,5 +9,9 @@ RSpec.configure do |config|
 end
 
 def html path
-	File.read("#{File.dirname(__FILE__)}/html/#{path}", encoding: Encoding::UTF_8)
+    IO.readlines("#{File.dirname(__FILE__)}/fixtures/#{path}", nil).first
+end
+
+def responce path
+    RSpec::Mocks::Mock.new('responce', { :body => html(path) })
 end

@@ -9,11 +9,11 @@ describe EBookloader::Book::AkitashotenReadingCommunicator do
         subject{ book.__send__ :lazy_load }
 
         before{
-            allow( book ).to receive(:get).and_return( double('responce', {:body => IO.readlines(File.dirname(__FILE__) + '/fixtures/akitashoten_reading_communicator/1.html', nil).first}) )
+            allow( book ).to receive(:get).and_return(responce('/book/akitashoten_reading_communicator/1.html'))
         }
 
         it 'はhtmlを取得する' do
-            expect( book ).to receive(:get).with(URI('http://tap.akitashoten.co.jp/comics/identifier/1')).and_return( double('responce', {:body => IO.readlines(File.dirname(__FILE__) + '/fixtures/akitashoten_reading_communicator/1.html', nil).first}) )
+            expect( book ).to receive(:get).with(URI('http://tap.akitashoten.co.jp/comics/identifier/1')).and_return(responce('/book/akitashoten_reading_communicator/1.html'))
             expect( subject ).to eql true
         end
 

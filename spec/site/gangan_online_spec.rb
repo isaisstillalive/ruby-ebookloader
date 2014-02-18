@@ -17,11 +17,11 @@ describe EBookloader::Site::GanganOnline do
         subject{ site.__send__ :lazy_load }
 
         before{
-            allow( site ).to receive(:get).and_return( double('responce', {:body => IO.readlines(File.dirname(__FILE__) + '/fixtures/gangan_online/identifier.html', nil).first}) )
+            allow( site ).to receive(:get).and_return(responce('/site/gangan_online/identifier.html'))
         }
 
         it 'はhtmlを取得する' do
-            expect( site ).to receive(:get).with(URI('http://www.ganganonline.com/comic/identifier/')).and_return( double('responce', {:body => IO.readlines(File.dirname(__FILE__) + '/fixtures/gangan_online/identifier.html', nil).first}) )
+            expect( site ).to receive(:get).with(URI('http://www.ganganonline.com/comic/identifier/')).and_return(responce('/site/gangan_online/identifier.html'))
             expect( subject ).to eql true
         end
 
