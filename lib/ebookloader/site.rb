@@ -23,5 +23,7 @@ module EBookloader
                 true
             end
         end
+
+        require_relative 'site/comic_meteor'
     end
 end
