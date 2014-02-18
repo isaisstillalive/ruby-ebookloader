@@ -36,6 +36,40 @@ describe EBookloader::Book do
         end
     end
 
+    describe '#==' do
+        subject{ book1 == book2 }
+
+        class Book1 < EBookloader::Book; end
+        class Book2 < EBookloader::Book; end
+
+        context '@uriとクラスが同じ場合' do
+            let(:book1){ described_class.new('uri') }
+            let(:book2){ described_class.new('uri') }
+
+            it 'はtrueを返す' do
+                expect( subject ).to eql true
+            end
+        end
+        
+        context '@uriが異なる場合' do
+            let(:book1){ described_class.new('uri1') }
+            let(:book2){ described_class.new('uri2') }
+
+            it 'はfalseを返す' do
+                expect( subject ).to eql false
+            end
+        end
+        
+        context 'クラスが異なる場合' do
+            let(:book1){ Book1.new('uri1') }
+            let(:book2){ Book2.new('uri2') }
+
+            it 'はfalseを返す' do
+                expect( subject ).to eql false
+            end
+        end
+    end
+
     describe '#save' do
         let(:dir_path){ Pathname('dir') }
         subject{ book.save 'dir' }

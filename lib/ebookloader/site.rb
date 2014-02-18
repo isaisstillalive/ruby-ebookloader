@@ -15,6 +15,13 @@ module EBookloader
                 @uri = URI(uri)
                 @name = name
             end
+
+            def == other
+                return false unless self.class == other.class
+                return false unless self.uri == other.uri
+
+                true
+            end
         end
     end
 end

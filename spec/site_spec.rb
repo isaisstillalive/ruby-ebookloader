@@ -36,6 +36,40 @@ describe EBookloader::Site do
         end
     end
 
+    describe '#==' do
+        subject{ site1 == site2 }
+
+        class Site1 < EBookloader::Site; end
+        class Site2 < EBookloader::Site; end
+
+        context '@uriとクラスが同じ場合' do
+            let(:site1){ described_class.new('uri') }
+            let(:site2){ described_class.new('uri') }
+
+            it 'はtrueを返す' do
+                expect( subject ).to eql true
+            end
+        end
+        
+        context '@uriが異なる場合' do
+            let(:site1){ described_class.new('uri1') }
+            let(:site2){ described_class.new('uri2') }
+
+            it 'はfalseを返す' do
+                expect( subject ).to eql false
+            end
+        end
+        
+        context 'クラスが異なる場合' do
+            let(:site1){ Site1.new('uri1') }
+            let(:site2){ Site2.new('uri2') }
+
+            it 'はfalseを返す' do
+                expect( subject ).to eql false
+            end
+        end
+    end
+
     describe '#books' do
         subject{ book.books }
 

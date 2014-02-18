@@ -23,6 +23,13 @@ module EBookloader
                 save_core dir_path
             end
 
+            def == other
+                return false unless self.class == other.class
+                return false unless self.uri == other.uri
+
+                true
+            end
+
             private
 
             def save_core dir_path
