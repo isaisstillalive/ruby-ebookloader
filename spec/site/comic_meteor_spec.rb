@@ -30,12 +30,12 @@ describe EBookloader::Site::ComicMeteor do
 
             # expect( site.books.size ).to eql 2
             expect( site.books.to_a ).to eq [
-                EBookloader::Book::ActiBook.new('http://comic-meteor.jp/data/identifier/0003/_SWF_Window.html'),
                 EBookloader::Book::ActiBook.new('http://comic-meteor.jp/data/identifier/0001/_SWF_Window.html'),
+                EBookloader::Book::ActiBook.new('http://comic-meteor.jp/data/identifier/0003/_SWF_Window.html'),
             ]
             expect( site.books.map{ |book| book.name }.to_a ).to eql [
-                '[author1, author2] title episode3',
                 '[author1, author2] title episode1',
+                '[author1, author2] title episode3',
             ]
         end
 

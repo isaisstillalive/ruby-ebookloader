@@ -17,7 +17,7 @@ module EBookloader
                     @name = '[%s] %s' % [author, title]
                 end
 
-                @books = source.body.to_enum(:scan, /<li><a href="([^"]*)" class="openViewer".*?<figcaption><strong>(.*?)<\/strong>(.*?)<\/figcaption>/m).lazy.map do |sc|
+                @books = source.body.to_enum(:scan, /<li><a href="([^"]*)" class="openViewer".*?<figcaption><strong>(.*?)<\/strong>(.*?)<\/figcaption>/m).lazy.reverse_each.map do |sc|
                     uri = @uri + sc[0]
                     
                     story = sc[1]
