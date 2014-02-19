@@ -17,13 +17,10 @@ module EBookloader
                     @name = '[%s] %s' % [author, title]
                 end
 
-                @books = source.body.to_enum(:scan, /<li><a href="([^"]*)" class="openViewer".*?<figcaption><strong>(.*?)<\/strong>(.*?)<\/figcaption>/m).lazy.reverse_each.map do |sc|
-                    uri = @uri + sc[0]
+                @books = lazy_collection source.body, /<li><a href="(?<uri>[^"]*)" class="openViewer".*?<figcaption><strong>(?<episode_num>.*?)（[^）]*?）<\/strong>(?<episode>.*?)<\/figcaption>/m, true do |sc|
+                    uri = @uri + sc[:uri]
                     
-                    story = sc[1]
-                    story.gsub! /（.*?）/, ''
-
-                    name = '%s %s %s' % [@name, story, sc[2]]
+                    name = '%s %s %s' % [@name, sc[:episode_num], sc[:episode]]
                     Book::AkitashotenReadingCommunicator.new(uri, name)
                 end
 

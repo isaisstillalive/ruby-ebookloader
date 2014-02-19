@@ -12,9 +12,9 @@ module EBookloader
 
                 @name ||= source.body.match(/<h2 class="iepngFixBg">(.*?) <span class="titleYomi">\((.*?)\)<\/span><\/h2>/)[1]
 
-                @books = source.body.to_enum(:scan, /<li(?: class="last")?>【([^】]*?)】(.*?)：<a href="javascript:void\(0\);" onclick="javascript:Fullscreen\('([^']*?)'\);">PC<\/a>.*?<\/li>/m).lazy.map do |sc|
-                    uri = @uri + sc[2]
-                    name = '%s %s %s' % [@name, sc[0], sc[1]]
+                @books = lazy_collection source.body, /<li(?: class="last")?>【(?<episode_num>[^】]*?)】(?<episode>.*?)：<a href="javascript:void\(0\);" onclick="javascript:Fullscreen\('(?<uri>[^']*?)'\);">PC<\/a>.*?<\/li>/m do |sc|
+                    uri = @uri + sc[:uri]
+                    name = '%s %s %s' % [@name, sc[:episode_num], sc[:episode]]
                     Book::ActiBook.new(uri, name)
                 end
 
