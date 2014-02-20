@@ -82,4 +82,40 @@ describe EBookloader::Site do
             expect( subject ).to eql ['books']
         end
     end
+
+    describe '.get_episode_number' do
+        subject{ described_class.get_episode_number(episode) }
+
+        context '不定形' do
+            let(:episode){ '不定形' }
+
+            it 'はそのまま返す' do
+                expect( subject ).to eql '不定形'
+            end
+        end
+
+        context '「第～話」' do
+            let(:episode){ '第1話' }
+
+            it 'は話数を返す' do
+                expect( subject ).to eql '01'
+            end
+        end
+
+        context '「第～回」' do
+            let(:episode){ '第1回' }
+
+            it 'は回数を返す' do
+                expect( subject ).to eql '01'
+            end
+        end
+
+        context '数が「n-m」' do
+            let(:episode){ '第1-5話' }
+
+            it 'はnn-mmを返す' do
+                expect( subject ).to eql '01-05'
+            end
+        end
+    end
 end
