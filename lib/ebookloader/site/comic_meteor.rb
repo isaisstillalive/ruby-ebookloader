@@ -14,7 +14,7 @@ module EBookloader
                 if @name.nil?
                     authors = source.body.scan(/<h4 class="tit_04">.*?：(.*?)<\/h4>/m)
                     author = authors.flatten.join ', '
-                    title = source.body.match(/<h2 class="h2Title">(.*?)<\/h2>/m)[1]
+                    title = source.body.match(/<h2 class="h2Title">(?<title>.*?)<\/h2>/m)[:title]
                     @name = '[%s] %s' % [author, title]
                 end
 

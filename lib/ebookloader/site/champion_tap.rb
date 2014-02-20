@@ -11,9 +11,9 @@ module EBookloader
                 source.body.force_encoding Encoding::UTF_8
 
                 if @name.nil?
-                    match = source.body.match /<header><h1><strong>(.*?)<\/strong> ／ (.*?)<\/h1><\/header>/
-                    author = match[2]
-                    title = match[1]
+                    match = source.body.match /<header><h1><strong>(?<title>.*?)<\/strong> ／ (?<author>.*?)<\/h1><\/header>/
+                    author = match[:author]
+                    title = match[:title]
                     @name = '[%s] %s' % [author, title]
                 end
 
