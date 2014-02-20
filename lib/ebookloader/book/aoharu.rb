@@ -12,12 +12,12 @@ module EBookloader
                 return super if source.body.include? 'viewerNavi.js'
 
                 if @name.nil?
-                    match = source.body.match /<h1><a href="[^"]*">(?<title>.*?)<span>\[作品紹介\]<\/span><\/a><\/h1><!-- \[!\] タイトル -->.*?<h2>(?<author>.*?)<\/h2><!-- \[!\] 作者 -->.*?<h3><span>(?<episode>.*?)<\/span><\/h3>/m
+                    match = source.body.match %r{<h1><a href="[^"]*">(?<title>.*?)<span>\[作品紹介\]</span></a></h1><!-- \[!\] タイトル -->.*?<h2>(?<author>.*?)</h2><!-- \[!\] 作者 -->.*?<h3><span>(?<episode>.*?)</span></h3>}m
                     @name = '[%s] %s %s' % [match[:author], match[:title], match[:episode]]
                 end
 
                 page = 1
-                @pages = source.body.to_enum(:scan, /<li><img src="(.*?)"(?: width="\d*" height="\d*")? class="undownload" ?\/><\/li>/).lazy.map do |sc|
+                @pages = source.body.to_enum(:scan, %r{<li><img src="(.*?)"(?: width="\d*" height="\d*")? class="undownload" ?/></li>}).lazy.map do |sc|
                     uri = @uri + sc[0]
                     filename = '%03d.%s' % [page, 'jpg']
                     page += 1

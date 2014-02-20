@@ -11,13 +11,13 @@ module EBookloader
                 source.body.force_encoding Encoding::UTF_8
 
                 if @name.nil?
-                    match = source.body.match /<header><h1><strong>(?<title>.*?)<\/strong> ／ (?<author>.*?)<\/h1><\/header>/
+                    match = source.body.match %r{<header><h1><strong>(?<title>.*?)</strong> ／ (?<author>.*?)</h1></header>}
                     author = match[:author]
                     title = match[:title]
                     @name = '[%s] %s' % [author, title]
                 end
 
-                @books = lazy_collection source.body, /<li><a href="(?<uri>[^"]*)" class="openViewer".*?<figcaption><strong>(?<episode_num>.*?)（[^）]*?）<\/strong>(?<episode>.*?)<\/figcaption>/m, true do |sc|
+                @books = lazy_collection source.body, %r{<li><a href="(?<uri>[^"]*)" class="openViewer".*?<figcaption><strong>(?<episode_num>.*?)（[^）]*?）</strong>(?<episode>.*?)</figcaption>}m, true do |sc|
                     uri = @uri + sc[:uri]
                     
                     name = '%s %s %s' % [@name, sc[:episode_num], sc[:episode]]
