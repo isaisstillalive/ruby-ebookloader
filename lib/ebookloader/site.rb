@@ -27,5 +27,7 @@ module EBookloader
         require_relative 'site/comic_meteor'
         require_relative 'site/champion_tap'
         require_relative 'site/gangan_online'
+        require_relative 'site/tonarino_yj'
+        require_relative 'site/aoharu_online'
     end
 end
