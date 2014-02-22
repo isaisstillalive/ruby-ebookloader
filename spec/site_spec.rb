@@ -3,10 +3,10 @@
 require_relative 'spec_helper.rb'
 
 describe EBookloader::Site do
-    let(:book){ described_class.new 'uri' }
+    let(:site){ described_class.new 'uri' }
 
     describe '#uri' do
-        subject{ book.uri }
+        subject{ site.uri }
 
         it 'は@uriを返す' do
             expect( subject ).to eql URI('uri')
@@ -14,10 +14,10 @@ describe EBookloader::Site do
     end
 
     describe '#name' do
-        subject{ book.name }
+        subject{ site.name }
 
         context '@nameが設定されている場合' do
-            before{ book.name = 'name' }
+            before{ site.name = 'name' }
 
             it 'は@nameを返す' do
                 expect( subject ).to eql 'name'
@@ -26,11 +26,11 @@ describe EBookloader::Site do
 
         context '@nameが設定されていない場合' do
             it 'は#lazy_loadを実行し、@nameを返す' do
-                def book.lazy_load
+                def site.lazy_load
                     @name = 'name'
                     true
                 end
-                expect( book ).to receive(:lazy_load).and_call_original
+                expect( site ).to receive(:lazy_load).and_call_original
                 expect( subject ).to eql 'name'
             end
         end
@@ -71,14 +71,14 @@ describe EBookloader::Site do
     end
 
     describe '#books' do
-        subject{ book.books }
+        subject{ site.books }
 
         it 'は#lazy_loadを実行し、@booksを返す' do
-            def book.lazy_load
+            def site.lazy_load
                 @books = ['books']
                 true
             end
-            expect( book ).to receive(:lazy_load).and_call_original
+            expect( site ).to receive(:lazy_load).and_call_original
             expect( subject ).to eql ['books']
         end
     end
