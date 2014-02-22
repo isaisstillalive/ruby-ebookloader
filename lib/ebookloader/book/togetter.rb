@@ -22,12 +22,8 @@ module EBookloader
                 tweets.body.force_encoding Encoding::UTF_8
                 body = tweets.body
 
-                page = 1
                 @pages = body.to_enum(:scan, %r{<div class='list_photo'><a[^>]*?><img src="([^"]*)" /></a></div>}m).lazy.map do |sc|
-                    uri = URI(sc[0] + ':large')
-                    filename = '%03d%s' % [page, Pathname(sc[0]).extname]
-                    page += 1
-                    [filename, uri]
+                    Page.new(URI(sc[0] + ':large'), extension: Pathname(sc[0]).extname[1..-1].to_sym)
                 end
 
                 true

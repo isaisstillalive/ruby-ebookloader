@@ -16,12 +16,8 @@ module EBookloader
                     @name = '[%s] %s %s' % [match[:author], match[:title], match[:episode]]
                 end
 
-                page = 1
                 @pages = source.body.to_enum(:scan, %r{<li><img src="(.*?)"(?: width="\d*" height="\d*")? class="undownload" ?/></li>}).lazy.map do |sc|
-                    uri = @uri + sc[0]
-                    filename = '%03d.%s' % [page, 'jpg']
-                    page += 1
-                    [filename, uri]
+                    @uri + sc[0]
                 end
 
                 true

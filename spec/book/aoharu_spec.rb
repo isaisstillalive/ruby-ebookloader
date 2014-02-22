@@ -25,9 +25,9 @@ describe EBookloader::Book::Aoharu do
             it 'は@pagesを設定する' do
                 subject
 
-                expect( book.pages.to_a ).to eql [
-                    ['001.jpg', URI('http://aoharu.jp/comic/identifier/1/iPhone/ipad/1/1.jpg')],
-                    ['002.jpg', URI('http://aoharu.jp/comic/identifier/1/iPhone/ipad/1/2.jpg')],
+                expect( book.pages.to_a ).to eq [
+                    URI('http://aoharu.jp/comic/identifier/1/iPhone/ipad/1/1.jpg'),
+                    URI('http://aoharu.jp/comic/identifier/1/iPhone/ipad/1/2.jpg'),
                 ]
             end
             

@@ -21,9 +21,9 @@ describe EBookloader::Book::AkitashotenReadingCommunicator do
             subject
 
             expect( book.pages.size ).to eql 2
-            expect( book.pages.to_a ).to eql [
-                ['001.jpg', URI('http://tap.akitashoten.co.jp/comics/identifier/1/1')],
-                ['002.jpg', URI('http://tap.akitashoten.co.jp/comics/identifier/1/2')],
+            expect( book.pages.to_a ).to eq [
+                URI('http://tap.akitashoten.co.jp/comics/identifier/1/1'),
+                URI('http://tap.akitashoten.co.jp/comics/identifier/1/2'),
             ]
         end
         

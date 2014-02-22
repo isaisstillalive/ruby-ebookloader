@@ -21,9 +21,7 @@ module EBookloader
                 page_count = match[:page_count].to_i
 
                 @pages = (1..page_count).to_enum{ page_count }.lazy.map do |page|
-                    uri = @uri + "#{image_path}/#{page}"
-                    filename = '%03d.%s' % [page, 'jpg']
-                    [filename, uri]
+                    @uri + "#{image_path}/#{page}"
                 end
 
                 true
