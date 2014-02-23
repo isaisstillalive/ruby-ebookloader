@@ -14,6 +14,8 @@ describe EBookloader::Site::AoharuOnline do
     end
 
     describe '#lazy_load' do
+        it_behaves_like 'a Site#lazy_load'
+
         subject{ site.__send__ :lazy_load }
 
         before{
@@ -43,22 +45,6 @@ describe EBookloader::Site::AoharuOnline do
                 '[author] title ep4',
                 '[author] title ep5',
             ]
-        end
-
-        context '@nameが設定されている場合' do
-            before{ site.name = 'old_name' }
-
-            it 'は@nameを設定しない' do
-                subject
-                expect( site.name ).to eql 'old_name'
-            end
-        end
-
-        context '@nameが設定されていない場合' do
-            it 'は@nameを設定する' do
-                subject
-                expect( site.name ).to eql '[author] title'
-            end
         end
     end
 end

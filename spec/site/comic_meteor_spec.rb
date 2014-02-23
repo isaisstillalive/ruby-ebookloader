@@ -14,6 +14,11 @@ describe EBookloader::Site::ComicMeteor do
     end
 
     describe '#lazy_load' do
+        it_behaves_like 'a Site#lazy_load @title'
+        it_behaves_like 'a Site#lazy_load @author' do
+            let(:new_author){ 'author1, author2' }
+        end
+
         subject{ site.__send__ :lazy_load }
 
         before{
@@ -37,22 +42,6 @@ describe EBookloader::Site::ComicMeteor do
                 '[author1, author2] title episode1',
                 '[author1, author2] title episode3',
             ]
-        end
-
-        context '@nameが設定されている場合' do
-            before{ site.name = 'old_name' }
-
-            it 'は@nameを設定しない' do
-                subject
-                expect( site.name ).to eql 'old_name'
-            end
-        end
-
-        context '@nameが設定されていない場合' do
-            it 'は@nameを設定する' do
-                subject
-                expect( site.name ).to eql '[author1, author2] title'
-            end
         end
     end
 end

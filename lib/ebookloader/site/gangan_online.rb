@@ -10,14 +10,12 @@ module EBookloader
                 source = get @uri
                 source.body.encode! Encoding::UTF_8, Encoding::Shift_JIS
 
-                if @name.nil?
-                    @name = source.body.match(%r{<h2 class="iepngFixBg">(?<title>.*?) <span class="titleYomi">\((.*?)\)</span></h2>})[:title]
-                end
+                self.merge! source.body.match(%r{<h2 class="iepngFixBg">(?<title>.*?)\s*<span class="titleYomi">\s*\((.*?)\)</span></h2>})
 
                 source.body.match %r{<ul id="contentCenterBknmbrList">.*?</ul>}m do |match|
-                    @books = lazy_collection match[0], %r{<li(?: class="last")?>【(?<episode_num>[^】]*?)】(?<episode>.*?)：<a [^>]*?onclick="javascript:Fullscreen\('(?<uri>[^']*?)'\);"[^>]*?>PC</a>.*?</li>}m do |sc|
+                    @books = lazy_collection source.body, %r{<li(?: class="last")?>【(?<episode_num>[^】]*?)】(?<episode>.*?)：<a [^>]*?onclick="javascript:Fullscreen\('(?<uri>[^']*?)'\);"[^>]*?>PC</a>.*?</li>}m do |sc|
                         uri = @uri + sc[:uri]
-                        name = '%s %s %s' % [@name, sc[:episode_num], sc[:episode]]
+                        name = '%s %s %s' % [self.name, sc[:episode_num], sc[:episode]]
                         Book::ActiBook.new(uri, name: name)
                     end
                 end

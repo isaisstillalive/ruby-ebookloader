@@ -14,10 +14,13 @@ describe EBookloader::Site::GanganOnline do
     end
 
     describe '#lazy_load' do
+        it_behaves_like 'a Site#lazy_load @title'
+
         subject{ site.__send__ :lazy_load }
 
         before{
             allow( site ).to receive(:get).and_return(responce('/site/gangan_online/identifier.html'))
+            site.instance_variable_set :@loaded, true
         }
 
         it 'はhtmlを取得する' do
@@ -37,22 +40,6 @@ describe EBookloader::Site::GanganOnline do
                 'title ep1 episode1',
                 'title ep2 episode2',
             ]
-        end
-
-        context '@nameが設定されている場合' do
-            before{ site.name = 'old_name' }
-
-            it 'は@nameを設定しない' do
-                subject
-                expect( site.name ).to eql 'old_name'
-            end
-        end
-
-        context '@nameが設定されていない場合' do
-            it 'は@nameを設定する' do
-                subject
-                expect( site.name ).to eql 'title'
-            end
         end
     end
 end
