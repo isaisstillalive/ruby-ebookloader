@@ -12,7 +12,7 @@ module EBookloader
 
                 if @name.nil?
                     match = source.body.match(%r{<h1><img src="[^"]*?" alt="(?<title>.*?)" /></h1>\s*?<h2>(?<author>.*?)</h2>}m)
-                    author = convert_author(match[:author])
+                    author = Site.get_author(match[:author])
                     title = match[:title]
 
                     @name = '[%s] %s' % [author, title]
@@ -27,10 +27,6 @@ module EBookloader
                 end
 
                 true
-            end
-
-            def convert_author author
-                author = author.gsub(%r{　|<br />}, ', ').gsub(%r{(, |^).*?[/：]}, '\1')
             end
         end
     end

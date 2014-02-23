@@ -33,6 +33,10 @@ module EBookloader
                     format = match[:last] ? '%02d-%02d' : '%02d'
                     format % [match[:first], match[:last]]
                 end
+
+                def get_author author
+                    author.gsub(%r{　|<br />}, ', ').gsub(%r{(, |^).*?[/：]}, '\1')
+                end
             end
         end
 
