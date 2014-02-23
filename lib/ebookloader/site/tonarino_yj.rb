@@ -22,7 +22,7 @@ module EBookloader
                     @books = lazy_collection (m[2] + m[1]), %r{<li>\s*(?:<a\s*href="(?<uri>.*?)".*?>\s*(?<title>.*?)\s*</a>|<div.*?>\s*<strong>(?<title>.*?)</strong>.*?<a href="(?<uri>[^"]*)">\s*縦読み\s*</a>\s*</div>)\s*</li>}m, true do |sc|
                         uri = @uri + sc[:uri]
                         name = '%s %s' % [@name, sc[:title]]
-                        Book::Aoharu.new(uri, name)
+                        Book::Aoharu.new(uri, name: name)
                     end
                 end
 

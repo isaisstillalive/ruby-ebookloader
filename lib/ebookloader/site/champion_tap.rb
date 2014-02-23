@@ -21,7 +21,7 @@ module EBookloader
                     uri = @uri + sc[:uri]
                     
                     name = '%s %s %s' % [@name, sc[:episode_num], sc[:episode]]
-                    Book::AkitashotenReadingCommunicator.new(uri, name)
+                    Book::AkitashotenReadingCommunicator.new(uri, name: name)
                 end
 
                 true

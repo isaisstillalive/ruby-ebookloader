@@ -9,11 +9,13 @@ module EBookloader
             include LazyLoadable
 
             attr_reader :uri
+            attr_accessor :options
             attr_lazy_accessor :name
 
-            def initialize uri, name = nil
+            def initialize uri, options = {}
                 @uri = URI(uri)
-                @name = name
+                @name = options[:name]
+                @options = options
             end
 
             def save dir

@@ -17,7 +17,7 @@ describe EBookloader::Book do
         subject{ book.name }
 
         context '初期化時にオプションで名前を渡している場合' do
-            let(:book){ described_class.new 'uri', 'name' }
+            let(:book){ described_class.new 'uri', name: 'name' }
 
             it 'は設定された名前を返す' do
                 expect( subject ).to eql 'name'
@@ -40,6 +40,24 @@ describe EBookloader::Book do
                 end
                 expect( book ).to receive(:lazy_load).and_call_original
                 expect( subject ).to eql 'name'
+            end
+        end
+    end
+
+    describe '#options' do
+        subject{ book.options }
+
+        context '初期化時にオプションを渡していない場合' do
+            it 'は空のハッシュを返す' do
+                expect( subject ).to eql({})
+            end
+        end
+
+        context '初期化時にオプションを渡している場合' do
+            let(:book){ described_class.new 'uri', options: 'options' }
+
+            it 'はオプションのハッシュを返す' do
+                expect( subject ).to eql({ options: 'options' })
             end
         end
     end

@@ -17,7 +17,7 @@ module EBookloader
                 @books = lazy_collection source.body, %r{<li(?: class="last")?>【(?<episode_num>[^】]*?)】(?<episode>.*?)：<a href="javascript:void\(0\);" onclick="javascript:Fullscreen\('(?<uri>[^']*?)'\);">PC</a>.*?</li>}m do |sc|
                     uri = @uri + sc[:uri]
                     name = '%s %s %s' % [@name, sc[:episode_num], sc[:episode]]
-                    Book::ActiBook.new(uri, name)
+                    Book::ActiBook.new(uri, name: name)
                 end
 
                 true
