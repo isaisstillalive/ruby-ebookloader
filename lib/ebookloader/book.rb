@@ -15,6 +15,7 @@ module EBookloader
             def initialize uri, options = {}
                 @uri = URI(uri)
                 @name = options[:name]
+                options.delete :name
                 @options = options
             end
 

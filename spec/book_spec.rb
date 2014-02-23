@@ -60,6 +60,14 @@ describe EBookloader::Book do
                 expect( subject ).to eql({ options: 'options' })
             end
         end
+
+        context '初期化時に名前も渡している場合' do
+            let(:book){ described_class.new 'uri', name: 'name', options: 'options' }
+
+            it 'は名前を除いたハッシュを返す' do
+                expect( subject ).to eql({ options: 'options' })
+            end
+        end
     end
 
     describe '#==' do
