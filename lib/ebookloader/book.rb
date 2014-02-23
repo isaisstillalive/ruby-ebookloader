@@ -39,7 +39,7 @@ module EBookloader
             end
 
             def write file_path, uri
-                file_path.open('wb') { |p| p.write(get(uri).body) }
+                file_path.open('wb') { |p| p.write(get(uri, headers: @options[:headers]).body) }
             end
         end
 
