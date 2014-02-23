@@ -94,11 +94,19 @@ describe EBookloader::Site do
             end
         end
 
-        context '数字だけ' do
+        context '整数だけ' do
             let(:episode){ '1' }
 
             it 'は2桁にして返す' do
                 expect( subject ).to eql '01'
+            end
+        end
+
+        context '小数だけ' do
+            let(:episode){ '1.1' }
+
+            it 'は2.1桁にして返す' do
+                expect( subject ).to eql '01.10'
             end
         end
 
