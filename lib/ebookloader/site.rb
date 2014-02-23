@@ -7,13 +7,14 @@ module EBookloader
         class Base
             include Connectable
             include LazyLoadable
+            include BookInfo
 
             attr_reader :uri
-            attr_lazy_accessor :name, :books
+            attr_lazy_accessor :title, :author, :books
 
-            def initialize uri, name = nil
+            def initialize uri, options = {}
                 @uri = URI(uri)
-                @name = name
+                self.update! options
             end
 
             def == other
