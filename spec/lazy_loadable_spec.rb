@@ -28,6 +28,24 @@ describe EBookloader::LazyLoadable do
             lazy_object.__send__ :load
             subject
         end
+
+        it 'は#lazy_load内で#loadが呼ばれた場合には無視する' do
+            def lazy_object.lazy_load
+                load
+                true
+            end
+            expect( lazy_object ).to receive(:lazy_load).once.and_call_original
+            subject
+        end
+
+        it 'は#lazy_load内で例外が発生した場合は再び呼び出す' do
+            def lazy_object.lazy_load
+                raise
+            end
+            expect( lazy_object ).to receive(:lazy_load).twice.and_raise "testError"
+            lazy_object.__send__ :load rescue nil
+            expect{ subject }.to raise_error "testError"
+        end
     end
 
     describe '#lazy_collection' do

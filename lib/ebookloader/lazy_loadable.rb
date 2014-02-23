@@ -23,7 +23,13 @@ module EBookloader
 
         def load
             return if @loaded
-            @loaded = lazy_load
+            @loaded = true
+            begin
+                @loaded = lazy_load
+            rescue
+                @loaded = false
+                raise
+            end
         end
         
         def lazy_load
