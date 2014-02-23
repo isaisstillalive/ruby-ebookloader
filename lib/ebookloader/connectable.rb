@@ -1,8 +1,8 @@
 # coding: utf-8
 
 module EBookloader
-	module Connectable
-		protected
+    module Connectable
+        protected
 
         def get uri, params = nil
             conn = Faraday.new url: (uri.scheme + '://' + uri.host) do |faraday|
@@ -15,5 +15,5 @@ module EBookloader
                 # g.headers['Referer'] = uri.to_s
             end
         end
-	end
+    end
 end
