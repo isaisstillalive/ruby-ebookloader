@@ -21,6 +21,7 @@ describe EBookloader::Connectable do
             expect( faraday ).to receive(:request).with(:url_encoded)
             expect( faraday ).to receive(:adapter).with(Faraday.default_adapter)
             expect( conn ).to receive(:get).with('/path', {param: :param}).and_yield(get_options).and_return( double('responce', {:body => 'body'}) )
+            expect( headers ).to receive(:[]=).with('Connection', 'Keep-Alive')
 
             subject
         end
