@@ -14,7 +14,8 @@ module EBookloader
                 dir = dir_path + name
                 dir.mkdir unless dir.exist?
 
-                pages.each.with_index 1 do |page, index|
+                offset = options[:offset] || 1
+                pages.each.with_index offset do |page, index|
                     page = Page.new(page) unless page.is_a? Page
                     file = dir + page.filename(index)
                     write file, page.uri

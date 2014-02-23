@@ -39,6 +39,7 @@ describe EBookloader::Book::MultiplePages do
         before{
             allow( book ).to receive(:name).and_return('name')
             allow( book ).to receive(:pages).and_return([])
+            allow( book ).to receive(:options).and_return({})
 
             allow( dir_path ).to receive(:+).and_return(save_dir_path)
             allow( save_dir_path ).to receive(:mkdir)
@@ -72,6 +73,18 @@ describe EBookloader::Book::MultiplePages do
                 expect( EBookloader::Book::MultiplePages::Page ).to receive(:new).with('1').and_return(page1).ordered
                 expect( EBookloader::Book::MultiplePages::Page ).to receive(:new).with('2').and_return(page2).ordered
                 allow( book ).to receive(:write)
+                subject
+            end
+        end
+
+        context 'オプションにオフセットが指定されている場合' do
+            it 'はそのページ番号から保存を開始する' do
+                expect( book ).to receive(:options).and_return({offset: 2})
+                expect( page1 ).to receive(:filename).with(2).and_return('2.jpg')
+                expect( page2 ).to receive(:filename).with(3).and_return('3.jpg')
+                expect( book ).to receive(:pages).and_return([page1, page2])
+                expect( book ).to receive(:write).with(Pathname('dirname/name/2.jpg'), URI('1')).ordered
+                expect( book ).to receive(:write).with(Pathname('dirname/name/3.jpg'), URI('2')).ordered
                 subject
             end
         end
