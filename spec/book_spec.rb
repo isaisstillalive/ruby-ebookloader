@@ -16,6 +16,14 @@ describe EBookloader::Book do
     describe '#name' do
         subject{ book.name }
 
+        context '初期化時にオプションで名前を渡している場合' do
+            let(:book){ described_class.new 'uri', 'name' }
+
+            it 'は設定された名前を返す' do
+                expect( subject ).to eql 'name'
+            end
+        end
+
         context '@nameが設定されている場合' do
             before{ book.name = 'name' }
 
