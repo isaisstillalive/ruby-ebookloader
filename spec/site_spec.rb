@@ -94,6 +94,14 @@ describe EBookloader::Site do
             end
         end
 
+        context '数字だけ' do
+            let(:episode){ '1' }
+
+            it 'は2桁にして返す' do
+                expect( subject ).to eql '01'
+            end
+        end
+
         context '「第～話」' do
             let(:episode){ '第1話' }
 
