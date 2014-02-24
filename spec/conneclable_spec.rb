@@ -51,4 +51,29 @@ describe EBookloader::Connectable do
       end
     end
   end
+
+  describe '#write' do
+    let(:file_path){ Pathname('dir') }
+    let(:file_pointer){ double(:file_pointer) }
+    subject{ connectable_object.__send__ :write, file_path, URI('uri') }
+
+    it 'は#getを実行した結果をファイルに書き込む' do
+      expect( file_path ).to receive(:open).with('wb').and_yield(file_pointer)
+      expect( connectable_object ).to receive(:get).with(URI('uri'), {}).and_return( double('responce', {:body => 'body'}) )
+      expect( file_pointer ).to receive(:write).with('body')
+      subject
+    end
+
+    context 'オプションを渡している場合' do
+    let(:options){ { headers: { header: :header }, other_options: {option: :option} } }
+      subject{ connectable_object.__send__ :write, file_path, URI('uri'), options }
+
+      it 'は#getにオプションを渡して実行する' do
+        allow( file_path ).to receive(:open).with('wb').and_yield(file_pointer)
+        expect( connectable_object ).to receive(:get).with(URI('uri'), options).and_return( double('responce', {:body => 'body'}) )
+        allow( file_pointer ).to receive(:write).with('body')
+        subject
+      end
+    end
+  end
 end

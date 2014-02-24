@@ -38,10 +38,6 @@ module EBookloader
       def save_core dir_path
         true
       end
-
-      def write file_path, uri
-        file_path.open('wb') { |p| p.write(get(uri, headers: @options[:headers]).body) }
-      end
     end
 
     require_relative 'book/multiple_pages'

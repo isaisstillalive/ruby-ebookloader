@@ -134,28 +134,4 @@ describe EBookloader::Book do
       end
     end
   end
-
-  describe '#write' do
-    let(:file_path){ Pathname('dir') }
-    let(:file_pointer){ double(:file_pointer) }
-    subject{ book.__send__ :write, file_path, URI('uri') }
-
-    it 'は#getを実行した結果をファイルに書き込む' do
-      expect( file_path ).to receive(:open).with('wb').and_yield(file_pointer)
-      expect( book ).to receive(:get).with(URI('uri'), headers: nil).and_return( double('responce', {:body => 'body'}) )
-      expect( file_pointer ).to receive(:write).with('body')
-      subject
-    end
-
-    context '初期化時にオプションでヘッダを渡している場合' do
-      let(:book){ described_class.new 'uri', headers: { header: :header } }
-
-      it 'は#getにヘッダを渡して実行する' do
-        allow( file_path ).to receive(:open).with('wb').and_yield(file_pointer)
-        expect( book ).to receive(:get).with(URI('uri'), headers: { header: :header }).and_return( double('responce', {:body => 'body'}) )
-        allow( file_pointer ).to receive(:write).with('body')
-        subject
-      end
-    end
-  end
 end

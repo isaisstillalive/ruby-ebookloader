@@ -15,5 +15,9 @@ module EBookloader
         g.headers['Connection'] = 'Keep-Alive';
       end
     end
+
+    def write file_path, uri, options = {}
+      file_path.open('wb') { |p| p.write(get(uri, options).body) }
+    end
   end
 end
