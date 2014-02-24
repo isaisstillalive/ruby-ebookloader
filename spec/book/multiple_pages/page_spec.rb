@@ -3,12 +3,45 @@
 require_relative '../../spec_helper.rb'
 
 describe EBookloader::Book::MultiplePages::Page do
+  describe '初期化' do
+    let(:options){ { option: :option } }
+    subject{ described_class.new 'uri', options }
+
+    it 'はURIを設定する' do
+      instance = subject
+      expect( instance.uri ).to eql URI('uri')
+    end
+
+    it 'はオプションを設定する' do
+      instance = subject
+      expect( instance.options ).to eql({ option: :option, extension: :jpg })
+    end
+
+    it 'は引数で渡されたオプションHashを変更しない' do
+      instance = subject
+      expect( options ).to eql({ option: :option })
+    end
+  end
+
   describe '#uri' do
     let(:page){ described_class.new 'uri' }
     subject{ page.uri }
 
     it 'はURIを返す' do
       expect( subject ).to eql URI('uri')
+    end
+  end
+
+  describe '#options' do
+    let(:page){ described_class.new 'uri', option: :option }
+    subject{ page.options }
+
+    it 'はオプションを返す' do
+      expect( subject ).to eql option: :option, extension: :jpg
+    end
+
+    it 'は変更不可である' do
+      expect( subject.frozen? ).to eql true
     end
   end
 
@@ -77,9 +110,9 @@ describe EBookloader::Book::MultiplePages::Page do
   describe '#==' do
     subject{ page1 == page2 }
 
-    context '@uriと名前と拡張子が同じ場合' do
-      let(:page1){ described_class.new 'uri', extension: :extension, name: 'name' }
-      let(:page2){ described_class.new 'uri', extension: :extension, name: 'name' }
+    context '@uriと名前と拡張子とオプションが同じ場合' do
+      let(:page1){ described_class.new 'uri', extension: :extension, name: 'name', option: :option }
+      let(:page2){ described_class.new 'uri', extension: :extension, name: 'name', option: :option }
 
       it 'はtrueを返す' do
         expect( subject ).to eql true
@@ -87,8 +120,8 @@ describe EBookloader::Book::MultiplePages::Page do
     end
 
     context '@uriが異なる場合' do
-      let(:page1){ described_class.new 'uri1', extension: :extension, name: 'name' }
-      let(:page2){ described_class.new 'uri2', extension: :extension, name: 'name' }
+      let(:page1){ described_class.new 'uri1', extension: :extension, name: 'name', option: :option }
+      let(:page2){ described_class.new 'uri2', extension: :extension, name: 'name', option: :option }
 
       it 'はfalseを返す' do
         expect( subject ).to eql false
@@ -96,8 +129,8 @@ describe EBookloader::Book::MultiplePages::Page do
     end
 
     context '拡張子が異なる場合' do
-      let(:page1){ described_class.new 'uri', extension: :extension1, name: 'name' }
-      let(:page2){ described_class.new 'uri', extension: :extension2, name: 'name' }
+      let(:page1){ described_class.new 'uri', extension: :extension1, name: 'name', option: :option }
+      let(:page2){ described_class.new 'uri', extension: :extension2, name: 'name', option: :option }
 
       it 'はfalseを返す' do
         expect( subject ).to eql false
@@ -105,8 +138,17 @@ describe EBookloader::Book::MultiplePages::Page do
     end
 
     context '名前が異なる場合' do
-      let(:page1){ described_class.new 'uri', extension: :extension, name: 'name1' }
-      let(:page2){ described_class.new 'uri', extension: :extension, name: 'name2' }
+      let(:page1){ described_class.new 'uri', extension: :extension, name: 'name1', option: :option }
+      let(:page2){ described_class.new 'uri', extension: :extension, name: 'name2', option: :option }
+
+      it 'はfalseを返す' do
+        expect( subject ).to eql false
+      end
+    end
+
+    context 'オプションが異なる場合' do
+      let(:page1){ described_class.new 'uri', extension: :extension, name: 'name', option: :option1 }
+      let(:page2){ described_class.new 'uri', extension: :extension, name: 'name', option: :option2 }
 
       it 'はfalseを返す' do
         expect( subject ).to eql false
@@ -120,13 +162,13 @@ describe EBookloader::Book::MultiplePages::Page do
 
     it 'は#writeを実行する' do
       expect( page ).to receive(:filename).with(1).and_return('1.jpg')
-      expect( page ).to receive(:write).with(Pathname('dirname/1.jpg'), URI('uri'), {})
+      expect( page ).to receive(:write).with(Pathname('dirname/1.jpg'), URI('uri'), extension: :jpg)
       subject
     end
 
     context 'オプションが設定されている場合' do
       let(:page){ described_class.new 'uri', options }
-      let(:options){ { headers: {header: :header} } }
+      let(:options){ { headers: {header: :header}, extension: :jpg } }
 
       it 'は#writeにオプションを渡す' do
         allow( page ).to receive(:filename).with(1).and_return('1.jpg')

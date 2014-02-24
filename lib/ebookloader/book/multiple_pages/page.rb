@@ -5,11 +5,22 @@ module EBookloader
     module MultiplePages
       class Page
         include Connectable
-        attr_reader :uri
+        attr_reader :uri, :options
 
         def initialize uri, options = {}
           @uri = URI(uri)
-          @options = options
+          @options = options.dup
+
+          unless @options[:extension]
+            extension = Pathname(@uri.path).extname
+            @options[:extension] = if extension.empty?
+              :jpg
+            else
+              extension[1..-1].to_sym
+            end
+          end
+
+          @options.freeze
         end
 
         def name
@@ -17,16 +28,7 @@ module EBookloader
         end
 
         def extension
-          if @options[:extension]
-            @options[:extension]
-          else
-            extension = Pathname(uri.path).extname
-            if extension.empty?
-              :jpg
-            else
-              extension[1..-1].to_sym
-            end
-          end
+          @options[:extension]
         end
 
         def filename page
@@ -45,8 +47,7 @@ module EBookloader
 
         def == other
           return false unless self.uri == other.uri
-          return false unless self.name == other.name
-          return false unless self.extension == other.extension
+          return false unless self.options == other.options
 
           true
         end
