@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<setting xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="Object">
+  <flipperVersion type="String">2.0</flipperVersion>
+  <keycode type="String">keycode</keycode>
+  <publishDate type="String">2014/02/20 19:53:47</publishDate>
+  <bookInformation type="Object">
+    <bookID type="String">bookid</bookID>
+    <bookTitle type="String">title</bookTitle>
+    <bookComment type="String" />
+    <total type="Number">3</total>
+    <maxMagnification type="Number">2</maxMagnification>
+    <bookDirection type="String">l2r</bookDirection>
+    <startPageSetting type="Number">1</startPageSetting>
+    <allowPrint type="Boolean">false</allowPrint>
+    <allowMemo type="Boolean">false</allowMemo>
+    <pageWidth type="Number">599</pageWidth>
+    <pageHeight type="Number">799</pageHeight>
+    <sliceWidth type="Number">400</sliceWidth>
+    <sliceHeight type="Number">400</sliceHeight>
+    <data type="String">1,2,3</data>
+    <label type="String">name1,2,name3</label>
+    <labelDisplay type="Boolean">false</labelDisplay>
+    <shadowDisplay type="Boolean">false</shadowDisplay>
+    <thicknessDisplay type="Boolean">true</thicknessDisplay>
+    <animation type="String">manual</animation>
+    <speed type="String">0.0</speed>
+    <sound type="Boolean">true</sound>
+    <renderingQuality_low type="String">LOW</renderingQuality_low>
+    <renderingQuality_high type="String">HIGH</renderingQuality_high>
+    <pageBgColor type="String">0xffffffff</pageBgColor>
+  </bookInformation>
+  <renderer type="Object">
+    <ImageViewer type="Object">
+      <file type="String">x1.jpg</file>
+      <img type="String">jpg</img>
+      <loadTiming type="String">preLoad</loadTiming>
+    </ImageViewer>
+    <SliceViewer type="Object">
+      <pathPrefix type="String">x</pathPrefix>
+      <fileExtension type="String">jpg</fileExtension>
+      <loadTiming type="String">afterLoad</loadTiming>
+    </SliceViewer>
+    <SwfViewer type="Object">
+      <path type="String">layer/</path>
+      <file type="String">layer.swf</file>
+      <loadTiming type="String">afterLoad</loadTiming>
+    </SwfViewer>
+    <LinkViewer type="Object">
+      <path type="String">layer/</path>
+      <file type="String">hitarea.xml</file>
+      <loadTiming type="String">preLoad</loadTiming>
+    </LinkViewer>
+  </renderer>
+</setting>

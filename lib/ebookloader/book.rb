@@ -48,5 +48,6 @@ module EBookloader
     require_relative 'book/aoharu'
     require_relative 'book/ura_sunday'
     require_relative 'book/togetter'
+    require_relative 'book/flipper_u'
   end
 end
