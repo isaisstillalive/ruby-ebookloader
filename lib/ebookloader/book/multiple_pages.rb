@@ -17,8 +17,7 @@ module EBookloader
         offset = options[:offset] || 1
         pages.each.with_index offset do |page, index|
           page = Page.new(page) unless page.is_a? Page
-          file = dir + page.filename(index)
-          write file, page.uri
+          page.save index, dir
         end
 
         true

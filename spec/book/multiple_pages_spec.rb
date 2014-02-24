@@ -44,8 +44,8 @@ describe EBookloader::Book::MultiplePages do
       allow( dir_path ).to receive(:+).and_return(save_dir_path)
       allow( save_dir_path ).to receive(:mkdir)
 
-      allow( page1 ).to receive(:filename).with(1).and_return('1.jpg')
-      allow( page2 ).to receive(:filename).with(2).and_return('2.jpg')
+      allow( page1 ).to receive(:save)
+      allow( page2 ).to receive(:save)
     }
 
     it 'はtrueを返す' do
@@ -58,12 +58,10 @@ describe EBookloader::Book::MultiplePages do
       subject
     end
 
-    it 'はpagesの数だけ#writeを実行する' do
-      expect( page1 ).to receive(:filename).with(1).and_return('1.jpg')
-      expect( page2 ).to receive(:filename).with(2).and_return('2.jpg')
+    it 'はpagesの数だけPage#saveを実行する' do
       expect( book ).to receive(:pages).and_return([page1, page2])
-      expect( book ).to receive(:write).with(Pathname('dirname/name/1.jpg'), URI('1')).ordered
-      expect( book ).to receive(:write).with(Pathname('dirname/name/2.jpg'), URI('2')).ordered
+      expect( page1 ).to receive(:save).with(1, save_dir_path)
+      expect( page2 ).to receive(:save).with(2, save_dir_path)
       subject
     end
 
@@ -72,7 +70,7 @@ describe EBookloader::Book::MultiplePages do
         allow( book ).to receive(:pages).and_return(['1', '2'])
         expect( EBookloader::Book::MultiplePages::Page ).to receive(:new).with('1').and_return(page1).ordered
         expect( EBookloader::Book::MultiplePages::Page ).to receive(:new).with('2').and_return(page2).ordered
-        allow( book ).to receive(:write)
+
         subject
       end
     end
@@ -80,11 +78,9 @@ describe EBookloader::Book::MultiplePages do
     context 'オプションにオフセットが指定されている場合' do
       it 'はそのページ番号から保存を開始する' do
         expect( book ).to receive(:options).and_return({offset: 2})
-        expect( page1 ).to receive(:filename).with(2).and_return('2.jpg')
-        expect( page2 ).to receive(:filename).with(3).and_return('3.jpg')
         expect( book ).to receive(:pages).and_return([page1, page2])
-        expect( book ).to receive(:write).with(Pathname('dirname/name/2.jpg'), URI('1')).ordered
-        expect( book ).to receive(:write).with(Pathname('dirname/name/3.jpg'), URI('2')).ordered
+        expect( page1 ).to receive(:save).with(2, save_dir_path).ordered
+        expect( page2 ).to receive(:save).with(3, save_dir_path).ordered
         subject
       end
     end

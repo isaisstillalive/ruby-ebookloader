@@ -4,6 +4,7 @@ module EBookloader
   class Book
     module MultiplePages
       class Page
+        include Connectable
         attr_reader :uri
 
         def initialize uri, options = {}
@@ -35,6 +36,11 @@ module EBookloader
             '%1$03d.%2$s'
           end
           format % [page, extension, name]
+        end
+
+        def save page, dir
+          file = dir + filename(page)
+          write file, @uri, @options
         end
 
         def == other

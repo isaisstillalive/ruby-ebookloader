@@ -113,4 +113,26 @@ describe EBookloader::Book::MultiplePages::Page do
       end
     end
   end
+
+  describe '#save' do
+    let(:page){ described_class.new 'uri' }
+    subject{ page.save 1, Pathname('dirname') }
+
+    it 'は#writeを実行する' do
+      expect( page ).to receive(:filename).with(1).and_return('1.jpg')
+      expect( page ).to receive(:write).with(Pathname('dirname/1.jpg'), URI('uri'), {})
+      subject
+    end
+
+    context 'オプションが設定されている場合' do
+      let(:page){ described_class.new 'uri', options }
+      let(:options){ { headers: {header: :header} } }
+
+      it 'は#writeにオプションを渡す' do
+        allow( page ).to receive(:filename).with(1).and_return('1.jpg')
+        expect( page ).to receive(:write).with(Pathname('dirname/1.jpg'), URI('uri'), options)
+        subject
+      end
+    end
+  end
 end
