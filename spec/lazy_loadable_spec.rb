@@ -39,9 +39,6 @@ describe EBookloader::LazyLoadable do
         end
 
         it 'は#lazy_load内で例外が発生した場合は再び呼び出す' do
-            def lazy_object.lazy_load
-                raise
-            end
             expect( lazy_object ).to receive(:lazy_load).twice.and_raise "testError"
             lazy_object.__send__ :load rescue nil
             expect{ subject }.to raise_error "testError"
