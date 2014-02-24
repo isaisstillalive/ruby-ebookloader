@@ -85,7 +85,7 @@ describe EBookloader::Book::MultiplePages::Page do
                 expect( subject ).to eql true
             end
         end
-        
+
         context '@uriが異なる場合' do
             let(:page1){ described_class.new 'uri1', extension: :extension, name: 'name' }
             let(:page2){ described_class.new 'uri2', extension: :extension, name: 'name' }
@@ -94,7 +94,7 @@ describe EBookloader::Book::MultiplePages::Page do
                 expect( subject ).to eql false
             end
         end
-        
+
         context '拡張子が異なる場合' do
             let(:page1){ described_class.new 'uri', extension: :extension1, name: 'name' }
             let(:page2){ described_class.new 'uri', extension: :extension2, name: 'name' }
@@ -103,7 +103,7 @@ describe EBookloader::Book::MultiplePages::Page do
                 expect( subject ).to eql false
             end
         end
-        
+
         context '名前が異なる場合' do
             let(:page1){ described_class.new 'uri', extension: :extension, name: 'name1' }
             let(:page2){ described_class.new 'uri', extension: :extension, name: 'name2' }

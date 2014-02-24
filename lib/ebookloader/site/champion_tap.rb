@@ -14,7 +14,7 @@ module EBookloader
 
                 @books = lazy_collection source.body, %r{<li><a href="(?<uri>[^"]*)" class="openViewer".*?<figcaption><strong>(?<episode_num>.*?)（[^）]*?）</strong>(?<episode>.*?)</figcaption>}m, true do |sc|
                     uri = @uri + sc[:uri]
-                    
+
                     name = '%s %s %s' % [self.name, sc[:episode_num], sc[:episode]]
                     Book::AkitashotenReadingCommunicator.new(uri, name: name)
                 end

@@ -16,7 +16,7 @@ describe EBookloader::Book::Direct do
                 expect( book.name ).to eql 'old_name'
             end
         end
-        
+
         context '@nameが設定されていない場合' do
             it 'は@nameを設定する' do
                 subject

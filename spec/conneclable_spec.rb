@@ -10,7 +10,7 @@ describe EBookloader::Connectable do
     let(:connectable_object){ ConnectableObject.new }
 
     describe '#get' do
-    	subject{ connectable_object.__send__ :get, URI('http://example.com/path') }
+        subject{ connectable_object.__send__ :get, URI('http://example.com/path') }
         let(:faraday) { double 'faraday' }
         let(:conn){ double 'conn' }
         let(:get_options){ double 'get_options', headers: headers }
@@ -35,7 +35,7 @@ describe EBookloader::Connectable do
 
             it 'は#getにパラメータを渡す' do
                 expect( conn ).to receive(:get).with('/path', param: :param)
-                
+
                 subject
             end
         end
@@ -46,7 +46,7 @@ describe EBookloader::Connectable do
             it 'は#getのオプションにヘッダを結合する' do
                 allow( conn ).to receive(:get).with('/path', nil).and_yield(get_options).and_return( double('responce', {:body => 'body'}) )
                 expect( headers ).to receive(:merge!).with({header: :header})
-                
+
                 subject
             end
         end

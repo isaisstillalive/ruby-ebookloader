@@ -47,7 +47,7 @@ describe EBookloader::LazyLoadable do
 
     describe '#lazy_load' do
         subject{ lazy_object.__send__ :lazy_load }
-        
+
         it 'はtrueを返す' do
             expect( subject ).to eql true
         end

@@ -27,7 +27,7 @@ describe EBookloader::Book::UraSunday do
                     URI('http://urasunday.com/comic/identifier/pc/001/001_001_02.jpg'),
                 ]
             end
-            
+
             context '@nameが設定されている場合' do
                 before{ book.name = 'old_name' }
 
@@ -36,7 +36,7 @@ describe EBookloader::Book::UraSunday do
                     expect( book.name ).to eql 'old_name'
                 end
             end
-            
+
             context '@nameが設定されていない場合' do
                 it 'は@nameを設定する' do
                     subject
@@ -59,7 +59,7 @@ describe EBookloader::Book::UraSunday do
                     URI('http://img.urasunday.com/eximages/comic/identifier/pc/002/002_002_02.jpg'),
                 ]
             end
-            
+
             context '@nameが設定されている場合' do
                 before{ book.name = 'old_name' }
 
@@ -68,7 +68,7 @@ describe EBookloader::Book::UraSunday do
                     expect( book.name ).to eql 'old_name'
                 end
             end
-            
+
             context '@nameが設定されていない場合' do
                 it 'は@nameを設定する' do
                     subject

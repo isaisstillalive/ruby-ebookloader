@@ -31,7 +31,7 @@ module EBookloader
                 raise
             end
         end
-        
+
         def lazy_load
             true
         end

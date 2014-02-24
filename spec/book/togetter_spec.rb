@@ -34,7 +34,7 @@ describe EBookloader::Book::Togetter do
                     EBookloader::Book::MultiplePages::Page.new(URI('http://pbs.twimg.com/media/Bf3d3CuCIAAdw-K.png:large'), extension: :png),
                 ]
             end
-            
+
             context '@nameが設定されている場合' do
                 before{ book.name = 'old_name' }
 
@@ -43,7 +43,7 @@ describe EBookloader::Book::Togetter do
                     expect( book.name ).to eql 'old_name'
                 end
             end
-            
+
             context '@nameが設定されていない場合' do
                 it 'は@nameを設定する' do
                     subject

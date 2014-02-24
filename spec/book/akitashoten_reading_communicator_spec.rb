@@ -26,7 +26,7 @@ describe EBookloader::Book::AkitashotenReadingCommunicator do
                 URI('http://tap.akitashoten.co.jp/comics/identifier/1/2'),
             ]
         end
-        
+
         context '@nameが設定されている場合' do
             before{ book.name = 'old_name' }
 
@@ -35,7 +35,7 @@ describe EBookloader::Book::AkitashotenReadingCommunicator do
                 expect( book.name ).to eql 'old_name'
             end
         end
-        
+
         context '@nameが設定されていない場合' do
             it 'は@nameを設定する' do
                 subject

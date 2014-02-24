@@ -9,7 +9,7 @@ module EBookloader
             require_relative 'multiple_pages/page'
 
             private
-            
+
             def save_core dir_path
                 dir = dir_path + name
                 dir.mkdir unless dir.exist?

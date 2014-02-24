@@ -35,8 +35,8 @@ shared_examples_for 'a Site#lazy_load' do
 end
 
 shared_examples_for 'a Site#lazy_load @title' do
-	let(:new_title){ 'title' }
-	
+    let(:new_title){ 'title' }
+
     context '@titleが設定されている場合' do
         before{ site.title = 'old_title' }
 
@@ -56,7 +56,7 @@ end
 
 shared_examples_for 'a Site#lazy_load @author' do
     let(:new_author){ 'author' }
-    
+
     context '@authorが設定されている場合' do
         before{ site.author = 'old_author' }
 

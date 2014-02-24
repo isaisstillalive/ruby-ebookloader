@@ -23,7 +23,7 @@ describe EBookloader::BookInfo do
 
     describe '#author' do
         subject{ book.author }
-        
+
         it 'は作者を返す' do
             expect( subject ).to eql 'author'
         end
@@ -31,7 +31,7 @@ describe EBookloader::BookInfo do
 
     describe '#name' do
         subject{ book.name }
-        
+
         it 'は作者と題名を結合して返す' do
             expect( subject ).to eql '[author] title'
         end

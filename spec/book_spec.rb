@@ -84,7 +84,7 @@ describe EBookloader::Book do
                 expect( subject ).to eql true
             end
         end
-        
+
         context '@uriが異なる場合' do
             let(:book1){ described_class.new('uri1') }
             let(:book2){ described_class.new('uri2') }
@@ -93,7 +93,7 @@ describe EBookloader::Book do
                 expect( subject ).to eql false
             end
         end
-        
+
         context 'クラスが異なる場合' do
             let(:book1){ Book1.new('uri1') }
             let(:book2){ Book2.new('uri2') }
@@ -117,7 +117,7 @@ describe EBookloader::Book do
             expect( book ).to receive(:save_core).with(dir_path).and_return(true)
             expect( subject ).to eql true
         end
-        
+
         context '引数のディレクトリが存在する場合' do
             it 'はディレクトリを作成しない' do
                 expect( dir_path ).to receive(:exist?).and_return(true)

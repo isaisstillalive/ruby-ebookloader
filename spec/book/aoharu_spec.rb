@@ -30,7 +30,7 @@ describe EBookloader::Book::Aoharu do
                     URI('http://aoharu.jp/comic/identifier/1/iPhone/ipad/1/2.jpg'),
                 ]
             end
-            
+
             context '@nameが設定されている場合' do
                 before{ book.name = 'old_name' }
 
@@ -39,7 +39,7 @@ describe EBookloader::Book::Aoharu do
                     expect( book.name ).to eql 'old_name'
                 end
             end
-            
+
             context '@nameが設定されていない場合' do
                 it 'は@nameを設定する' do
                     subject

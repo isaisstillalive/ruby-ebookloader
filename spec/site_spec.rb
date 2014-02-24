@@ -89,7 +89,7 @@ describe EBookloader::Site do
                 expect( subject ).to eql true
             end
         end
-        
+
         context '@uriが異なる場合' do
             let(:site1){ described_class.new('uri1') }
             let(:site2){ described_class.new('uri2') }
@@ -98,7 +98,7 @@ describe EBookloader::Site do
                 expect( subject ).to eql false
             end
         end
-        
+
         context 'クラスが異なる場合' do
             let(:site1){ Site1.new('uri1') }
             let(:site2){ Site2.new('uri2') }

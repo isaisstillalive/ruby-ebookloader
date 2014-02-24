@@ -7,7 +7,7 @@ module EBookloader
             require 'rexml/document'
 
             private
-            
+
             def lazy_load
                 configue_uri = @uri + './books/db/book.xml'
                 xml = get configue_uri
