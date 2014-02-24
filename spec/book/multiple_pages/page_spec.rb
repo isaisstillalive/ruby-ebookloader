@@ -108,10 +108,10 @@ describe EBookloader::Book::MultiplePages::Page do
   end
 
   describe '#==' do
+    let(:page1){ described_class.new 'uri', extension: :extension, name: 'name', option: :option }
     subject{ page1 == page2 }
 
     context '@uriと名前と拡張子とオプションが同じ場合' do
-      let(:page1){ described_class.new 'uri', extension: :extension, name: 'name', option: :option }
       let(:page2){ described_class.new 'uri', extension: :extension, name: 'name', option: :option }
 
       it 'はtrueを返す' do
@@ -119,8 +119,17 @@ describe EBookloader::Book::MultiplePages::Page do
       end
     end
 
+    context 'クラスが異なる場合' do
+      class SubPage < described_class
+      end
+      let(:page2){ SubPage.new 'uri', extension: :extension, name: 'name', option: :option }
+
+      it 'はfalseを返す' do
+        expect( subject ).to eql false
+      end
+    end
+
     context '@uriが異なる場合' do
-      let(:page1){ described_class.new 'uri1', extension: :extension, name: 'name', option: :option }
       let(:page2){ described_class.new 'uri2', extension: :extension, name: 'name', option: :option }
 
       it 'はfalseを返す' do
@@ -129,7 +138,6 @@ describe EBookloader::Book::MultiplePages::Page do
     end
 
     context '拡張子が異なる場合' do
-      let(:page1){ described_class.new 'uri', extension: :extension1, name: 'name', option: :option }
       let(:page2){ described_class.new 'uri', extension: :extension2, name: 'name', option: :option }
 
       it 'はfalseを返す' do
@@ -138,7 +146,6 @@ describe EBookloader::Book::MultiplePages::Page do
     end
 
     context '名前が異なる場合' do
-      let(:page1){ described_class.new 'uri', extension: :extension, name: 'name1', option: :option }
       let(:page2){ described_class.new 'uri', extension: :extension, name: 'name2', option: :option }
 
       it 'はfalseを返す' do
@@ -147,7 +154,6 @@ describe EBookloader::Book::MultiplePages::Page do
     end
 
     context 'オプションが異なる場合' do
-      let(:page1){ described_class.new 'uri', extension: :extension, name: 'name', option: :option1 }
       let(:page2){ described_class.new 'uri', extension: :extension, name: 'name', option: :option2 }
 
       it 'はfalseを返す' do
