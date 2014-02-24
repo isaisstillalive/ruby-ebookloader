@@ -1,12 +1,25 @@
 # coding: utf-8
 
-require_relative '../lib/ebookloader'
+require 'rubygems'
 
+gem 'rspec'
+require 'rspec'
 RSpec.configure do |config|
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
 end
+
+begin
+    gem 'simplecov'
+    require 'simplecov'
+    SimpleCov.start do
+        add_filter 'spec'
+    end
+rescue Gem::LoadError
+end
+
+require_relative '../lib/ebookloader'
 
 def html path
     IO.readlines("#{File.dirname(__FILE__)}/fixtures/#{path}", nil).first
