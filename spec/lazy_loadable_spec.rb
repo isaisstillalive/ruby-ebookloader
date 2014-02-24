@@ -45,6 +45,14 @@ describe EBookloader::LazyLoadable do
         end
     end
 
+    describe '#lazy_load' do
+        subject{ lazy_object.__send__ :lazy_load }
+        
+        it 'はtrueを返す' do
+            expect( subject ).to eql true
+        end
+    end
+
     describe '#lazy_collection' do
         subject{ lazy_object.__send__ :lazy_collection, source, regexp }
         let(:source){ 'abcdef' }
