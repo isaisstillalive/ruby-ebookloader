@@ -66,4 +66,16 @@ describe EBookloader::Book::FlipperU::Page do
       subject
     end
   end
+
+  describe '#sliced_files' do
+    subject{ page.__send__ :sliced_files, 3, Pathname('dirname'), "file_%d.tmp" }
+
+    it 'はファイル名テンプレートをcount数繰り返した配列を返す' do
+      expect( subject ).to eql [
+        Pathname('dirname/file_1.tmp'),
+        Pathname('dirname/file_2.tmp'),
+        Pathname('dirname/file_3.tmp'),
+      ]
+    end
+  end
 end
