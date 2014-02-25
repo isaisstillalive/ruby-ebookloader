@@ -10,7 +10,11 @@ module EBookloader
         source = get @uri
         source.body.encode! Encoding::UTF_8, Encoding::Shift_JIS, :undef => :replace, :invalid => :replace
 
-        self.merge! source.body.match(%r{<title>(?<title>.*?)\s+\| ファミ通コミッククリア</title>})
+        match = source.body.match(%r{<meta name="keywords" content="(?:[^"]*(?:ファミ通|コミッククリア),)?(?<author>[^"]*)" />.*?<title>(?<title>.*?)\s+\| ファミ通コミッククリア</title>}m)
+        title = match[:title]
+        authors = match[:author].split(',')
+        authors.delete(title)
+        self.merge! title: title, author: authors.join(', ')
 
         source.body.match %r{<td width="140" class="main-right">(?<list>.*?)</td>}m do |match|
           @books = lazy_collection match[:list], %r{div class="mb\d*px"><a href="javascript:var objPcViewer=window\.open\('(?<uri>[^']*?)'[^"]*\)"><img src="../images/common/btn(?<episode_num>[^"]*).jpg" alt="(?<episode>[^"]*)" />}, true do |sc|

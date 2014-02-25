@@ -29,7 +29,14 @@ describe EBookloader::Site::ComicClear do
       expect( subject ).to eql true
     end
 
+    it 'は本の情報を設定する' do
+      subject
+      expect( site.title ).to eql 'title'
+      expect( site.author ).to eql 'author0, author1, author2, other1, other2'
+    end
+
     it 'は@booksを設定する' do
+      allow( site ).to receive(:name).and_return('title')
       expect( site ).to receive(:get_episode).with('titleepisode1', 'title', options).and_return('episode1')
       expect( site ).to receive(:get_episode).with('titleepisode2', 'title', options).and_return('episode2')
       expect( site ).to receive(:get_episode).with('titleepisode3.5', 'title', options).and_return('episode3.5')
