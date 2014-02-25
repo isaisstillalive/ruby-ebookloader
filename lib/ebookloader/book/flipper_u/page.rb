@@ -27,14 +27,14 @@ module EBookloader
           join file, true, *v_files
         end
 
-        def join output_path, is_vertically, *join_paths
+        private
+        def join output_path, join_paths, is_vertically
             imagelist = Magick::ImageList.new(*join_paths).append is_vertically
             imagelist.write output_path
 
             join_paths.each{ |file| file.delete }
         end
 
-        private
         def sliced_files count, dir, filename_format
           (1..count).map{ |i| dir + filename_format % i }
         end

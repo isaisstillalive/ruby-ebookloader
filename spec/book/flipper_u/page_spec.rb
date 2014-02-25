@@ -33,7 +33,7 @@ describe EBookloader::Book::FlipperU::Page do
   end
 
   describe '#join' do
-    subject{ page.join Pathname('output'), true, path1, path2, path3 }
+    subject{ page.__send__ :join, Pathname('output'), [path1, path2, path3], true }
 
     let(:path1){ Pathname('1') }
     let(:path2){ Pathname('2') }
