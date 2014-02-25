@@ -14,6 +14,7 @@ module EBookloader
 
       def initialize uri, options = {}
         @uri = URI(uri)
+        @options = options
         self.update! options
       end
 
