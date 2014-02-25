@@ -3,7 +3,8 @@
 require_relative '../spec_helper.rb'
 
 describe EBookloader::Site::ComicClear do
-  let(:site){ described_class.new 'identifier' }
+  let(:options){ {option: :option} }
+  let(:site){ described_class.new 'identifier', options }
 
   describe '#uri' do
     subject{ site.uri }
@@ -29,6 +30,11 @@ describe EBookloader::Site::ComicClear do
     end
 
     it 'は@booksを設定する' do
+      expect( site ).to receive(:get_episode).with('titleepisode1', 'title', options).and_return('episode1')
+      expect( site ).to receive(:get_episode).with('titleepisode2', 'title', options).and_return('episode2')
+      expect( site ).to receive(:get_episode).with('titleepisode3.5', 'title', options).and_return('episode3.5')
+      expect( site ).to receive(:get_episode).with('titleepisode4', 'title', options).and_return('episode4')
+
       subject
 
       # expect( site.books.size ).to eql 4
@@ -45,6 +51,58 @@ describe EBookloader::Site::ComicClear do
         'title 03.5 episode3.5',
         'title 04 episode4',
       ]
+    end
+  end
+
+  describe '#get_episode' do
+    let(:source){ 'titleepisode' }
+    let(:options){ {} }
+    subject{ site.__send__ :get_episode, source, 'title', options }
+
+    it 'は文頭のタイトルを除去しエピソード名を返す' do
+      expect( subject ).to eql 'episode'
+    end
+
+    context 'タイトルが除去できない場合' do
+      let(:source){ 'notitleepisode' }
+
+      it 'はそのまま返す' do
+        expect( subject ).to eql 'notitleepisode'
+      end
+    end
+
+    context 'プレフィックスが指定されている場合' do
+      let(:source){ 'title_____episode' }
+      let(:options){ { prefix: '_____' } }
+
+      it 'はプレフィックスも除外して返す' do
+        expect( subject ).to eql 'episode'
+      end
+
+      context 'プレフィックスが除去できない場合' do
+        let(:source){ 'titlenoprefixepisode' }
+
+        it 'はタイトルだけ除外して返す' do
+          expect( subject ).to eql 'noprefixepisode'
+        end
+      end
+    end
+
+    context 'サフィックスが指定されている場合' do
+      let(:source){ 'titleepisode-----' }
+      let(:options){ { suffix: '-----' } }
+
+      it 'はサフィックスも除外して返す' do
+        expect( subject ).to eql 'episode'
+      end
+
+      context 'サフィックスが除去できない場合' do
+        let(:source){ 'titleepisodenosuffix' }
+
+        it 'はタイトルだけ除外して返す' do
+          expect( subject ).to eql 'episodenosuffix'
+        end
+      end
     end
   end
 end
