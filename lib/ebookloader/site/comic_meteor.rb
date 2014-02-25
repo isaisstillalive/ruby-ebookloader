@@ -1,8 +1,8 @@
 module EBookloader
   class Site
     class ComicMeteor < Site
-      def initialize identifier, name = nil
-        super "http://comic-meteor.jp/#{identifier}/", name
+      def initialize identifier, options = {}
+        super "http://comic-meteor.jp/#{identifier}/", options
       end
 
       private

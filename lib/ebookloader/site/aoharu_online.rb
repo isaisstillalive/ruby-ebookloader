@@ -1,8 +1,8 @@
 module EBookloader
   class Site
     class AoharuOnline < Site
-      def initialize identifier, name = nil
-        super "http://aoharu.jp/#{identifier}/", name
+      def initialize identifier, options = {}
+        super "http://aoharu.jp/#{identifier}/", options
       end
 
       private

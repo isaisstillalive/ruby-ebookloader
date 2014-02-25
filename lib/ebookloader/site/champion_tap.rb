@@ -1,8 +1,8 @@
 module EBookloader
   class Site
     class ChampionTap < Site
-      def initialize identifier, name = nil
-        super "http://tap.akitashoten.co.jp/comics/#{identifier}/", name
+      def initialize identifier, options = {}
+        super "http://tap.akitashoten.co.jp/comics/#{identifier}/", options
       end
 
       private

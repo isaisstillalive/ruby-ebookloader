@@ -1,8 +1,8 @@
 module EBookloader
   class Site
     class ComicClear < Site
-      def initialize identifier, name = nil
-        super "http://www.famitsu.com/comic_clear/#{identifier}/", name
+      def initialize identifier, options = {}
+        super "http://www.famitsu.com/comic_clear/#{identifier}/", options
       end
 
       private
