@@ -16,6 +16,32 @@ describe EBookloader::Site do
     end
   end
 
+  describe '#options' do
+    subject{ site.options }
+
+    context '初期化時にオプションを渡していない場合' do
+      it 'は空のハッシュを返す' do
+        expect( subject ).to eql({})
+      end
+    end
+
+    context '初期化時にオプションを渡している場合' do
+      let(:site){ described_class.new 'uri', options: 'options' }
+
+      it 'はオプションのハッシュを返す' do
+        expect( subject ).to eql({ options: 'options' })
+      end
+    end
+
+    context '初期化時に題名、作者を渡している場合' do
+      let(:site){ described_class.new 'uri', title: :title, author: :author, options: 'options' }
+
+      it 'はそれらを除いたハッシュを返す' do
+        expect( subject ).to eql({ options: 'options' })
+      end
+    end
+  end
+
   describe '#==' do
     subject{ site1 == site2 }
 

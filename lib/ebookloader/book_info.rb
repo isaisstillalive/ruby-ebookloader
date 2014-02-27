@@ -31,9 +31,11 @@ module EBookloader
       end
       if options.include? :title
         @title = options[:title] unless merge && @title
+        options.delete :title
       end
       if options.include? :author
         @author = options[:author] unless merge && @author
+        options.delete :author
       end
       options
     end

@@ -15,9 +15,7 @@ module EBookloader
 
       def initialize uri, options = {}
         @uri = URI(uri)
-        @options = options
-        self.update! options
-        @options.delete :name
+        @options = self.update!(options)
       end
 
       def save dir
@@ -52,6 +50,7 @@ module EBookloader
         super.tap do |options|
           if options.include? :episode
             @episode = options[:episode] unless merge && @episode
+            options.delete :episode
           end
         end
       end

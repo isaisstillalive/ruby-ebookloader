@@ -81,10 +81,10 @@ describe EBookloader::Book do
       end
     end
 
-    context '初期化時に名前も渡している場合' do
-      let(:book){ described_class.new 'uri', name: 'name', options: 'options' }
+    context '初期化時に題名、作者、エピソードを渡している場合' do
+      let(:book){ described_class.new 'uri', title: :title, author: :author, episode: :episode, options: 'options' }
 
-      it 'は名前を除いたハッシュを返す' do
+      it 'はそれらを除いたハッシュを返す' do
         expect( subject ).to eql({ options: 'options' })
       end
     end

@@ -10,12 +10,12 @@ module EBookloader
       include BookInfo
 
       attr_reader :uri
+      attr_accessor :options
       attr_lazy_accessor :title, :author, :books
 
       def initialize uri, options = {}
         @uri = URI(uri)
-        @options = options
-        self.update! options
+        @options = self.update!(options)
       end
 
       def == other

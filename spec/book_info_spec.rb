@@ -54,17 +54,22 @@ describe EBookloader::BookInfo do
   end
 
   describe '#update_core' do
-    context 'オプション引数に題名がある場合' do
-      let(:new_title){ 'new_title' }
-      subject{ book.__send__ :update_core, { title: new_title } }
+    let(:title){ 'new_title' }
+    let(:author){ 'new_author' }
+    subject{ book.__send__ :update_core, { title: title, author: author, other: :other } }
 
+    it 'は未処理のキーを含めたハッシュを返す' do
+      expect( subject ).to eql({other: :other})
+    end
+
+    context 'オプション引数に題名がある場合' do
       it 'は題名を設定する' do
         subject
         expect( book.title ).to eql 'new_title'
       end
 
       context 'nilの場合' do
-        let(:new_title){ nil }
+        let(:title){ nil }
 
         it 'はnilに設定する' do
           subject
@@ -83,16 +88,13 @@ describe EBookloader::BookInfo do
     end
 
     context 'オプション引数に作者がある場合' do
-      let(:new_author){ 'new_author' }
-      subject{ book.__send__ :update_core, { author: new_author } }
-
       it 'は作者を設定する' do
         subject
         expect( book.author ).to eql 'new_author'
       end
 
       context 'nilの場合' do
-        let(:new_author){ nil }
+        let(:author){ nil }
 
         it 'はnilに設定する' do
           subject
@@ -127,10 +129,6 @@ describe EBookloader::BookInfo do
         subject
         expect( book.title ).to eql 'new_title'
         expect( book.author ).to eql 'author'
-      end
-
-      it 'はハッシュを返す' do
-        expect( subject ).to eql({title: 'new_title'})
       end
     end
 
