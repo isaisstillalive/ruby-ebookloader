@@ -14,8 +14,8 @@ module EBookloader
 
         @books = lazy_collection source.body, %r{<li class="card mod-s">.*?<a href="(?<uri>.*?)" class="card-togo">\s*<span class="title2">(?<episode_num>[^<]*?)</span>(?:\s*<span class="title">(?<episode>[^<]*?)</span>)?\s*</a>|<li>\s*<a href="(?<uri>[^"]*?)">\s*<span class="bitsy-stl">(?<episode_num>[^<]*?)</span>(?:\s*<span class="bitsy-ttl">(?<episode>[^<]*?)</span>)?\s*</a>\s*</li>}m, true do |sc|
           uri = @uri + sc[:uri]
-          name = ('%s %s %s' % [self.name, Site.get_episode_number(sc[:episode_num]), sc[:episode]]).strip
-          Book::Aoharu.new(uri, name: name)
+          episode = ('%s %s' % [Site.get_episode_number(sc[:episode_num]), sc[:episode]]).strip
+          Book::Aoharu.new(uri, self.bookinfo.merge(episode: episode))
         end
 
         true

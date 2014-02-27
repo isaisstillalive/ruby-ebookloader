@@ -13,10 +13,9 @@ module EBookloader
         self.merge! source.body.match(%r{<h1><img src="[^"]*?" alt="(?<title>.*?)" /></h1>\s*?<h2>(?<author>.*?)</h2>}m)
 
         source.body.match %r{<div class="backnumber"(.*?)<!-- backnumber - 番外編 -->(.*?)<!-- //.backnumber -->}m do |m|
-          @books = lazy_collection (m[2] + m[1]), %r{<li>\s*(?:<a\s*href="(?<uri>.*?)".*?>\s*(?<title>.*?)\s*</a>|<div.*?>\s*<strong>(?<title>.*?)</strong>.*?<a href="(?<uri>[^"]*)">\s*縦読み\s*</a>\s*</div>)\s*</li>}m, true do |sc|
+          @books = lazy_collection (m[2] + m[1]), %r{<li>\s*(?:<a\s*href="(?<uri>.*?)".*?>\s*(?<episode>.*?)\s*</a>|<div.*?>\s*<strong>(?<episode>.*?)</strong>.*?<a href="(?<uri>[^"]*)">\s*縦読み\s*</a>\s*</div>)\s*</li>}m, true do |sc|
             uri = @uri + sc[:uri]
-            name = '%s %s' % [self.name, sc[:title]]
-            Book::Aoharu.new(uri, name: name)
+            Book::Aoharu.new(uri, self.bookinfo.merge(episode: sc[:episode]))
           end
         end
 

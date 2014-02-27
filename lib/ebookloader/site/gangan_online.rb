@@ -15,8 +15,8 @@ module EBookloader
         source.body.match %r{<ul id="contentCenterBknmbrList">.*?</ul>}m do |match|
           @books = lazy_collection source.body, %r{<li[^>]*?>【(?<episode_num>[^】]*?)】(?<episode>.*?)：<a [^>]*?onclick="javascript:Fullscreen\('(?<uri>[^']*?)'\);"[^>]*?>PC</a>} do |sc|
             uri = @uri + sc[:uri]
-            name = '%s %s %s' % [self.name, sc[:episode_num], sc[:episode]]
-            Book::ActiBook.new(uri, name: name)
+            episode = '%s %s' % [sc[:episode_num], sc[:episode]]
+            Book::ActiBook.new(uri, self.bookinfo.merge(episode: episode))
           end
         end
 

@@ -37,11 +37,11 @@ describe EBookloader::Site::ChampionTap do
         EBookloader::Book::AkitashotenReadingCommunicator.new('http://tap.akitashoten.co.jp/comics/identifier/3'),
         EBookloader::Book::AkitashotenReadingCommunicator.new('http://tap.akitashoten.co.jp/comics/identifier/4'),
       ]
-      expect( site.books.map{ |book| book.name }.to_a ).to eql [
-        '[author] title ep1 episode1',
-        '[author] title ep2 episode2',
-        '[author] title ep3 episode3',
-        '[author] title ep4 episode4',
+      expect( site.books.map{ |book| book.episode }.to_a ).to eql [
+        'ep1 episode1',
+        'ep2 episode2',
+        'ep3 episode3',
+        'ep4 episode4',
       ]
     end
   end

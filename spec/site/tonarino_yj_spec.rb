@@ -38,12 +38,12 @@ describe EBookloader::Site::TonarinoYJ do
         EBookloader::Book::Aoharu.new('http://tonarinoyj.jp/manga/identifier/extra-1/'),
         EBookloader::Book::Aoharu.new('http://tonarinoyj.jp/manga/identifier/extra-2/'),
       ]
-      expect( site.books.map{ |book| book.name }.to_a ).to eql [
-        '[author] title episode1',
-        '[author] title episode1.5',
-        '[author] title episode2',
-        '[author] title extra_episode1',
-        '[author] title extra_episode2',
+      expect( site.books.map{ |book| book.episode }.to_a ).to eql [
+        'episode1',
+        'episode1.5',
+        'episode2',
+        'extra_episode1',
+        'extra_episode2',
       ]
     end
   end

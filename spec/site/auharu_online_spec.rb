@@ -38,12 +38,12 @@ describe EBookloader::Site::AoharuOnline do
         EBookloader::Book::Aoharu.new('http://aoharu.jp/comic/identifier/4/'),
         EBookloader::Book::Aoharu.new('http://aoharu.jp/comic/identifier/5/'),
       ]
-      expect( site.books.map{ |book| book.name }.to_a ).to eql [
-        '[author] title ep1 episode1',
-        '[author] title ep2',
-        '[author] title ep3 episode3',
-        '[author] title ep4',
-        '[author] title ep5',
+      expect( site.books.map{ |book| book.episode }.to_a ).to eql [
+        'ep1 episode1',
+        'ep2',
+        'ep3 episode3',
+        'ep4',
+        'ep5',
       ]
     end
   end

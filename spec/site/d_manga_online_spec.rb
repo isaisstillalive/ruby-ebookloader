@@ -45,19 +45,19 @@ describe EBookloader::Site::DMangaOnline do
         EBookloader::Book::ActiBook.new('http://d-manga.dengeki.com/books/identifier_04/_SWF_Window.html'),
         EBookloader::Book::ActiBook.new('http://d-manga.dengeki.com/books/identifier_ex01/_SWF_Window.html'),
       ]
-      expect( books.map{ |book| book.name }.to_a ).to eql [
-        '[author] title 01',
-        '[author] title 02',
-        '[author] title 03',
-        '[author] title 04',
-        '[author] title 番外編 01',
+      expect( books.map{ |book| book.episode }.to_a ).to eql [
+        '01',
+        '02',
+        '03',
+        '04',
+        '番外編 01',
       ]
       expect( books.map{ |book| book.options }.to_a ).to eql [
-        {headers: {'Referer' => 'http://d-manga.dengeki.com/books/identifier_01/_SWF_Window.html'}},
-        {headers: {'Referer' => 'http://d-manga.dengeki.com/books/identifier_02/_SWF_Window.html'}},
-        {headers: {'Referer' => 'http://d-manga.dengeki.com/books/identifier_03/_SWF_Window.html'}},
-        {headers: {'Referer' => 'http://d-manga.dengeki.com/books/identifier_04/_SWF_Window.html'}},
-        {headers: {'Referer' => 'http://d-manga.dengeki.com/books/identifier_ex01/_SWF_Window.html'}},
+        {author: 'author', title: 'title', episode: '01', headers: {'Referer' => 'http://d-manga.dengeki.com/books/identifier_01/_SWF_Window.html'}},
+        {author: 'author', title: 'title', episode: '02', headers: {'Referer' => 'http://d-manga.dengeki.com/books/identifier_02/_SWF_Window.html'}},
+        {author: 'author', title: 'title', episode: '03', headers: {'Referer' => 'http://d-manga.dengeki.com/books/identifier_03/_SWF_Window.html'}},
+        {author: 'author', title: 'title', episode: '04', headers: {'Referer' => 'http://d-manga.dengeki.com/books/identifier_04/_SWF_Window.html'}},
+        {author: 'author', title: 'title', episode: '番外編 01', headers: {'Referer' => 'http://d-manga.dengeki.com/books/identifier_ex01/_SWF_Window.html'}},
       ]
     end
 
@@ -80,17 +80,17 @@ describe EBookloader::Site::DMangaOnline do
           EBookloader::Book::ActiBook.new('http://d-manga.dengeki.com/books/identifier_03/_SWF_Window.html'),
           EBookloader::Book::ActiBook.new('http://d-manga.dengeki.com/books/identifier_04/_SWF_Window.html'),
         ]
-        expect( books.map{ |book| book.name }.to_a ).to eql [
-          '[author] title 01',
-          '[author] title 02',
-          '[author] title 03',
-          '[author] title 04',
+        expect( books.map{ |book| book.episode }.to_a ).to eql [
+          '01',
+          '02',
+          '03',
+          '04',
         ]
         expect( books.map{ |book| book.options }.to_a ).to eql [
-          {headers: {'Referer' => 'http://d-manga.dengeki.com/books/identifier_01/_SWF_Window.html'}},
-          {headers: {'Referer' => 'http://d-manga.dengeki.com/books/identifier_02/_SWF_Window.html'}},
-          {headers: {'Referer' => 'http://d-manga.dengeki.com/books/identifier_03/_SWF_Window.html'}},
-          {headers: {'Referer' => 'http://d-manga.dengeki.com/books/identifier_04/_SWF_Window.html'}},
+          {author: 'author', title: 'title', episode: '01', headers: {'Referer' => 'http://d-manga.dengeki.com/books/identifier_01/_SWF_Window.html'}},
+          {author: 'author', title: 'title', episode: '02', headers: {'Referer' => 'http://d-manga.dengeki.com/books/identifier_02/_SWF_Window.html'}},
+          {author: 'author', title: 'title', episode: '03', headers: {'Referer' => 'http://d-manga.dengeki.com/books/identifier_03/_SWF_Window.html'}},
+          {author: 'author', title: 'title', episode: '04', headers: {'Referer' => 'http://d-manga.dengeki.com/books/identifier_04/_SWF_Window.html'}},
         ]
       end
     end

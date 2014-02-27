@@ -36,7 +36,6 @@ describe EBookloader::Site::ComicClear do
     end
 
     it 'は@booksを設定する' do
-      allow( site ).to receive(:name).and_return('title')
       expect( site ).to receive(:get_episode).with('titleepisode1', 'title', options).and_return('episode1')
       expect( site ).to receive(:get_episode).with('titleepisode2', 'title', options).and_return('episode2')
       expect( site ).to receive(:get_episode).with('titleepisode3.5', 'title', options).and_return('episode3.5')
@@ -52,11 +51,11 @@ describe EBookloader::Site::ComicClear do
         EBookloader::Book::FlipperU.new('http://ct.webcomic-eb.com/viewer/EB/identifier/0003-0/index.html'),
         EBookloader::Book::FlipperU.new('http://ct.webcomic-eb.com/viewer/EB/identifier/0004-0/index.html'),
       ]
-      expect( books.map{ |book| book.name }.to_a ).to eql [
-        'title 01 episode1',
-        'title 02 episode2',
-        'title 03.5 episode3.5',
-        'title 04 episode4',
+      expect( books.map{ |book| book.episode }.to_a ).to eql [
+        '01 episode1',
+        '02 episode2',
+        '03.5 episode3.5',
+        '04 episode4',
       ]
     end
   end
