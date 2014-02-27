@@ -2,7 +2,7 @@
 
 module EBookloader
   module BookInfo
-    attr_accessor :title, :author
+    attr_accessor :title, :author, :bookinfo
 
     def name
       return title unless author
@@ -16,10 +16,6 @@ module EBookloader
 
     def merge! options
       update_core options, true
-    end
-
-    def bookinfo
-      {title: @title, author: @author}
     end
 
     private
@@ -37,6 +33,7 @@ module EBookloader
         @author = options[:author] unless merge && @author
         options.delete :author
       end
+      @bookinfo = {title: @title, author: @author}
       options
     end
   end
