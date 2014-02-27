@@ -29,6 +29,70 @@ def responce path
   RSpec::Mocks::Mock.new('responce', { :body => html(path) })
 end
 
+shared_examples_for 'a BookInfo' do
+  describe '#title' do
+    subject{ bookinfo.title }
+
+    context '@titleが初期化されている場合' do
+      let(:bookinfo){ described_class.new 'uri', title: 'title' }
+
+      it 'は@titleを返す' do
+        expect( subject ).to eql 'title'
+      end
+    end
+
+    context '@titleが設定されている場合' do
+      before{ bookinfo.title = 'title' }
+
+      it 'は@titleを返す' do
+        expect( subject ).to eql 'title'
+      end
+    end
+
+    context '@titleが設定されていない場合' do
+      it 'は#lazy_loadを実行し、@titleを返す' do
+        def bookinfo.lazy_load
+          @title = 'title'
+          true
+        end
+        expect( bookinfo ).to receive(:lazy_load).and_call_original
+        expect( subject ).to eql 'title'
+      end
+    end
+  end
+
+  describe '#author' do
+    subject{ bookinfo.author }
+
+    context '@authorが初期化されている場合' do
+      let(:bookinfo){ described_class.new 'uri', author: 'author' }
+
+      it 'は@authorを返す' do
+        expect( subject ).to eql 'author'
+      end
+    end
+
+    context '@authorが設定されている場合' do
+      before{ bookinfo.author = 'author' }
+
+      it 'は@authorを返す' do
+        expect( subject ).to eql 'author'
+      end
+    end
+
+    context '@authorが設定されていない場合' do
+      it 'は#lazy_loadを実行し、@authorを返す' do
+        def bookinfo.lazy_load
+          @author = 'author'
+          true
+        end
+        expect( bookinfo ).to receive(:lazy_load).and_call_original
+        expect( subject ).to eql 'author'
+      end
+    end
+  end
+end
+
 shared_examples_for 'a Site#lazy_load' do
   it_behaves_like 'a Site#lazy_load @title'
   it_behaves_like 'a Site#lazy_load @author'

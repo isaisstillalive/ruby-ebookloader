@@ -5,73 +5,14 @@ require_relative 'spec_helper.rb'
 describe EBookloader::Site do
   let(:site){ described_class.new 'uri' }
 
+  let(:bookinfo){ site }
+  it_behaves_like 'a BookInfo'
+
   describe '#uri' do
     subject{ site.uri }
 
     it 'は@uriを返す' do
       expect( subject ).to eql URI('uri')
-    end
-  end
-
-  describe '#title' do
-    subject{ site.title }
-
-    context '@titleが初期化されている場合' do
-      let(:site){ described_class.new 'uri', title: 'title' }
-
-      it 'は@titleを返す' do
-        expect( subject ).to eql 'title'
-      end
-    end
-
-    context '@titleが設定されている場合' do
-      before{ site.title = 'title' }
-
-      it 'は@titleを返す' do
-        expect( subject ).to eql 'title'
-      end
-    end
-
-    context '@titleが設定されていない場合' do
-      it 'は#lazy_loadを実行し、@titleを返す' do
-        def site.lazy_load
-          @title = 'title'
-          true
-        end
-        expect( site ).to receive(:lazy_load).and_call_original
-        expect( subject ).to eql 'title'
-      end
-    end
-  end
-
-  describe '#author' do
-    subject{ site.author }
-
-    context '@authorが初期化されている場合' do
-      let(:site){ described_class.new 'uri', author: 'author' }
-
-      it 'は@authorを返す' do
-        expect( subject ).to eql 'author'
-      end
-    end
-
-    context '@authorが設定されている場合' do
-      before{ site.author = 'author' }
-
-      it 'は@authorを返す' do
-        expect( subject ).to eql 'author'
-      end
-    end
-
-    context '@authorが設定されていない場合' do
-      it 'は#lazy_loadを実行し、@authorを返す' do
-        def site.lazy_load
-          @author = 'author'
-          true
-        end
-        expect( site ).to receive(:lazy_load).and_call_original
-        expect( subject ).to eql 'author'
-      end
     end
   end
 
