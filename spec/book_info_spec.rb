@@ -45,6 +45,14 @@ describe EBookloader::BookInfo do
     end
   end
 
+  describe '#bookinfo' do
+    subject{ book.bookinfo }
+
+    it 'は作者と題名をハッシュで返す' do
+      expect( subject ).to eql(author: 'author', title: 'title')
+    end
+  end
+
   describe '#update_core' do
     context 'オプション引数に題名がある場合' do
       let(:new_title){ 'new_title' }

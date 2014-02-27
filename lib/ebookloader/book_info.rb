@@ -18,6 +18,10 @@ module EBookloader
       update_core options, true
     end
 
+    def bookinfo
+      {title: @title, author: @author}
+    end
+
     private
     def update_core options, merge = false
       if options.is_a? MatchData
