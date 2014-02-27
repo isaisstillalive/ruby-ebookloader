@@ -27,20 +27,11 @@ describe EBookloader::Book::ActiBook do
       ]
     end
 
-    context '@nameが設定されている場合' do
-      before{ book.name = 'old_name' }
-
-      it 'は@nameを設定しない' do
-        subject
-        expect( book.name ).to eql 'old_name'
-      end
-    end
-
-    context '@nameが設定されていない場合' do
-      it 'は@nameを設定する' do
-        subject
-        expect( book.name ).to eql 'name'
-      end
+    it 'は書籍情報を更新する' do
+      expect( book ).to receive(:merge!).with(duck_type(:[])){ |arg|
+        expect( arg[:title] ).to eql 'name'
+      }
+      subject
     end
   end
 end

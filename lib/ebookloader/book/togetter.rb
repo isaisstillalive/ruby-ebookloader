@@ -11,10 +11,7 @@ module EBookloader
         source = get @uri
         source.body.force_encoding Encoding::UTF_8
 
-        if @name.nil?
-          match = source.body.match(%r{<h1>\s*<a class="info_title" href="[^"]*" title="(?<title>[^"]*)"}m)
-          @name = match[:title]
-        end
+        self.merge! source.body.match(%r{<h1>\s*<a class="info_title" href="[^"]*" title="(?<title>[^"]*)"}m)
 
         id = @uri.to_s.match(%r{^http://togetter\.com/li/(?<id>[^/]*)})[:id]
         csrf_token = source.body.match(%r{<meta name="csrf_token" content="(?<csrf_token>[^"]*)"/>})[:csrf_token]

@@ -28,20 +28,13 @@ describe EBookloader::Book::UraSunday do
         ]
       end
 
-      context '@nameが設定されている場合' do
-        before{ book.name = 'old_name' }
-
-        it 'は@nameを設定しない' do
-          subject
-          expect( book.name ).to eql 'old_name'
-        end
-      end
-
-      context '@nameが設定されていない場合' do
-        it 'は@nameを設定する' do
-          subject
-          expect( book.name ).to eql '[author] title episode'
-        end
+      it 'は書籍情報を更新する' do
+        expect( book ).to receive(:merge!).with(duck_type(:[])){ |arg|
+          expect( arg[:author] ).to eql 'author'
+          expect( arg[:title] ).to eql 'title'
+          expect( arg[:episode] ).to eql 'episode'
+        }
+        subject
       end
     end
 
@@ -60,20 +53,13 @@ describe EBookloader::Book::UraSunday do
         ]
       end
 
-      context '@nameが設定されている場合' do
-        before{ book.name = 'old_name' }
-
-        it 'は@nameを設定しない' do
-          subject
-          expect( book.name ).to eql 'old_name'
-        end
-      end
-
-      context '@nameが設定されていない場合' do
-        it 'は@nameを設定する' do
-          subject
-          expect( book.name ).to eql '[author] title episode'
-        end
+      it 'は書籍情報を更新する' do
+        expect( book ).to receive(:merge!).with(duck_type(:[])){ |arg|
+          expect( arg[:author] ).to eql 'author'
+          expect( arg[:title] ).to eql 'title'
+          expect( arg[:episode] ).to eql 'episode'
+        }
+        subject
       end
     end
   end
