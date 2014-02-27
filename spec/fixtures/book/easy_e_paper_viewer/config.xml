@@ -1,0 +1,16 @@
+﻿<?xml version="1.0"?>
+<config>
+
+  <title>title</title>
+  <author>author</author>
+  <copyright>copyright</copyright>
+  <logolink1></logolink1>
+  <logolink2></logolink2>
+  <buylink></buylink>
+  <first>right</first>
+  <number>3</number>
+  <swf></swf>
+  <width>480</width>
+  <height>640</height>
+
+</config>

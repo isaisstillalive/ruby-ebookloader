@@ -65,5 +65,6 @@ module EBookloader
     require_relative 'book/ura_sunday'
     require_relative 'book/togetter'
     require_relative 'book/flipper_u'
+    require_relative 'book/easy_e_paper_viewer'
   end
 end
