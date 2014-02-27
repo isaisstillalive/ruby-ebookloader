@@ -120,6 +120,10 @@ describe EBookloader::BookInfo do
         expect( book.title ).to eql 'new_title'
         expect( book.author ).to eql 'author'
       end
+
+      it 'はハッシュを返す' do
+        expect( subject ).to eql({title: 'new_title'})
+      end
     end
 
     context 'マージの場合' do

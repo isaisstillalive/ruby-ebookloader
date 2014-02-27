@@ -5,6 +5,9 @@ require_relative 'spec_helper.rb'
 describe EBookloader::Book do
   let(:book){ described_class.new 'uri' }
 
+  let(:bookinfo){ book }
+  it_behaves_like 'a BookInfo'
+
   describe '#uri' do
     subject{ book.uri }
 
@@ -13,33 +16,50 @@ describe EBookloader::Book do
     end
   end
 
-  describe '#name' do
-    subject{ book.name }
+  describe '#episode' do
+    subject{ book.episode }
 
-    context '初期化時にオプションで名前を渡している場合' do
-      let(:book){ described_class.new 'uri', name: 'name' }
+    context '@episodeが初期化されている場合' do
+      let(:book){ described_class.new 'uri', episode: 'episode' }
 
-      it 'は設定された名前を返す' do
-        expect( subject ).to eql 'name'
+      it 'は@episodeを返す' do
+        expect( subject ).to eql 'episode'
       end
     end
 
-    context '@nameが設定されている場合' do
-      before{ book.name = 'name' }
+    context '@episodeが設定されている場合' do
+      before{ book.episode = 'episode' }
 
-      it 'は@nameを返す' do
-        expect( subject ).to eql 'name'
+      it 'は@episodeを返す' do
+        expect( subject ).to eql 'episode'
       end
     end
 
-    context '@nameが設定されていない場合' do
-      it 'は#lazy_loadを実行し、@nameを返す' do
+    context '@episodeが設定されていない場合' do
+      it 'は#lazy_loadを実行し、@episodeを返す' do
         def book.lazy_load
-          @name = 'name'
+          @episode = 'episode'
           true
         end
-        expect( book ).to receive(:lazy_load).and_call_original
-        expect( subject ).to eql 'name'
+        expect( bookinfo ).to receive(:lazy_load).and_call_original
+        expect( subject ).to eql 'episode'
+      end
+    end
+  end
+
+  describe '#name' do
+    let(:book){ described_class.new 'uri', author: 'author', title: 'title', episode: 'episode' }
+    subject{ book.name }
+
+    it 'はBookInfo#nameとエピソードを結合して返す' do
+      expect( subject ).to eql '[author] title episode'
+    end
+
+    context 'エピソードが設定されていない場合' do
+      before{ book.instance_variable_set :@episode, nil }
+
+      it 'はBookInfo#nameを返す' do
+        expect( subject ).to eql '[author] title'
       end
     end
   end

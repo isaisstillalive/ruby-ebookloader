@@ -31,6 +31,7 @@ module EBookloader
       if options.include? :author
         @author = options[:author] unless merge && @author
       end
+      options
     end
   end
 end

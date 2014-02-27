@@ -7,16 +7,17 @@ module EBookloader
     class Base
       include Connectable
       include LazyLoadable
+      include BookInfo
 
       attr_reader :uri
       attr_accessor :options
-      attr_lazy_accessor :name
+      attr_lazy_accessor :title, :author, :episode
 
       def initialize uri, options = {}
         @uri = URI(uri)
-        @name = options[:name]
-        options.delete :name
         @options = options
+        self.update! options
+        @options.delete :name
       end
 
       def save dir
@@ -33,10 +34,26 @@ module EBookloader
         true
       end
 
+      def name
+        if @episode
+          "#{super} #{@episode}"
+        else
+          super
+        end
+      end
+
       private
 
       def save_core dir_path
         true
+      end
+
+      def update_core options, merge = false
+        super.tap do |options|
+          if options.include? :episode
+            @episode = options[:episode] unless merge && @episode
+          end
+        end
       end
     end
 
