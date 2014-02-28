@@ -14,7 +14,7 @@ module EBookloader
         xml = get configue_uri
         doc = REXML::Document.new xml.body
 
-        self.merge! title: doc.elements['/setting/bookInformation/bookTitle'].text
+        merge title: doc.elements['/setting/bookInformation/bookTitle'].text
 
         scale = doc.elements['/setting/bookInformation/maxMagnification'].text.to_i
         prefix = doc.elements['/setting/renderer/SliceViewer/pathPrefix'].text

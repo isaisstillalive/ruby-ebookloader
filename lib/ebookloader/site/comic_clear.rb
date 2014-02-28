@@ -14,7 +14,7 @@ module EBookloader
         title = match[:title]
         authors = match[:author].split(',')
         authors.delete(title)
-        self.merge! title: title, author: authors.join(', ')
+        merge title: title, author: authors.join(', ')
 
         source.body.match %r{<td width="140" class="main-right">(?<list>.*?)</td>}m do |match|
           list = match[:list]

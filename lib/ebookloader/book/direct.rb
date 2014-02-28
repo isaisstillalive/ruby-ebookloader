@@ -6,7 +6,7 @@ module EBookloader
       private
 
       def lazy_load
-        self.merge! title: Pathname(@uri.path).basename.to_s
+        merge title: Pathname(@uri.path).basename.to_s
       end
 
       def save_core save_path

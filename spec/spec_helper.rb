@@ -69,7 +69,7 @@ end
 
 shared_examples_for 'a BookInfo updater' do |values|
   it 'は書籍情報を更新する' do
-    expect( bookinfo ).to receive(:merge!).with(duck_type(:[])){ |arg|
+    expect( bookinfo ).to receive(:merge).with(duck_type(:[])){ |arg|
       values.each do |name, value|
         expect( arg[name] ).to eql value
       end

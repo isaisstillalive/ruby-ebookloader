@@ -10,7 +10,7 @@ module EBookloader
         source = get @uri
         source.body.encode! Encoding::UTF_8, Encoding::Shift_JIS
 
-        self.merge! source.body.match(%r{<h2 class="iepngFixBg">(?<title>.*?)\s*<span class="titleYomi">\s*\((.*?)\)</span></h2>})
+        merge source.body.match(%r{<h2 class="iepngFixBg">(?<title>.*?)\s*<span class="titleYomi">\s*\((.*?)\)</span></h2>})
 
         source.body.match %r{<ul id="contentCenterBknmbrList">(?<list>.*?)</ul>}m do |match|
           list = match[:list]

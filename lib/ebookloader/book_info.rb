@@ -10,11 +10,11 @@ module EBookloader
       '[%s] %s' % [author, title]
     end
 
-    def update! options
+    def update options
       update_core options, false
     end
 
-    def merge! options
+    def merge options
       update_core options, true
     end
 

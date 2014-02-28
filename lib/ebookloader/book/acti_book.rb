@@ -13,7 +13,7 @@ module EBookloader
         xml = get configue_uri
         doc = REXML::Document.new xml.body
 
-        self.merge! title: doc.elements['/book/name'].text
+        merge title: doc.elements['/book/name'].text
 
         page_count = doc.elements['/book/total'].text.to_i
         @pages = doc.to_enum(:each_element, '/book/pages/page').map do |page|

@@ -11,7 +11,7 @@ module EBookloader
 
         return super if source.body.include? 'viewerNavi.js'
 
-        self.merge! source.body.match %r{<h1><a href="[^"]*">(?<title>.*?)<span>\[作品紹介\]</span></a></h1><!-- \[!\] タイトル -->.*?<h2>(?<author>.*?)</h2><!-- \[!\] 作者 -->.*?<h3><span>(?<episode>.*?)</span></h3>}m
+        merge source.body.match %r{<h1><a href="[^"]*">(?<title>.*?)<span>\[作品紹介\]</span></a></h1><!-- \[!\] タイトル -->.*?<h2>(?<author>.*?)</h2><!-- \[!\] 作者 -->.*?<h3><span>(?<episode>.*?)</span></h3>}m
 
         source.body.extend EBookloader::StringExtender
         @pages = source.body.global_match(%r{<li><img src="(?<uri>.*?)"(?: width="\d*" height="\d*")? class="undownload" ?/></li>}).map.with_index 1 do |sc, page|

@@ -47,7 +47,7 @@ describe EBookloader::BookInfo do
 
   describe '#bookinfo' do
     before{
-      book.update! title: 'title', author: 'author'
+      book.update title: 'title', author: 'author'
     }
     subject{ book.bookinfo }
 
@@ -150,8 +150,8 @@ describe EBookloader::BookInfo do
     end
   end
 
-  describe '#update!' do
-    subject{ book.update! title: 'new_title' }
+  describe '#update' do
+    subject{ book.update title: 'new_title' }
 
     it 'は#update_coreを非マージで実行する' do
       expect( book ).to receive(:update_core).with({ title: 'new_title'}, false)
@@ -159,8 +159,8 @@ describe EBookloader::BookInfo do
     end
   end
 
-  describe '#merge!' do
-    subject{ book.merge! title: 'new_title' }
+  describe '#merge' do
+    subject{ book.merge title: 'new_title' }
 
     it 'は#update_coreをマージで実行する' do
       expect( book ).to receive(:update_core).with({ title: 'new_title'}, true)
