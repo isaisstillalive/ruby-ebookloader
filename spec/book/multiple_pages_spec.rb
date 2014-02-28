@@ -4,29 +4,9 @@ require_relative '../spec_helper.rb'
 
 describe EBookloader::Book::MultiplePages do
   let(:book){ Object.new.extend described_class }
+  let(:bookinfo){ book }
 
-  describe '#pages' do
-    subject{ book.pages }
-
-    context '@pagesが設定されている場合' do
-      before{ book.instance_variable_set(:@pages, ['pages']) }
-
-      it 'は@pagesを返す' do
-        expect( subject ).to eql ['pages']
-      end
-    end
-
-    context '@pagesが設定されていない場合' do
-      it 'は#lazy_loadを実行し、@pagesを返す' do
-        def book.lazy_load
-          @pages = ['pages']
-          true
-        end
-        expect( book ).to receive(:lazy_load).and_call_original
-        expect( subject ).to eql ['pages']
-      end
-    end
-  end
+  it_behaves_like 'a LazyLoadable object', :pages, false
 
   describe '#save_core' do
     let(:save_path){ Pathname('dirname') }

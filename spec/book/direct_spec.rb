@@ -4,16 +4,12 @@ require_relative '../spec_helper.rb'
 
 describe EBookloader::Book::Direct do
   let(:book){ described_class.new 'http://example.com/file.jpg' }
+  let(:bookinfo){ book }
 
   describe '#lazy_load' do
     subject{ book.__send__ :lazy_load }
 
-    it 'は書籍情報を更新する' do
-      expect( book ).to receive(:merge!).with(duck_type(:[])){ |arg|
-        expect( arg[:title] ).to eql 'file.jpg'
-      }
-      subject
-    end
+    it_behaves_like 'a BookInfo updater', title: 'file.jpg'
   end
 
   describe '#save_core' do

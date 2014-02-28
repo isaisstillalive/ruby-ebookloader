@@ -29,111 +29,51 @@ def response path
   RSpec::Mocks::Mock.new('response', { :body => html(path) })
 end
 
-shared_examples_for 'a BookInfo' do
-  describe '#title' do
-    subject{ bookinfo.title }
+shared_examples_for 'a LazyLoadable BookInfo' do
+  it_behaves_like 'a LazyLoadable object', :title, true
+  it_behaves_like 'a LazyLoadable object', :author, true
+end
 
-    context '@titleが初期化されている場合' do
-      let(:bookinfo){ described_class.new 'uri', title: 'title' }
+shared_examples_for 'a LazyLoadable object' do |name, with_initialize|
+  describe "\##{name}" do
+    subject{ bookinfo.__send__ name }
 
-      it 'は@titleを返す' do
-        expect( subject ).to eql 'title'
-      end
-    end
+    if with_initialize
+      context "@#{name}が初期化されている場合" do
+        let(:bookinfo){ described_class.new 'uri', { name => 'initialize_value' } }
 
-    context '@titleが設定されている場合' do
-      before{ bookinfo.title = 'title' }
-
-      it 'は@titleを返す' do
-        expect( subject ).to eql 'title'
-      end
-    end
-
-    context '@titleが設定されていない場合' do
-      it 'は#lazy_loadを実行し、@titleを返す' do
-        def bookinfo.lazy_load
-          @title = 'title'
-          true
+        it "は@#{name}を返す" do
+          expect( subject ).to eql 'initialize_value'
         end
-        expect( bookinfo ).to receive(:lazy_load).and_call_original
-        expect( subject ).to eql 'title'
-      end
-    end
-  end
-
-  describe '#author' do
-    subject{ bookinfo.author }
-
-    context '@authorが初期化されている場合' do
-      let(:bookinfo){ described_class.new 'uri', author: 'author' }
-
-      it 'は@authorを返す' do
-        expect( subject ).to eql 'author'
       end
     end
 
-    context '@authorが設定されている場合' do
-      before{ bookinfo.author = 'author' }
+    context "@#{name}が設定されている場合" do
+      before{ bookinfo.instance_variable_set "@#{name}", 'update_value' }
 
-      it 'は@authorを返す' do
-        expect( subject ).to eql 'author'
+      it "は@#{name}を返す" do
+        expect( subject ).to eql 'update_value'
       end
     end
 
-    context '@authorが設定されていない場合' do
-      it 'は#lazy_loadを実行し、@authorを返す' do
-        def bookinfo.lazy_load
-          @author = 'author'
-          true
+    context "@#{name}が設定されていない場合" do
+      it "は#lazy_loadを実行し、@#{name}を返す" do
+        expect( bookinfo ).to receive(:lazy_load).and_return(true) do
+          bookinfo.instance_variable_set "@#{name}", 'update_value'
         end
-        expect( bookinfo ).to receive(:lazy_load).and_call_original
-        expect( subject ).to eql 'author'
+        expect( subject ).to eql 'update_value'
       end
     end
   end
 end
 
-shared_examples_for 'a Site#lazy_load' do
-  it_behaves_like 'a Site#lazy_load @title'
-  it_behaves_like 'a Site#lazy_load @author'
-end
-
-shared_examples_for 'a Site#lazy_load @title' do
-  let(:new_title){ 'title' }
-
-  context '@titleが設定されている場合' do
-    before{ site.title = 'old_title' }
-
-    it 'は@titleを設定しない' do
-      subject
-      expect( site.title ).to eql 'old_title'
-    end
-  end
-
-  context '@titleが設定されていない場合' do
-    it 'は@titleを設定する' do
-      subject
-      expect( site.title ).to eql new_title
-    end
-  end
-end
-
-shared_examples_for 'a Site#lazy_load @author' do
-  let(:new_author){ 'author' }
-
-  context '@authorが設定されている場合' do
-    before{ site.author = 'old_author' }
-
-    it 'は@authorを設定しない' do
-      subject
-      expect( site.author ).to eql 'old_author'
-    end
-  end
-
-  context '@authorが設定されていない場合' do
-    it 'は@authorを設定する' do
-      subject
-      expect( site.author ).to eql new_author
-    end
+shared_examples_for 'a BookInfo updater' do |values|
+  it 'は書籍情報を更新する' do
+    expect( bookinfo ).to receive(:merge!).with(duck_type(:[])){ |arg|
+      values.each do |name, value|
+        expect( arg[name] ).to eql value
+      end
+    }
+    subject
   end
 end

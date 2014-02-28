@@ -4,6 +4,7 @@ require_relative '../spec_helper.rb'
 
 describe EBookloader::Site::GanganOnline do
   let(:site){ described_class.new 'identifier' }
+  let(:bookinfo){ site }
 
   describe '#uri' do
     subject{ site.uri }
@@ -14,9 +15,9 @@ describe EBookloader::Site::GanganOnline do
   end
 
   describe '#lazy_load' do
-    it_behaves_like 'a Site#lazy_load @title'
-
     subject{ site.__send__ :lazy_load }
+
+    it_behaves_like 'a BookInfo updater', title: 'title'
 
     before{
       allow( site ).to receive(:get).and_return(response('/site/gangan_online/identifier.html'))

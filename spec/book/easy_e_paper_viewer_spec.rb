@@ -4,9 +4,12 @@ require_relative '../spec_helper.rb'
 
 describe EBookloader::Book::EasyEPaperViewer do
   let(:book){ described_class.new 'http://example.com/dir/' }
+  let(:bookinfo){ book }
 
   describe '#lazy_load' do
     subject{ book.__send__ :lazy_load }
+
+    it_behaves_like 'a BookInfo updater', title: 'title', author: 'author'
 
     before{
       allow( book ).to receive(:get).and_return(response('/book/easy_e_paper_viewer/config.xml'))
@@ -25,14 +28,6 @@ describe EBookloader::Book::EasyEPaperViewer do
         EBookloader::Book::MultiplePages::Page.new(URI('http://example.com/dir/img02.jpg'), page: 2),
         EBookloader::Book::MultiplePages::Page.new(URI('http://example.com/dir/img03.jpg'), page: 3),
       ]
-    end
-
-    it 'は書籍情報を更新する' do
-      expect( book ).to receive(:merge!).with(duck_type(:[])){ |arg|
-        expect( arg[:title] ).to eql 'title'
-        expect( arg[:author] ).to eql 'author'
-      }
-      subject
     end
 
     context 'URIクエリにidが含まれる場合は' do

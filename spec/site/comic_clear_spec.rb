@@ -5,6 +5,7 @@ require_relative '../spec_helper.rb'
 describe EBookloader::Site::ComicClear do
   let(:options){ {option: :option} }
   let(:site){ described_class.new 'identifier', options }
+  let(:bookinfo){ site }
 
   describe '#uri' do
     subject{ site.uri }
@@ -15,9 +16,9 @@ describe EBookloader::Site::ComicClear do
   end
 
   describe '#lazy_load' do
-    it_behaves_like 'a Site#lazy_load @title'
-
     subject{ site.__send__ :lazy_load }
+
+    it_behaves_like 'a BookInfo updater', title: 'title'
 
     before{
       allow( site ).to receive(:get).and_return(response('/site/comic_clear/identifier.html'))

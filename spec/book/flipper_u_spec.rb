@@ -4,9 +4,12 @@ require_relative '../spec_helper.rb'
 
 describe EBookloader::Book::FlipperU do
   let(:book){ described_class.new 'http://example.com/dir/index.html' }
+  let(:bookinfo){ book }
 
   describe '#lazy_load' do
     subject{ book.__send__ :lazy_load }
+
+    it_behaves_like 'a BookInfo updater', title: 'title'
 
     before{
       allow( book ).to receive(:get).and_return(response('/book/flipper_u/book.xml'))
@@ -28,13 +31,6 @@ describe EBookloader::Book::FlipperU do
         EBookloader::Book::FlipperU::Page.new(URI('http://example.com/dir/page2/page.xml'), page: 2, extension: :jpg, prefix: 'x', scale: 2, width: 3, height: 4),
         EBookloader::Book::FlipperU::Page.new(URI('http://example.com/dir/page3/page.xml'), page: 3, extension: :jpg, prefix: 'x', scale: 2, width: 3, height: 4, name: 'name3'),
       ]
-    end
-
-    it 'は書籍情報を更新する' do
-      expect( book ).to receive(:merge!).with(duck_type(:[])){ |arg|
-        expect( arg[:title] ).to eql 'title'
-      }
-      subject
     end
   end
 

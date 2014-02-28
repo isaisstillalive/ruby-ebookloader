@@ -4,9 +4,16 @@ require_relative '../spec_helper.rb'
 
 describe EBookloader::Book::Togetter do
   let(:book){ described_class.new 'http://togetter.com/li/identifier' }
+  let(:bookinfo){ book }
 
   describe '#lazy_load' do
     subject{ book.__send__ :lazy_load }
+
+    it_behaves_like 'a BookInfo updater', title: 'name'
+
+    before{
+      allow( book ).to receive(:get).and_return(responce('/book/togetter/identifier.html'))
+    }
 
     it 'はhtmlを取得する' do
       expect( book ).to receive(:get).with(URI('http://togetter.com/li/identifier')).and_return(response('/book/togetter/identifier.html')).ordered
@@ -32,13 +39,6 @@ describe EBookloader::Book::Togetter do
         expect( book.pages ).to eq [
           EBookloader::Book::MultiplePages::Page.new(URI('http://pbs.twimg.com/media/Bf3d3CuCIAAdw-K.png:large'), page: 1, extension: :png),
         ]
-      end
-
-      it 'は書籍情報を更新する' do
-        expect( book ).to receive(:merge!).with(duck_type(:[])){ |arg|
-          expect( arg[:title] ).to eql 'name'
-        }
-        subject
       end
     end
   end

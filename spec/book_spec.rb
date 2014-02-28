@@ -4,9 +4,9 @@ require_relative 'spec_helper.rb'
 
 describe EBookloader::Book do
   let(:book){ described_class.new 'uri' }
-
   let(:bookinfo){ book }
-  it_behaves_like 'a BookInfo'
+
+  it_behaves_like 'a LazyLoadable BookInfo'
 
   describe '#uri' do
     subject{ book.uri }

@@ -4,6 +4,7 @@ require_relative '../spec_helper.rb'
 
 describe EBookloader::Site::ComicMeteor do
   let(:site){ described_class.new 'identifier' }
+  let(:bookinfo){ site }
 
   describe '#uri' do
     subject{ site.uri }
@@ -14,12 +15,9 @@ describe EBookloader::Site::ComicMeteor do
   end
 
   describe '#lazy_load' do
-    it_behaves_like 'a Site#lazy_load @title'
-    it_behaves_like 'a Site#lazy_load @author' do
-      let(:new_author){ 'author1, author2' }
-    end
-
     subject{ site.__send__ :lazy_load }
+
+    it_behaves_like 'a BookInfo updater', title: 'title', author: 'author1, author2'
 
     before{
       allow( site ).to receive(:get).and_return(response('/site/comic_meteor/identifier.html'))
