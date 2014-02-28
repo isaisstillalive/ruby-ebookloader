@@ -29,8 +29,7 @@ describe EBookloader::Book::Togetter do
       it 'は@pagesを設定する' do
         subject
 
-        # expect( book.pages.size ).to eql 2
-        expect( book.pages.to_a ).to eq [
+        expect( book.pages ).to eq [
           EBookloader::Book::MultiplePages::Page.new(URI('http://pbs.twimg.com/media/Bf3d3CuCIAAdw-K.png:large'), extension: :png),
         ]
       end

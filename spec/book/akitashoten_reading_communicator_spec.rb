@@ -20,8 +20,7 @@ describe EBookloader::Book::AkitashotenReadingCommunicator do
     it 'は@pagesを設定する' do
       subject
 
-      expect( book.pages.size ).to eql 2
-      expect( book.pages.to_a ).to eq [
+      expect( book.pages ).to eq [
         URI('http://tap.akitashoten.co.jp/comics/identifier/1/1'),
         URI('http://tap.akitashoten.co.jp/comics/identifier/1/2'),
       ]

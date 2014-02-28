@@ -13,7 +13,7 @@ module EBookloader
 
         self.merge! source.body.match %r{<h1><a href="[^"]*">(?<title>.*?)<span>\[作品紹介\]</span></a></h1><!-- \[!\] タイトル -->.*?<h2>(?<author>.*?)</h2><!-- \[!\] 作者 -->.*?<h3><span>(?<episode>.*?)</span></h3>}m
 
-        @pages = source.body.to_enum(:scan, %r{<li><img src="(.*?)"(?: width="\d*" height="\d*")? class="undownload" ?/></li>}).lazy.map do |sc|
+        @pages = source.body.scan(%r{<li><img src="(.*?)"(?: width="\d*" height="\d*")? class="undownload" ?/></li>}).map do |sc|
           @uri + sc[0]
         end
 

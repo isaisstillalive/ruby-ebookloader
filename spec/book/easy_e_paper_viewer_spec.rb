@@ -20,8 +20,7 @@ describe EBookloader::Book::EasyEPaperViewer do
     it 'は@pagesを設定する' do
       subject
 
-      expect( book.pages.size ).to eql 3
-      expect( book.pages.to_a ).to eq [
+      expect( book.pages ).to eq [
         URI('http://example.com/dir/img01.jpg'),
         URI('http://example.com/dir/img02.jpg'),
         URI('http://example.com/dir/img03.jpg'),

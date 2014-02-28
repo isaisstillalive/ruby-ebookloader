@@ -22,9 +22,9 @@ module EBookloader
           match = source.body.match %r{for\(var i=1;i<=(?<page_count>\d*);i\+\+\).*?data-original="(?<dir>[^']*)' \+ agent \+ '(?<imgid>[^']*)' \+ vi \+ '(?<type>\.jpg)"}m
           format = "#{match[:dir]}pc#{match[:imgid]}%02d#{match[:type]}"
         end
-        page_count = match[:page_count].to_i
 
-        @pages = (1..page_count).to_enum{ page_count }.lazy.map do |page|
+        page_count = match[:page_count].to_i
+        @pages = (1..page_count).map do |page|
           base_uri + (format % [page])
         end
 

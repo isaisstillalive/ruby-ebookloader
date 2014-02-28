@@ -19,7 +19,7 @@ module EBookloader
         tweets.body.force_encoding Encoding::UTF_8
         body = tweets.body
 
-        @pages = body.to_enum(:scan, %r{<div class='list_photo'><a[^>]*?><img src="([^"]*)" /></a></div>}m).lazy.map do |sc|
+        @pages = body.scan(%r{<div class='list_photo'><a[^>]*?><img src="([^"]*)" /></a></div>}m).map do |sc|
           Page.new(URI(sc[0] + ':large'), extension: Pathname(sc[0]).extname[1..-1].to_sym)
         end
 

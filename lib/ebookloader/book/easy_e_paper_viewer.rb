@@ -19,7 +19,7 @@ module EBookloader
         self.merge! title: doc.elements['/config/title'].text, author: doc.elements['/config/author'].text
 
         page_count = doc.elements['/config/number'].text.to_i
-        @pages = (1..page_count).to_enum{ page_count }.lazy.map do |page|
+        @pages = (1..page_count).map do |page|
           base_uri + './img%02d.jpg' % page
         end
 

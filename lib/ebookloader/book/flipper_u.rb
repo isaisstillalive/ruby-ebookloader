@@ -26,7 +26,7 @@ module EBookloader
         page_count = doc.elements['/setting/bookInformation/total'].text.to_i
         datas = doc.elements['/setting/bookInformation/data'].text.split(',')
         labels = doc.elements['/setting/bookInformation/label'].text.split(',')
-        @pages = datas.to_enum(:zip, labels){ page_count }.lazy.map do |page, name|
+        @pages = datas.zip(labels).map do |page, name|
           options = {
             extension: extension,
             prefix: prefix,

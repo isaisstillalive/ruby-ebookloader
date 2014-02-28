@@ -21,8 +21,7 @@ describe EBookloader::Book::UraSunday do
       it 'は@pagesを設定する' do
         subject
 
-        expect( book.pages.size ).to eql 2
-        expect( book.pages.to_a ).to eq [
+        expect( book.pages ).to eq [
           URI('http://urasunday.com/comic/identifier/pc/001/001_001_01.jpg'),
           URI('http://urasunday.com/comic/identifier/pc/001/001_001_02.jpg'),
         ]
@@ -46,8 +45,7 @@ describe EBookloader::Book::UraSunday do
       it 'は@pagesを設定する' do
         subject
 
-        expect( book.pages.size ).to eql 2
-        expect( book.pages.to_a ).to eq [
+        expect( book.pages ).to eq [
           URI('http://img.urasunday.com/eximages/comic/identifier/pc/002/002_002_01.jpg'),
           URI('http://img.urasunday.com/eximages/comic/identifier/pc/002/002_002_02.jpg'),
         ]
