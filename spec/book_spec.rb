@@ -149,4 +149,12 @@ describe EBookloader::Book do
       end
     end
   end
+
+  describe '#save_core' do
+    subject{ book.__send__ :save_core, nil }
+
+    it 'は常にtrueを返す' do
+      expect( subject ).to eql true
+    end
+  end
 end
