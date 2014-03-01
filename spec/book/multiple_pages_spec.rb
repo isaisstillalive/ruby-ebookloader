@@ -51,7 +51,7 @@ describe EBookloader::Book::MultiplePages do
     end
 
     it 'はPage#saveを実行する' do
-      expect( page ).to receive(:save).with(1, save_path)
+      expect( page ).to receive(:save).with(save_path, 1)
       subject
     end
 
@@ -60,8 +60,8 @@ describe EBookloader::Book::MultiplePages do
         page1 = double('Page')
         page2 = double('Page')
         expect( book ).to receive(:pages).and_return([page1, page2])
-        expect( page1 ).to receive(:save).with(1, save_path)
-        expect( page2 ).to receive(:save).with(2, save_path)
+        expect( page1 ).to receive(:save).with(save_path, 1)
+        expect( page2 ).to receive(:save).with(save_path, 2)
         subject
       end
     end
@@ -70,7 +70,7 @@ describe EBookloader::Book::MultiplePages do
       let(:options){ {offset: 2} }
 
       it 'はそのページ番号から保存を開始する' do
-        expect( page ).to receive(:save).with(2, save_path)
+        expect( page ).to receive(:save).with(save_path, 2)
         subject
       end
     end

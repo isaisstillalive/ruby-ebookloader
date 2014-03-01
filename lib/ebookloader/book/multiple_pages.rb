@@ -15,7 +15,7 @@ module EBookloader
 
         offset = options[:offset] || 1
         pages.each.with_index offset do |page, index|
-          page.save index, save_path
+          page.save save_path, index
         end
 
         true

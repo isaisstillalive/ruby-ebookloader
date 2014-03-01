@@ -4,7 +4,7 @@ module EBookloader
   class Book
     class FlipperU
       class Page < EBookloader::Book::MultiplePages::Page
-        def save page, dir
+        def save dir, offset = 0
           require 'rubygems'
           require 'rmagick'
 
@@ -22,7 +22,7 @@ module EBookloader
             imagelist << h_imagelist.append(false)
           end
 
-          file = dir + filename(page)
+          file = dir + filename(offset + page)
           image = imagelist.append(true)
           image.write file
         end

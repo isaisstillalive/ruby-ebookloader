@@ -10,7 +10,7 @@ describe EBookloader::Book::FlipperU::Page do
   let(:save_dir){ Pathname('dirname') }
 
   describe '#save' do
-    subject{ page.save 1, save_dir }
+    subject{ page.save save_dir }
 
     it 'は枚数分#writeを実行して結合する' do
       h_imagelist = double('Magick::ImageList')
