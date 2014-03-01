@@ -41,7 +41,7 @@ module EBookloader
         end
 
         def save page, dir
-          file = dir + filename(page)
+          file = Pathname(dir) + filename(page)
           write file, @uri, @options
         end
 

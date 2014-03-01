@@ -172,6 +172,16 @@ describe EBookloader::Book::MultiplePages::Page do
       subject
     end
 
+    context '保存先パスが文字列の場合' do
+      subject{ page.save 1, 'dirname' }
+
+      it 'はPathnameと同様に処理する' do
+        expect( page ).to receive(:filename).with(1).and_return('1.jpg')
+        expect( page ).to receive(:write).with(Pathname('dirname/1.jpg'), URI('uri'), extension: :jpg)
+        subject
+      end
+    end
+
     context 'オプションが設定されている場合' do
       let(:page){ described_class.new 'uri', options }
       let(:options){ { headers: {header: :header}, extension: :jpg } }
