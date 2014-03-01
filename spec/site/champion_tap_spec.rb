@@ -30,14 +30,13 @@ describe EBookloader::Site::ChampionTap do
     it 'は@booksを設定する' do
       subject
 
-      # expect( site.books.size ).to eql 4
-      expect( site.books.to_a ).to eq [
+      expect( site.books ).to eq [
         EBookloader::Book::AkitashotenReadingCommunicator.new('http://tap.akitashoten.co.jp/comics/identifier/1'),
         EBookloader::Book::AkitashotenReadingCommunicator.new('http://tap.akitashoten.co.jp/comics/identifier/2'),
         EBookloader::Book::AkitashotenReadingCommunicator.new('http://tap.akitashoten.co.jp/comics/identifier/3'),
         EBookloader::Book::AkitashotenReadingCommunicator.new('http://tap.akitashoten.co.jp/comics/identifier/4'),
       ]
-      expect( site.books.map{ |book| book.episode }.to_a ).to eql [
+      expect( site.books.map{ |book| book.episode } ).to eql [
         'ep1 episode1',
         'ep2 episode2',
         'ep3 episode3',

@@ -12,7 +12,8 @@ module EBookloader
 
         self.merge! source.body.match(%r{<header><h1><strong>(?<title>.*?)</strong> ／ (?<author>.*?)</h1></header>})
 
-        @books = lazy_collection source.body, %r{<li><a href="(?<uri>[^"]*)" class="openViewer".*?<figcaption><strong>(?<episode_num>.*?)（[^）]*?）</strong>(?<episode>.*?)</figcaption>}m, true do |sc|
+        source.body.extend EBookloader::StringExtender
+        @books = source.body.global_match(%r{<li><a href="(?<uri>[^"]*)" class="openViewer".*?<figcaption><strong>(?<episode_num>.*?)（[^）]*?）</strong>(?<episode>.*?)</figcaption>}m).reverse_each.map do |sc|
           uri = @uri + sc[:uri]
 
           episode = '%s %s' % [sc[:episode_num], sc[:episode]]

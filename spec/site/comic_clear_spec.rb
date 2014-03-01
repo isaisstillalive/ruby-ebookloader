@@ -43,15 +43,13 @@ describe EBookloader::Site::ComicClear do
 
       subject
 
-      # expect( site.books.size ).to eql 4
-      books = site.books.to_a
-      expect( books ).to eq [
+      expect( site.books ).to eq [
         EBookloader::Book::FlipperU.new('http://ct.webcomic-eb.com/viewer/EB/identifier/0001-0/index.html'),
         EBookloader::Book::FlipperU.new('http://ct.webcomic-eb.com/viewer/EB/identifier/0002-0/index.html'),
         EBookloader::Book::FlipperU.new('http://ct.webcomic-eb.com/viewer/EB/identifier/0003-0/index.html'),
         EBookloader::Book::FlipperU.new('http://ct.webcomic-eb.com/viewer/EB/identifier/0004-0/index.html'),
       ]
-      expect( books.map{ |book| book.episode }.to_a ).to eql [
+      expect( site.books.map{ |book| book.episode } ).to eql [
         '01 episode1',
         '02 episode2',
         '03.5 episode3.5',

@@ -30,15 +30,14 @@ describe EBookloader::Site::TonarinoYJ do
     it 'は@booksを設定する' do
       subject
 
-      # expect( site.books.size ).to eql 2
-      expect( site.books.to_a ).to eq [
+      expect( site.books ).to eq [
         EBookloader::Book::Aoharu.new('http://tonarinoyj.jp/manga/identifier/1/'),
         EBookloader::Book::Aoharu.new('http://tonarinoyj.jp/manga/identifier/1_5/'),
         EBookloader::Book::Aoharu.new('http://tonarinoyj.jp/manga/identifier/2/?viewer=vertical'),
         EBookloader::Book::Aoharu.new('http://tonarinoyj.jp/manga/identifier/extra-1/'),
         EBookloader::Book::Aoharu.new('http://tonarinoyj.jp/manga/identifier/extra-2/'),
       ]
-      expect( site.books.map{ |book| book.episode }.to_a ).to eql [
+      expect( site.books.map{ |book| book.episode } ).to eql [
         'episode1',
         'episode1.5',
         'episode2',

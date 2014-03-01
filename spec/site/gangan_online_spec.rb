@@ -31,12 +31,11 @@ describe EBookloader::Site::GanganOnline do
     it 'は@booksを設定する' do
       subject
 
-      # expect( site.books.size ).to eql 2
-      expect( site.books.to_a ).to eq [
+      expect( site.books ).to eq [
         EBookloader::Book::ActiBook.new('http://www.ganganonline.com/viewer/pc/comic/identifier/001/_SWF_Window.html'),
         EBookloader::Book::ActiBook.new('http://www.ganganonline.com/viewer/pc/comic/identifier/002/_SWF_Window.html'),
       ]
-      expect( site.books.map{ |book| book.episode }.to_a ).to eql [
+      expect( site.books.map{ |book| book.episode } ).to eql [
         'ep1 episode1',
         'ep2 episode2',
       ]

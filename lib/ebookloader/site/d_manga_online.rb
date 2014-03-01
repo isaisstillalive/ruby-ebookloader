@@ -15,7 +15,9 @@ module EBookloader
         source.body.match %r{<ul class="workList backnumber">(?<list>.*?)</ul>(?:.*?<ul class="workList extra">(?<extra>.*?)</ul>)?}m do |match|
           extra = match[:extra] || ''
           extra.gsub! '<a ', '番外編<a '
-          @books = lazy_collection (extra + match[:list]), %r{<li>(?<extra>.*?)<a href="(?<uri>.*?)" target="_blank">(?<episode_num>[^<]*?)</a></li>}m, true do |sc|
+          list = (extra + match[:list])
+          list.extend EBookloader::StringExtender
+          @books = list.global_match(%r{<li>(?<extra>.*?)<a href="(?<uri>.*?)" target="_blank">(?<episode_num>[^<]*?)</a></li>}m).reverse_each.map do |sc|
             uri = @uri + sc[:uri]
             format = sc[:extra].empty? ? '%1$s' : '%2$s %1$s'
             episode = (format % [Site.get_episode_number(sc[:episode_num]), sc[:extra]]).strip

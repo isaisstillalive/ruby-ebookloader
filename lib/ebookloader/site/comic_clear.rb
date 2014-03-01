@@ -17,7 +17,9 @@ module EBookloader
         self.merge! title: title, author: authors.join(', ')
 
         source.body.match %r{<td width="140" class="main-right">(?<list>.*?)</td>}m do |match|
-          @books = lazy_collection match[:list], %r{div class="mb\d*px"><a href="javascript:var objPcViewer=window\.open\('(?<uri>[^']*?)'[^"]*\)"><img src="../images/common/btn(?<episode_num>[^"]*).jpg" alt="(?<episode>[^"]*)" />}, true do |sc|
+          list = match[:list]
+          list.extend EBookloader::StringExtender
+          @books = list.global_match(%r{div class="mb\d*px"><a href="javascript:var objPcViewer=window\.open\('(?<uri>[^']*?)'[^"]*\)"><img src="../images/common/btn(?<episode_num>[^"]*).jpg" alt="(?<episode>[^"]*)" />}).reverse_each.map do |sc|
             uri = @uri + sc[:uri]
             episode = '%s %s' % [sc[:episode_num], get_episode(sc[:episode], @title, @options)]
             Book::FlipperU.new(uri, self.bookinfo.merge(episode: episode))

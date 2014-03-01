@@ -33,12 +33,11 @@ describe EBookloader::Site::ComicMeteor do
     it 'は@booksを設定する' do
       subject
 
-      # expect( site.books.size ).to eql 2
-      expect( site.books.to_a ).to eq [
+      expect( site.books ).to eq [
         EBookloader::Book::ActiBook.new('http://comic-meteor.jp/data/identifier/0001/_SWF_Window.html'),
         EBookloader::Book::ActiBook.new('http://comic-meteor.jp/data/identifier/0003/_SWF_Window.html'),
       ]
-      expect( site.books.map{ |book| book.episode }.to_a ).to eql [
+      expect( site.books.map{ |book| book.episode } ).to eql [
         'episode1',
         'episode3',
       ]
