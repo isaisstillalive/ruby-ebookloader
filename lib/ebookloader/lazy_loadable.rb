@@ -35,24 +35,5 @@ module EBookloader
     def lazy_load
       true
     end
-
-    def lazy_collection source, regexp, reverse = false, &block
-      block = proc{ |m| m } if block.nil?
-
-      enum = Enumerator.new do |yielder|
-        pos = 0
-        loop do
-          match = regexp.match(source, pos)
-          break if match.nil?
-
-          pos = match.offset(0)[1]
-
-          match = block.call(match)
-          yielder << match
-        end
-      end
-      enum = enum.reverse_each if reverse
-      enum.lazy
-    end
   end
 end

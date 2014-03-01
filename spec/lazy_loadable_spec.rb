@@ -53,44 +53,6 @@ describe EBookloader::LazyLoadable do
     end
   end
 
-  describe '#lazy_collection' do
-    subject{ lazy_object.__send__ :lazy_collection, source, regexp }
-    let(:source){ 'abcdef' }
-    let(:regexp){ /(?<char>...)/ }
-
-    let(:match1){ source.match regexp, 0 }
-    let(:match2){ source.match regexp, 3 }
-
-    it 'はEnumerator::Lazyを返す' do
-      expect( subject ).to be_a Enumerator::Lazy
-    end
-
-    describe 'の戻り値のEnumerator::Lazy' do
-      it 'は文字列のmatchを繰り返す' do
-        expect( regexp ).to receive(:match).with(source, 0).ordered.and_call_original
-        expect( regexp ).to receive(:match).with(source, 3).ordered.and_call_original
-        expect( regexp ).to receive(:match).with(source, 6).ordered.and_call_original
-        subject.force
-      end
-
-      context '正順の場合' do
-        subject{ lazy_object.__send__ :lazy_collection, source, regexp }
-
-        it 'は逆順にeachする' do
-          expect( subject.to_a ).to eql [match1, match2]
-        end
-      end
-
-      context '逆順の場合' do
-        subject{ lazy_object.__send__ :lazy_collection, source, regexp, true }
-
-        it 'は逆順にeachする' do
-          expect( subject.to_a ).to eql [match2, match1]
-        end
-      end
-    end
-  end
-
   describe '.attr_lazy_reader' do
     before{
       class << lazy_object
