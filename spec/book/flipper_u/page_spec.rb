@@ -5,7 +5,7 @@ require 'rubygems'
 require 'rmagick'
 
 describe EBookloader::Book::FlipperU::Page do
-  let(:options){ { scale: 2, width: 3, height: 4, extension: :jpg } }
+  let(:options){ { scale: 2, width: 3, height: 4, extension: :jpg, page: 1 } }
   let(:page){ described_class.new 'http://example.com/dir/page1/page.xml', options }
   let(:save_dir){ Pathname('dirname') }
 

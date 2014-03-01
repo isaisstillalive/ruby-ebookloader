@@ -13,9 +13,9 @@ module EBookloader
       def save_core save_path
         save_path.mkpath unless save_path.exist?
 
-        offset = options[:offset] || 1
-        pages.each.with_index offset do |page, index|
-          page.save save_path, index
+        offset = options[:offset] || 0
+        pages.each do |page|
+          page.save save_path, offset
         end
 
         true
