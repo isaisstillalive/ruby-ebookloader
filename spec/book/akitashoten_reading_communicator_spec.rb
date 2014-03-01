@@ -21,8 +21,8 @@ describe EBookloader::Book::AkitashotenReadingCommunicator do
       subject
 
       expect( book.pages ).to eq [
-        URI('http://tap.akitashoten.co.jp/comics/identifier/1/1'),
-        URI('http://tap.akitashoten.co.jp/comics/identifier/1/2'),
+        EBookloader::Book::MultiplePages::Page.new(URI('http://tap.akitashoten.co.jp/comics/identifier/1/1')),
+        EBookloader::Book::MultiplePages::Page.new(URI('http://tap.akitashoten.co.jp/comics/identifier/1/2')),
       ]
     end
 

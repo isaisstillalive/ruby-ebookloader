@@ -35,7 +35,7 @@ module EBookloader
             height: height,
           }
           options[:name] = name unless page == name
-          Page.new(@uri + "./page#{page}/page.xml", options)
+          Page.new @uri + "./page#{page}/page.xml", options
         end
 
         true

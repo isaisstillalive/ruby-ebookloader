@@ -21,8 +21,8 @@ describe EBookloader::Book::ActiBook do
       subject
 
       expect( book.pages ).to eq [
-        URI('http://example.com/dir/books/images/2/1.jpg'),
-        URI('http://example.com/dir/books/images/2/2.jpg'),
+        EBookloader::Book::MultiplePages::Page.new(URI('http://example.com/dir/books/images/2/1.jpg')),
+        EBookloader::Book::MultiplePages::Page.new(URI('http://example.com/dir/books/images/2/2.jpg')),
       ]
     end
 

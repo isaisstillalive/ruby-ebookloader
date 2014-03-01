@@ -21,9 +21,9 @@ describe EBookloader::Book::EasyEPaperViewer do
       subject
 
       expect( book.pages ).to eq [
-        URI('http://example.com/dir/img01.jpg'),
-        URI('http://example.com/dir/img02.jpg'),
-        URI('http://example.com/dir/img03.jpg'),
+        EBookloader::Book::MultiplePages::Page.new(URI('http://example.com/dir/img01.jpg')),
+        EBookloader::Book::MultiplePages::Page.new(URI('http://example.com/dir/img02.jpg')),
+        EBookloader::Book::MultiplePages::Page.new(URI('http://example.com/dir/img03.jpg')),
       ]
     end
 
@@ -48,9 +48,9 @@ describe EBookloader::Book::EasyEPaperViewer do
 
         expect( book.pages.size ).to eql 3
         expect( book.pages.to_a ).to eq [
-          URI('http://example.com/dir/subdir/img01.jpg'),
-          URI('http://example.com/dir/subdir/img02.jpg'),
-          URI('http://example.com/dir/subdir/img03.jpg'),
+          EBookloader::Book::MultiplePages::Page.new(URI('http://example.com/dir/subdir/img01.jpg')),
+          EBookloader::Book::MultiplePages::Page.new(URI('http://example.com/dir/subdir/img02.jpg')),
+          EBookloader::Book::MultiplePages::Page.new(URI('http://example.com/dir/subdir/img03.jpg')),
         ]
       end
     end

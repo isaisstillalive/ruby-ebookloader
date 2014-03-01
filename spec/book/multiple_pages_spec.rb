@@ -48,7 +48,6 @@ describe EBookloader::Book::MultiplePages do
       allow( dir_path ).to receive(:+).with('name').and_return(save_dir_path)
 
       allow( page ).to receive(:save)
-      allow( page ).to receive(:is_a?).with(EBookloader::Book::MultiplePages::Page).and_return(true)
       allow_any_instance_of( EBookloader::Book::MultiplePages::Page ).to receive(:save)
     }
 
@@ -65,8 +64,6 @@ describe EBookloader::Book::MultiplePages do
       page1 = double('Page')
       page2 = double('Page')
       expect( book ).to receive(:pages).and_return([page1, page2])
-      expect( page1 ).to receive(:is_a?).with(EBookloader::Book::MultiplePages::Page).and_return(true)
-      expect( page2 ).to receive(:is_a?).with(EBookloader::Book::MultiplePages::Page).and_return(true)
       expect( page1 ).to receive(:save).with(1, save_dir_path)
       expect( page2 ).to receive(:save).with(2, save_dir_path)
       subject

@@ -17,7 +17,7 @@ module EBookloader
 
         page_count = doc.elements['/book/total'].text.to_i
         @pages = doc.to_enum(:each_element, '/book/pages/page').map do |page|
-          @uri + "./books/images/2/#{page.elements['number'].text}.#{page.elements['type'].text}"
+          Page.new @uri + "./books/images/2/#{page.elements['number'].text}.#{page.elements['type'].text}"
         end
 
         true
