@@ -18,7 +18,7 @@ module EBookloader
         page_count = match[:page_count].to_i
 
         @pages = (1..page_count).map do |page|
-          Page.new @uri + "#{image_path}/#{page}"
+          Page.new @uri + "#{image_path}/#{page}", page: page
         end
 
         true

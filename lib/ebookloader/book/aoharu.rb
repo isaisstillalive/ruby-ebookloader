@@ -13,8 +13,8 @@ module EBookloader
 
         self.merge! source.body.match %r{<h1><a href="[^"]*">(?<title>.*?)<span>\[作品紹介\]</span></a></h1><!-- \[!\] タイトル -->.*?<h2>(?<author>.*?)</h2><!-- \[!\] 作者 -->.*?<h3><span>(?<episode>.*?)</span></h3>}m
 
-        @pages = source.body.scan(%r{<li><img src="(.*?)"(?: width="\d*" height="\d*")? class="undownload" ?/></li>}).map do |sc|
-          Page.new @uri + sc[0]
+        @pages = source.body.scan(%r{<li><img src="(.*?)"(?: width="\d*" height="\d*")? class="undownload" ?/></li>}).map.with_index 1 do |sc, page|
+          Page.new @uri + sc[0], page: page
         end
 
         true

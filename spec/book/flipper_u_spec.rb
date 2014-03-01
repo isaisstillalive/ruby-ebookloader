@@ -24,9 +24,9 @@ describe EBookloader::Book::FlipperU do
       subject
 
       expect( book.pages ).to eq [
-        EBookloader::Book::FlipperU::Page.new(URI('http://example.com/dir/page1/page.xml'), extension: :jpg, prefix: 'x', scale: 2, width: 3, height: 4, name: 'name1'),
-        EBookloader::Book::FlipperU::Page.new(URI('http://example.com/dir/page2/page.xml'), extension: :jpg, prefix: 'x', scale: 2, width: 3, height: 4),
-        EBookloader::Book::FlipperU::Page.new(URI('http://example.com/dir/page3/page.xml'), extension: :jpg, prefix: 'x', scale: 2, width: 3, height: 4, name: 'name3'),
+        EBookloader::Book::FlipperU::Page.new(URI('http://example.com/dir/page1/page.xml'), page: 1, extension: :jpg, prefix: 'x', scale: 2, width: 3, height: 4, name: 'name1'),
+        EBookloader::Book::FlipperU::Page.new(URI('http://example.com/dir/page2/page.xml'), page: 2, extension: :jpg, prefix: 'x', scale: 2, width: 3, height: 4),
+        EBookloader::Book::FlipperU::Page.new(URI('http://example.com/dir/page3/page.xml'), page: 3, extension: :jpg, prefix: 'x', scale: 2, width: 3, height: 4, name: 'name3'),
       ]
     end
 

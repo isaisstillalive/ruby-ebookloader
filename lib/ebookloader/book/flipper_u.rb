@@ -28,6 +28,7 @@ module EBookloader
         labels = doc.elements['/setting/bookInformation/label'].text.split(',')
         @pages = datas.zip(labels).map do |page, name|
           options = {
+            page: page.to_i,
             extension: extension,
             prefix: prefix,
             scale: scale,

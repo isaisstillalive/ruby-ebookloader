@@ -30,7 +30,7 @@ describe EBookloader::Book::Togetter do
         subject
 
         expect( book.pages ).to eq [
-          EBookloader::Book::MultiplePages::Page.new(URI('http://pbs.twimg.com/media/Bf3d3CuCIAAdw-K.png:large'), extension: :png),
+          EBookloader::Book::MultiplePages::Page.new(URI('http://pbs.twimg.com/media/Bf3d3CuCIAAdw-K.png:large'), page: 1, extension: :png),
         ]
       end
 

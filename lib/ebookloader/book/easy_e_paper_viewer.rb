@@ -20,7 +20,7 @@ module EBookloader
 
         page_count = doc.elements['/config/number'].text.to_i
         @pages = (1..page_count).map do |page|
-          Page.new base_uri + './img%02d.jpg' % page
+          Page.new base_uri + './img%02d.jpg' % page, page: page
         end
 
         true
