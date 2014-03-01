@@ -19,9 +19,7 @@ module EBookloader
       end
 
       def save dir
-        dir_path = Pathname(dir)
-        dir_path.mkdir unless dir_path.exist?
-
+        dir_path = Pathname(dir) + name
         save_core dir_path
       end
 
@@ -42,7 +40,7 @@ module EBookloader
 
       private
 
-      def save_core dir_path
+      def save_core save_path
         true
       end
 

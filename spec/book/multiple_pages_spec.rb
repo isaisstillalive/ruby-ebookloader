@@ -29,9 +29,8 @@ describe EBookloader::Book::MultiplePages do
   end
 
   describe '#save_core' do
-    let(:dir_path){ Pathname('dirname') }
-    let(:save_dir_path){ Pathname('dirname/name') }
-    subject{ book.__send__ :save_core, dir_path }
+    let(:save_path){ Pathname('dirname') }
+    subject{ book.__send__ :save_core, save_path }
 
     let(:options){ {} }
 
@@ -42,54 +41,52 @@ describe EBookloader::Book::MultiplePages do
       allow( book ).to receive(:options).and_return(options)
       allow( book ).to receive(:pages).and_return([page])
 
-      allow( save_dir_path ).to receive(:mkdir)
-      allow( save_dir_path ).to receive(:exist?).and_return(true)
-
-      allow( dir_path ).to receive(:+).with('name').and_return(save_dir_path)
+      allow( save_path ).to receive(:mkpath)
 
       allow( page ).to receive(:save)
-      allow_any_instance_of( EBookloader::Book::MultiplePages::Page ).to receive(:save)
     }
 
     it 'はtrueを返す' do
       expect( subject ).to eql true
     end
 
-    it 'は保存先パスに本の名前を足して保存ディレクトリとして使用する' do
-      expect( page ).to receive(:save).with(1, save_dir_path)
+    it 'はPage#saveを実行する' do
+      expect( page ).to receive(:save).with(1, save_path)
       subject
     end
 
-    it 'はpagesの数だけPage#saveを実行する' do
-      page1 = double('Page')
-      page2 = double('Page')
-      expect( book ).to receive(:pages).and_return([page1, page2])
-      expect( page1 ).to receive(:save).with(1, save_dir_path)
-      expect( page2 ).to receive(:save).with(2, save_dir_path)
-      subject
+    context 'Page#pagesが複数の場合' do
+      it 'はその数だけPage#saveを実行する' do
+        page1 = double('Page')
+        page2 = double('Page')
+        expect( book ).to receive(:pages).and_return([page1, page2])
+        expect( page1 ).to receive(:save).with(1, save_path)
+        expect( page2 ).to receive(:save).with(2, save_path)
+        subject
+      end
     end
 
     context 'オプションとしてオフセットが指定されている場合' do
       let(:options){ {offset: 2} }
 
       it 'はそのページ番号から保存を開始する' do
-        expect( page ).to receive(:save).with(2, save_dir_path)
+        expect( page ).to receive(:save).with(2, save_path)
         subject
       end
     end
 
     context '保存ディレクトリが存在する場合' do
       it 'は保存ディレクトリを作成しない' do
-        expect( save_dir_path ).to receive(:exist?).and_return(true)
-        expect( save_dir_path ).to_not receive(:mkdir)
+        expect( save_path ).to receive(:exist?).and_return(true)
+        expect( save_path ).to_not receive(:mkpath)
         subject
       end
     end
 
     context '保存ディレクトリが存在しない場合' do
       it 'は保存ディレクトリを作成する' do
-        expect( save_dir_path ).to receive(:exist?).and_return(false)
-        expect( save_dir_path ).to receive(:mkdir)
+        expect( save_path ).to receive(:exist?).and_return(false)
+        expect( save_path ).to receive(:mkpath)
         subject
       end
     end

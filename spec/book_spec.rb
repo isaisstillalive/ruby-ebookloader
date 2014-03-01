@@ -125,31 +125,26 @@ describe EBookloader::Book do
   end
 
   describe '#save' do
-    let(:dir_path){ Pathname('dir') }
-    subject{ book.save 'dir' }
+    subject{ book.save Pathname('dir') }
     before{
-      allow_any_instance_of( Kernel ).to receive(:Pathname).and_return(dir_path)
-      allow( dir_path ).to receive(:mkdir)
+      allow( book ).to receive(:name).and_return('name')
     }
 
     it 'は#save_coreを実行し戻り値を返す' do
-      expect_any_instance_of( Kernel ).to receive(:Pathname).with('dir').and_return(dir_path)
-      expect( book ).to receive(:save_core).with(dir_path).and_return(true)
+      allow( book ).to receive(:save_core).and_return(true)
       expect( subject ).to eql true
     end
 
-    context '引数のディレクトリが存在する場合' do
-      it 'はディレクトリを作成しない' do
-        expect( dir_path ).to receive(:exist?).and_return(true)
-        expect( dir_path ).to_not receive(:mkdir)
-        subject
-      end
+    it 'は保存先パスに本の名前を足して保存パスとして使用する' do
+      expect( book ).to receive(:save_core).with(Pathname('dir/name'))
+      subject
     end
 
-    context '引数のディレクトリが存在しない場合' do
-      it 'はディレクトリを作成する' do
-        expect( dir_path ).to receive(:exist?).and_return(false)
-        expect( dir_path ).to receive(:mkdir)
+    context '保存先パスが文字列の場合' do
+      subject{ book.save 'dir' }
+
+      it 'はPathnameと同様に処理する' do
+        expect( book ).to receive(:save_core).with(Pathname('dir/name'))
         subject
       end
     end

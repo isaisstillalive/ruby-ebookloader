@@ -9,9 +9,9 @@ module EBookloader
         self.merge! title: Pathname(@uri.path).basename.to_s
       end
 
-      def save_core dir_path
-        file_path = dir_path + name
-        write file_path, uri
+      def save_core save_path
+        save_path.parent.mkpath unless save_path.parent.exist?
+        write save_path, uri
       end
     end
   end

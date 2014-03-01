@@ -10,13 +10,12 @@ module EBookloader
 
       private
 
-      def save_core dir_path
-        dir = dir_path + name
-        dir.mkdir unless dir.exist?
+      def save_core save_path
+        save_path.mkpath unless save_path.exist?
 
         offset = options[:offset] || 1
         pages.each.with_index offset do |page, index|
-          page.save index, dir
+          page.save index, save_path
         end
 
         true
