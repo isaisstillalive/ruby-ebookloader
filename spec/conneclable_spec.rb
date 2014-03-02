@@ -2,54 +2,94 @@
 
 require_relative 'spec_helper.rb'
 
+shared_examples_for 'a Faraday request' do |command, body|
+  let(:uri){ URI('http://example.com/path') }
+  let(:headers){ double('headers') }
+
+  it 'はrun_requestを実行する' do
+    expect( connectable_object ).to receive(:run_request).with(command, uri, body, headers).and_return( double('response', {:body => 'body'}) )
+
+    expect( subject.body ).to eql 'body'
+  end
+end
+
 describe EBookloader::Connectable do
   class ConnectableObject
     include EBookloader::Connectable
   end
 
   let(:connectable_object){ ConnectableObject.new }
+  let(:faraday) { double 'faraday' }
+  let(:conn){ double 'conn' }
 
-  describe '#get' do
-    subject{ connectable_object.__send__ :get, URI('http://example.com/path') }
-    let(:faraday) { double 'faraday' }
-    let(:conn){ double 'conn' }
+  describe '#conn' do
+    subject{ connectable_object.__send__ :conn, URI('http://example.com/path') }
+
+    it 'はFaradayインスタンスを作成して返却する' do
+      expect( Faraday ).to receive(:new).with(url: 'http://example.com', ssl: {verify: false} ).and_yield(faraday).and_return(conn)
+      expect( faraday ).to receive(:request).with(:url_encoded)
+      expect( faraday ).to receive(:adapter).with(Faraday.default_adapter)
+
+      expect( subject ).to eql conn
+    end
+  end
+
+  describe '#run_request' do
+    subject{ connectable_object.__send__ :run_request, :method, URI('http://example.com/path') }
+
     let(:get_options){ double 'get_options', headers: headers }
-    let(:headers){ double 'headers' }
+    let(:headers){ {} }
     before{
-      allow( Faraday ).to receive(:new).with(url: 'http://example.com').and_return(conn)
+      allow( connectable_object ).to receive(:conn).and_return(conn)
+      allow( conn ).to receive(:run_request).and_yield(get_options).and_return( double('response', {:body => 'body'}) )
       allow( headers ).to receive(:[]=).with('Connection', 'Keep-Alive')
     }
 
-    it 'はFaraday#getを実行する' do
-      expect( Faraday ).to receive(:new).with(url: 'http://example.com').and_yield(faraday).and_return(conn)
-      expect( faraday ).to receive(:request).with(:url_encoded)
-      expect( faraday ).to receive(:adapter).with(Faraday.default_adapter)
-      expect( conn ).to receive(:get).with('/path', nil).and_yield(get_options).and_return( double('responce', {:body => 'body'}) )
-      expect( headers ).to receive(:[]=).with('Connection', 'Keep-Alive')
+    it 'はFaradayインスタンスを生成する' do
+      expect( connectable_object ).to receive(:conn).with(URI('http://example.com/path')).and_return(conn)
+      subject
+    end
+
+    it 'はFaraday#run_requestを実行する' do
+      expect( conn ).to receive(:run_request).with(:method, '/path', nil, {}).and_yield(get_options).and_return( double('response', {:body => 'body'}) )
 
       expect( subject.body ).to eql 'body'
     end
 
-    context 'パラメータが渡されている場合' do
-      subject{ connectable_object.__send__ :get, URI('http://example.com/path'), params: {param: :param} }
+    context 'ボディが渡されている場合' do
+      subject{ connectable_object.__send__ :run_request, :method, URI('http://example.com/path'), 'request_body' }
 
-      it 'は#getにパラメータを渡す' do
-        expect( conn ).to receive(:get).with('/path', param: :param)
+      it 'はボディを渡す' do
+        expect( conn ).to receive(:run_request).with(:method, '/path', 'request_body', {})
 
         subject
       end
     end
 
     context 'ヘッダが渡されている場合' do
-      subject{ connectable_object.__send__ :get, URI('http://example.com/path'), headers: {header: :header} }
+      subject{ connectable_object.__send__ :run_request, :method, URI('http://example.com/path'), nil, header: :header }
 
-      it 'は#getのオプションにヘッダを結合する' do
-        allow( conn ).to receive(:get).with('/path', nil).and_yield(get_options).and_return( double('responce', {:body => 'body'}) )
-        expect( headers ).to receive(:merge!).with({header: :header})
+      it 'はヘッダを渡す' do
+        expect( conn ).to receive(:run_request).with(:method, '/path', nil, header: :header)
 
         subject
       end
     end
+  end
+
+  describe '#get' do
+    subject{ connectable_object.__send__ :get, uri, headers }
+    it_behaves_like 'a Faraday request', :get, nil
+  end
+
+  describe '#post' do
+    subject{ connectable_object.__send__ :post, uri, 'body', headers }
+    it_behaves_like 'a Faraday request', :post, 'body'
+  end
+
+  describe '#head' do
+    subject{ connectable_object.__send__ :head, uri, headers }
+    it_behaves_like 'a Faraday request', :head, nil
   end
 
   describe '#write' do
@@ -64,13 +104,13 @@ describe EBookloader::Connectable do
       subject
     end
 
-    context 'オプションを渡している場合' do
-    let(:options){ { headers: { header: :header }, other_options: {option: :option} } }
-      subject{ connectable_object.__send__ :write, file_path, URI('uri'), options }
+    context 'ヘッダを渡している場合' do
+      let(:headers){ { header: :header } }
+      subject{ connectable_object.__send__ :write, file_path, URI('uri'), headers }
 
-      it 'は#getにオプションを渡して実行する' do
+      it 'は#getにヘッダを渡して実行する' do
         allow( file_path ).to receive(:open).with('wb').and_yield(file_pointer)
-        expect( connectable_object ).to receive(:get).with(URI('uri'), options).and_return( double('response', {:body => 'body'}) )
+        expect( connectable_object ).to receive(:get).with(URI('uri'), headers).and_return( double('response', {:body => 'body'}) )
         allow( file_pointer ).to receive(:write).with('body')
         subject
       end

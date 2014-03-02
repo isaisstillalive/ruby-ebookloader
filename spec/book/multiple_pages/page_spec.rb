@@ -193,7 +193,7 @@ describe EBookloader::Book::MultiplePages::Page do
 
     it 'は#writeを実行する' do
       expect( page ).to receive(:filename).with(1).and_return('1.jpg')
-      expect( page ).to receive(:write).with(Pathname('dirname/1.jpg'), URI('uri'), extension: :jpg, page: 1)
+      expect( page ).to receive(:write).with(Pathname('dirname/1.jpg'), URI('uri'), nil)
       subject
     end
 
@@ -202,7 +202,7 @@ describe EBookloader::Book::MultiplePages::Page do
 
       it 'はPathnameと同様に処理する' do
         expect( page ).to receive(:filename).with(1).and_return('1.jpg')
-        expect( page ).to receive(:write).with(Pathname('dirname/1.jpg'), URI('uri'), extension: :jpg, page: 1)
+        expect( page ).to receive(:write).with(Pathname('dirname/1.jpg'), URI('uri'), nil)
         subject
       end
     end
@@ -212,18 +212,18 @@ describe EBookloader::Book::MultiplePages::Page do
 
       it 'はページ番号をオフセットだけずらして処理する' do
         expect( page ).to receive(:filename).with(5).and_return('5.jpg')
-        expect( page ).to receive(:write).with(Pathname('dirname/5.jpg'), URI('uri'), extension: :jpg, page: 1)
+        expect( page ).to receive(:write).with(Pathname('dirname/5.jpg'), URI('uri'), nil)
         subject
       end
     end
 
-    context 'オプションが設定されている場合' do
+    context 'オプションでヘッダが設定されている場合' do
       let(:page){ described_class.new 'uri', options }
       let(:options){ { headers: {header: :header}, extension: :jpg, page: 1 } }
 
-      it 'は#writeにオプションを渡す' do
+      it 'は#writeにヘッダを渡す' do
         allow( page ).to receive(:filename).with(1).and_return('1.jpg')
-        expect( page ).to receive(:write).with(Pathname('dirname/1.jpg'), URI('uri'), options)
+        expect( page ).to receive(:write).with(Pathname('dirname/1.jpg'), URI('uri'), {header: :header})
         subject
       end
     end

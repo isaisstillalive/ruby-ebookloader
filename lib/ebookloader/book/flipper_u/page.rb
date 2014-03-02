@@ -16,7 +16,7 @@ module EBookloader
             h_imagelist = Magick::ImageList.new
             @options[:width].times do
               uri = baseUri + "./#{index}.#{@options[:extension]}"
-              h_imagelist.from_blob get(uri, @options).body
+              h_imagelist.from_blob get(uri).body
               index += 1
             end
             imagelist << h_imagelist.append(false)
