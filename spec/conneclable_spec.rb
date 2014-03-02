@@ -59,7 +59,7 @@ describe EBookloader::Connectable do
 
     it 'は#getを実行した結果をファイルに書き込む' do
       expect( file_path ).to receive(:open).with('wb').and_yield(file_pointer)
-      expect( connectable_object ).to receive(:get).with(URI('uri'), {}).and_return( double('responce', {:body => 'body'}) )
+      expect( connectable_object ).to receive(:get).with(URI('uri'), {}).and_return( double('response', {:body => 'body'}) )
       expect( file_pointer ).to receive(:write).with('body')
       subject
     end
@@ -70,7 +70,7 @@ describe EBookloader::Connectable do
 
       it 'は#getにオプションを渡して実行する' do
         allow( file_path ).to receive(:open).with('wb').and_yield(file_pointer)
-        expect( connectable_object ).to receive(:get).with(URI('uri'), options).and_return( double('responce', {:body => 'body'}) )
+        expect( connectable_object ).to receive(:get).with(URI('uri'), options).and_return( double('response', {:body => 'body'}) )
         allow( file_pointer ).to receive(:write).with('body')
         subject
       end

@@ -19,11 +19,11 @@ describe EBookloader::Site::ChampionTap do
     subject{ site.__send__ :lazy_load }
 
     before{
-      allow( site ).to receive(:get).and_return(responce('/site/champion_tap/identifier.html'))
+      allow( site ).to receive(:get).and_return(response('/site/champion_tap/identifier.html'))
     }
 
     it 'はhtmlを取得する' do
-      expect( site ).to receive(:get).with(URI('http://tap.akitashoten.co.jp/comics/identifier/')).and_return(responce('/site/champion_tap/identifier.html'))
+      expect( site ).to receive(:get).with(URI('http://tap.akitashoten.co.jp/comics/identifier/')).and_return(response('/site/champion_tap/identifier.html'))
       expect( subject ).to eql true
     end
 

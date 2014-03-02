@@ -9,21 +9,21 @@ describe EBookloader::Book::Togetter do
     subject{ book.__send__ :lazy_load }
 
     it 'はhtmlを取得する' do
-      expect( book ).to receive(:get).with(URI('http://togetter.com/li/identifier')).and_return(responce('/book/togetter/identifier.html')).ordered
-      allow( book ).to receive(:get).with(URI('http://togetter.com/api/moreTweets/identifier?page=1&csrf_token=csrf_token')).and_return(responce('/book/togetter/api.html')).ordered
+      expect( book ).to receive(:get).with(URI('http://togetter.com/li/identifier')).and_return(response('/book/togetter/identifier.html')).ordered
+      allow( book ).to receive(:get).with(URI('http://togetter.com/api/moreTweets/identifier?page=1&csrf_token=csrf_token')).and_return(response('/book/togetter/api.html')).ordered
       expect( subject ).to eql true
     end
 
     it 'はcsrf_tokenを使用してmoreTweetsAPIの結果を取得する' do
-      expect( book ).to receive(:get).with(URI('http://togetter.com/li/identifier')).and_return(responce('/book/togetter/identifier.html')).ordered
-      expect( book ).to receive(:get).with(URI('http://togetter.com/api/moreTweets/identifier?page=1&csrf_token=csrf_token')).and_return(responce('/book/togetter/api.html')).ordered
+      expect( book ).to receive(:get).with(URI('http://togetter.com/li/identifier')).and_return(response('/book/togetter/identifier.html')).ordered
+      expect( book ).to receive(:get).with(URI('http://togetter.com/api/moreTweets/identifier?page=1&csrf_token=csrf_token')).and_return(response('/book/togetter/api.html')).ordered
       subject
     end
 
     context do
       before{
-        allow( book ).to receive(:get).and_return(responce('/book/togetter/identifier.html')).ordered
-        allow( book ).to receive(:get).with(URI('http://togetter.com/api/moreTweets/identifier?page=1&csrf_token=csrf_token')).and_return(responce('/book/togetter/api.html')).ordered
+        allow( book ).to receive(:get).and_return(response('/book/togetter/identifier.html')).ordered
+        allow( book ).to receive(:get).with(URI('http://togetter.com/api/moreTweets/identifier?page=1&csrf_token=csrf_token')).and_return(response('/book/togetter/api.html')).ordered
       }
 
       it 'は@pagesを設定する' do

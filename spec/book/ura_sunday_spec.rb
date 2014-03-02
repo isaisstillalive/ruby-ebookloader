@@ -9,13 +9,13 @@ describe EBookloader::Book::UraSunday do
     subject{ book.__send__ :lazy_load }
 
     it 'はhtmlを取得する' do
-      expect( book ).to receive(:get).with(URI('http://urasunday.com/identifier/comic/001_001.html')).and_return(responce('/book/ura_sunday/001_001.html'))
+      expect( book ).to receive(:get).with(URI('http://urasunday.com/identifier/comic/001_001.html')).and_return(response('/book/ura_sunday/001_001.html'))
       expect( subject ).to eql true
     end
 
     context '画像直指定の場合' do
       before{
-        allow( book ).to receive(:get).and_return(responce('/book/ura_sunday/001_001.html'))
+        allow( book ).to receive(:get).and_return(response('/book/ura_sunday/001_001.html'))
       }
 
       it 'は@pagesを設定する' do
@@ -39,7 +39,7 @@ describe EBookloader::Book::UraSunday do
 
     context '画像埋め込みの場合' do
       before{
-        allow( book ).to receive(:get).and_return(responce('/book/ura_sunday/002_002.html'))
+        allow( book ).to receive(:get).and_return(response('/book/ura_sunday/002_002.html'))
       }
 
       it 'は@pagesを設定する' do

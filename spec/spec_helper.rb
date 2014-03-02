@@ -25,8 +25,8 @@ def html path
   IO.readlines("#{File.dirname(__FILE__)}/fixtures/#{path}", nil).first
 end
 
-def responce path
-  RSpec::Mocks::Mock.new('responce', { :body => html(path) })
+def response path
+  RSpec::Mocks::Mock.new('response', { :body => html(path) })
 end
 
 shared_examples_for 'a BookInfo' do

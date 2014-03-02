@@ -20,12 +20,12 @@ describe EBookloader::Site::ComicClear do
     subject{ site.__send__ :lazy_load }
 
     before{
-      allow( site ).to receive(:get).and_return(responce('/site/comic_clear/identifier.html'))
+      allow( site ).to receive(:get).and_return(response('/site/comic_clear/identifier.html'))
       site.instance_variable_set :@loaded, true
     }
 
     it 'はhtmlを取得する' do
-      expect( site ).to receive(:get).with(URI('http://www.famitsu.com/comic_clear/identifier/')).and_return(responce('/site/comic_clear/identifier.html'))
+      expect( site ).to receive(:get).with(URI('http://www.famitsu.com/comic_clear/identifier/')).and_return(response('/site/comic_clear/identifier.html'))
       expect( subject ).to eql true
     end
 

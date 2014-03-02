@@ -33,7 +33,7 @@ describe EBookloader::Book::FlipperU::Page do
       expect( v_image ).to receive(:write).with(Pathname('dirname/1.jpg'))
 
       1.upto 12 do |i|
-        expect( page ).to receive(:get).with(URI("http://example.com/dir/page1/x2/#{i}.jpg"), options).and_return(double('Responce', body: "#{i}"))
+        expect( page ).to receive(:get).with(URI("http://example.com/dir/page1/x2/#{i}.jpg"), options).and_return(double('response', body: "#{i}"))
         expect( h_imagelist ).to receive(:from_blob).with("#{i}")
       end
       expect( page ).to receive(:filename).with(1).and_return('1.jpg')

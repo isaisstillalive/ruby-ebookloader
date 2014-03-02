@@ -19,11 +19,11 @@ describe EBookloader::Site::DMangaOnline do
     subject{ site.__send__ :lazy_load }
 
     before{
-      allow( site ).to receive(:get).and_return(responce('/site/d_manga_online/identifier.html'))
+      allow( site ).to receive(:get).and_return(response('/site/d_manga_online/identifier.html'))
     }
 
     it 'はhtmlを取得する' do
-      expect( site ).to receive(:get).with(URI('http://d-manga.dengeki.com/work/identifier/')).and_return(responce('/site/d_manga_online/identifier.html'))
+      expect( site ).to receive(:get).with(URI('http://d-manga.dengeki.com/work/identifier/')).and_return(response('/site/d_manga_online/identifier.html'))
       expect( subject ).to eql true
     end
 
@@ -61,7 +61,7 @@ describe EBookloader::Site::DMangaOnline do
 
     context '番外編がない場合' do
       it 'は番外編以外で@booksを設定する' do
-        expect( site ).to receive(:get).with(URI('http://d-manga.dengeki.com/work/identifier/')).and_return(responce('/site/d_manga_online/identifier_noextra.html'))
+        expect( site ).to receive(:get).with(URI('http://d-manga.dengeki.com/work/identifier/')).and_return(response('/site/d_manga_online/identifier_noextra.html'))
 
         expect( EBookloader::Site ).to receive(:get_episode_number).with('1').and_return('01').ordered
         expect( EBookloader::Site ).to receive(:get_episode_number).with('2').and_return('02').ordered

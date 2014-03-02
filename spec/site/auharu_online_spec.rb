@@ -19,11 +19,11 @@ describe EBookloader::Site::AoharuOnline do
     subject{ site.__send__ :lazy_load }
 
     before{
-      allow( site ).to receive(:get).and_return(responce('/site/aoharu_online/identifier.html'))
+      allow( site ).to receive(:get).and_return(response('/site/aoharu_online/identifier.html'))
     }
 
     it 'はhtmlを取得する' do
-      expect( site ).to receive(:get).with(URI('http://aoharu.jp/comic/identifier/')).and_return(responce('/site/aoharu_online/identifier.html'))
+      expect( site ).to receive(:get).with(URI('http://aoharu.jp/comic/identifier/')).and_return(response('/site/aoharu_online/identifier.html'))
       expect( subject ).to eql true
     end
 

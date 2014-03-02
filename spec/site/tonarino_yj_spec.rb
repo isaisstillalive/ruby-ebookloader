@@ -19,11 +19,11 @@ describe EBookloader::Site::TonarinoYJ do
     subject{ site.__send__ :lazy_load }
 
     before{
-      allow( site ).to receive(:get).and_return(responce('/site/tonarino_yj/identifier.html'))
+      allow( site ).to receive(:get).and_return(response('/site/tonarino_yj/identifier.html'))
     }
 
     it 'はhtmlを取得する' do
-      expect( site ).to receive(:get).with(URI('http://tonarinoyj.jp/manga/identifier/')).and_return(responce('/site/tonarino_yj/identifier.html'))
+      expect( site ).to receive(:get).with(URI('http://tonarinoyj.jp/manga/identifier/')).and_return(response('/site/tonarino_yj/identifier.html'))
       expect( subject ).to eql true
     end
 

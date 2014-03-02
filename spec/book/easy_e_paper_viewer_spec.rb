@@ -9,11 +9,11 @@ describe EBookloader::Book::EasyEPaperViewer do
     subject{ book.__send__ :lazy_load }
 
     before{
-      allow( book ).to receive(:get).and_return(responce('/book/easy_e_paper_viewer/config.xml'))
+      allow( book ).to receive(:get).and_return(response('/book/easy_e_paper_viewer/config.xml'))
     }
 
     it 'はconfig.xmlを取得する' do
-      expect( book ).to receive(:get).with(URI('http://example.com/dir/config.xml')).and_return(responce('/book/easy_e_paper_viewer/config.xml'))
+      expect( book ).to receive(:get).with(URI('http://example.com/dir/config.xml')).and_return(response('/book/easy_e_paper_viewer/config.xml'))
       expect( subject ).to eql true
     end
 
@@ -39,7 +39,7 @@ describe EBookloader::Book::EasyEPaperViewer do
       let(:book){ described_class.new 'http://example.com/dir/?id=subdir' }
 
       it 'サブディレクトリからconfig.xmlを取得する' do
-        expect( book ).to receive(:get).with(URI('http://example.com/dir/subdir/config.xml')).and_return(responce('/book/easy_e_paper_viewer/config.xml'))
+        expect( book ).to receive(:get).with(URI('http://example.com/dir/subdir/config.xml')).and_return(response('/book/easy_e_paper_viewer/config.xml'))
         subject
       end
 

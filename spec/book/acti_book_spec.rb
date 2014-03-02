@@ -9,11 +9,11 @@ describe EBookloader::Book::ActiBook do
     subject{ book.__send__ :lazy_load }
 
     before{
-      allow( book ).to receive(:get).and_return(responce('/book/acti_book/book.xml'))
+      allow( book ).to receive(:get).and_return(response('/book/acti_book/book.xml'))
     }
 
     it 'はbook.xmlを取得する' do
-      expect( book ).to receive(:get).with(URI('http://example.com/dir/books/db/book.xml')).and_return(responce('/book/acti_book/book.xml'))
+      expect( book ).to receive(:get).with(URI('http://example.com/dir/books/db/book.xml')).and_return(response('/book/acti_book/book.xml'))
       expect( subject ).to eql true
     end
 
