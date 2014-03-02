@@ -23,6 +23,7 @@ describe EBookloader::Book::Direct do
     before{
       allow( save_path ).to receive(:parent).and_return(save_dir_path)
       allow( save_dir_path ).to receive(:mkpath)
+      allow( book ).to receive(:write)
     }
 
     it 'はファイルを読み込んで保存する' do
