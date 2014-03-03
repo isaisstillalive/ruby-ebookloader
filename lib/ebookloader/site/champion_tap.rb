@@ -16,7 +16,7 @@ module EBookloader
         @books = source.body.global_match(%r{<li><a href="(?<uri>[^"]*)" class="openViewer".*?<figcaption><strong>(?<episode_num>.*?)（[^）]*?）</strong>(?<episode>.*?)</figcaption>}m).reverse_each.map do |sc|
           uri = @uri + sc[:uri]
 
-          episode = '%s %s' % [sc[:episode_num], sc[:episode]]
+          episode = '%s %s' % [Site.get_episode_number(sc[:episode_num]), sc[:episode]]
           Book::AkitashotenReadingCommunicator.new(uri, self.bookinfo.merge(episode: episode))
         end
 
