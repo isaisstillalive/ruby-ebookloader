@@ -4,16 +4,12 @@ module EBookloader
   module Extensions
     module String
       def global_match pattern
-        return to_enum(:global_match, pattern) unless block_given?
+        return enum_for(:global_match, pattern) unless block_given?
 
         pos = 0
-        loop do
-          match = pattern.match(self, pos)
-          break if match.nil?
-
-          pos = match.offset(0)[1]
-
-          yield match
+        while last_match = pattern.match(self, pos)
+          pos = last_match.end(0)
+          yield last_match
         end
 
         self
