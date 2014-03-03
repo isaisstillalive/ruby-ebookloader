@@ -8,6 +8,7 @@ require 'faraday'
 
 module EBookloader
   require_relative 'ebookloader/extensions/string'
+  require_relative 'ebookloader/extensions/match_data'
   require_relative 'ebookloader/connectable'
   require_relative 'ebookloader/lazy_loadable'
   require_relative 'ebookloader/book_info'
