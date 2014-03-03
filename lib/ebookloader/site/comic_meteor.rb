@@ -16,7 +16,7 @@ module EBookloader
         match = source.body.match(%r{<h2 class="h2Title">(?<title>.*?)</h2>}m)
         merge title: match[:title], author: author
 
-        source.body.extend EBookloader::StringExtensions
+        source.body.extend EBookloader::Extensions::String
         @books = source.body.global_match(%r{<div class="totalinfo">\s*<div class="eachStoryText">\s*<h4>(?<episode>[^<]*?)</h4>.*?<a target="_new" href="(?<uri>[^""]*?)">読む</a>}m).reverse_each.map do |sc|
           uri = @uri + sc[:uri]
           Book::ActiBook.new(uri, self.bookinfo.merge(episode: sc[:episode]))

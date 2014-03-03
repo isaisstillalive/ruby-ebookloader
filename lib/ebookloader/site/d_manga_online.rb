@@ -16,7 +16,7 @@ module EBookloader
           extra = match[:extra] || ''
           extra.gsub! '<a ', '番外編<a '
           list = (extra + match[:list])
-          list.extend EBookloader::StringExtensions
+          list.extend EBookloader::Extensions::String
           @books = list.global_match(%r{<li>(?<extra>.*?)<a href="(?<uri>.*?)" target="_blank">(?<episode_num>[^<]*?)</a></li>}m).reverse_each.map do |sc|
             uri = @uri + sc[:uri]
             format = sc[:extra].empty? ? '%1$s' : '%2$s %1$s'

@@ -12,7 +12,7 @@ module EBookloader
 
         merge source.body.match(%r{<header><h1><strong>(?<title>.*?)</strong> ／ (?<author>.*?)</h1></header>})
 
-        source.body.extend EBookloader::StringExtensions
+        source.body.extend EBookloader::Extensions::String
         @books = source.body.global_match(%r{<li><a href="(?<uri>[^"]*)" class="openViewer".*?<figcaption><strong>(?<episode_num>.*?)（[^）]*?）</strong>(?<episode>.*?)</figcaption>}m).reverse_each.map do |sc|
           uri = @uri + sc[:uri]
 

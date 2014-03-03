@@ -14,7 +14,7 @@ module EBookloader
 
         source.body.match %r{<div class="backnumber"(?<list>.*?)<!-- backnumber - 番外編 -->(?<extra>.*?)<!-- //.backnumber -->}m do |m|
           list = (m[:extra] + m[:list])
-          list.extend EBookloader::StringExtensions
+          list.extend EBookloader::Extensions::String
           @books = list.global_match(%r{<li>\s*(?:<a\s*href="(?<uri>.*?)".*?>\s*(?<episode>.*?)\s*</a>|<div.*?>\s*<strong>(?<episode>.*?)</strong>.*?<a href="(?<uri>[^"]*)">\s*縦読み\s*</a>\s*</div>)\s*</li>}m).reverse_each.map do |sc|
             uri = @uri + sc[:uri]
             Book::Aoharu.new(uri, self.bookinfo.merge(episode: sc[:episode]))
