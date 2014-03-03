@@ -57,12 +57,18 @@ describe EBookloader::BookInfo do
   end
 
   describe '#update_core' do
+    let(:options){ { title: title, author: author, other: :other } }
     let(:title){ 'new_title' }
     let(:author){ 'new_author' }
-    subject{ book.__send__ :update_core, { title: title, author: author, other: :other } }
+    subject{ book.__send__ :update_core, options }
 
     it 'は未処理のキーを含めたハッシュを返す' do
       expect( subject ).to eql({other: :other})
+    end
+
+    it 'は引数として渡したハッシュを変更しない' do
+      subject
+      expect( options ).to eql({ title: title, author: author, other: :other })
     end
 
     context 'オプション引数に題名がある場合' do
@@ -125,13 +131,15 @@ describe EBookloader::BookInfo do
       end
     end
 
-    context 'オプション引数がMatchDataの場合' do
-      subject{ book.__send__ :update_core, 'new_title'.match(/^(?<title>.*)$/) }
+    context 'オプション引数がto_hashできる場合' do
+      let(:hashed_object){ double('Hashed') }
+      subject{ book.__send__ :update_core, hashed_object }
 
       it 'はハッシュと同様に処理する' do
+        expect( hashed_object ).to receive(:to_hash).and_return(options)
         subject
         expect( book.title ).to eql 'new_title'
-        expect( book.author ).to eql 'author'
+        expect( book.author ).to eql 'new_author'
       end
     end
 

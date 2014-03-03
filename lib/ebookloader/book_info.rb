@@ -20,11 +20,9 @@ module EBookloader
 
     private
     def update_core options, merge = false
-      if options.is_a? MatchData
-        options = Hash[ options.names.map{|name| name.to_sym }.zip( options.captures ) ]
-      else
-        options ||= {}
-      end
+      return if options.nil?
+      options = Hash[options]
+
       if options.include? :title
         @title = options[:title] unless merge && @title
         options.delete :title
