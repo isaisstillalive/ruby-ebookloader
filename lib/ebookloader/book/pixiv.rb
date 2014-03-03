@@ -28,26 +28,22 @@ module EBookloader
         save_path = save_path.parent + "#{save_path.basename}.#{@extension}"
         save_path.parent.mkpath unless save_path.parent.exist?
 
-        headers = {}
-        headers['Referer'] = 'http://iphone.pxv.jp/'
-        headers['Cookie'] = "PHPSESSID=#{session}"
-
-        write save_path, page, headers
+        write save_path, page
       end
 
       def get_illust_csv
         require 'csv'
-        csv = pixiv_request :get, URI("http://spapi.pixiv.net/iphone/illust.php?illust_id=#{@illust_id}&PHPSESSID=#{session}")
+        csv = get URI("http://spapi.pixiv.net/iphone/illust.php?illust_id=#{@illust_id}&PHPSESSID=#{session}")
         csv.body.force_encoding Encoding::UTF_8
         csv.body.parse_csv
       end
 
-      def pixiv_request method, uri, options = {}
-        headers = options[:headers] || {}
+      def run_request method, uri, body = nil, headers = {}
+        headers ||= {}
         headers['Referer'] = 'http://iphone.pxv.jp/'
         headers['Cookie'] = "PHPSESSID=#{session}"
 
-        run_request method, uri, options
+        super method, uri, body, headers
       end
 
       def session
@@ -58,6 +54,7 @@ module EBookloader
       def login
         return if @options[:pixiv_id].nil? || @options[:password].nil?
 
+        @session = 'dummy'
         header = post URI('https://www.secure.pixiv.net/login.php'), "mode=login&pixiv_id=#{@options[:pixiv_id]}&pass=#{@options[:password]}"
         set_cookie = header['set-cookie']
         @session = set_cookie.match(/PHPSESSID=(\d*_[0-9a-f]{32})/)[1]

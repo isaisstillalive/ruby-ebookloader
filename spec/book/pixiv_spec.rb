@@ -46,18 +46,36 @@ describe EBookloader::Book::Pixiv do
     end
   end
 
-  describe '#pixiv_request' do
-    subject{ book.__send__ :pixiv_request, :method, uri }
-    let(:uri){ double('URI') }
+  describe '#run_request' do
+    subject{ book.__send__ :run_request, :method, uri }
+    let(:uri){ double('http://example.com/path', request_uri: '/path') }
+    let(:conn){ double('FaradayConnector') }
     before{
       allow( book ).to receive(:login)
-      allow( book ).to receive(:run_request)
+      allow( book ).to receive(:conn).and_return(conn)
+      allow( conn ).to receive(:run_request)
     }
 
     it 'はSESSIONIDを渡してFaradayにアクセスする' do
       book.instance_variable_set :@session, '0123456789abcdef0123456789abcdef'
-      expect( book ).to receive(:run_request).with(:method, uri, {})
+      expect( conn ).to receive(:run_request).with(:method, '/path', nil, {
+        'Referer' => 'http://iphone.pxv.jp/',
+        'Cookie' => 'PHPSESSID=0123456789abcdef0123456789abcdef',
+      })
       subject
+    end
+
+    context 'ヘッダがnilの場合' do
+      subject{ book.__send__ :run_request, :method, uri, nil, nil }
+
+      it 'はハッシュに変換する' do
+        book.instance_variable_set :@session, '0123456789abcdef0123456789abcdef'
+        expect( conn ).to receive(:run_request).with(:method, '/path', nil, {
+          'Referer' => 'http://iphone.pxv.jp/',
+          'Cookie' => 'PHPSESSID=0123456789abcdef0123456789abcdef',
+        })
+        subject
+      end
     end
   end
 
@@ -66,7 +84,7 @@ describe EBookloader::Book::Pixiv do
 
     it 'はPixivにアクセスしてCSVを取得する' do
       book.instance_variable_set :@session, '0123456789abcdef0123456789abcdef'
-      expect( book ).to receive(:pixiv_request).with(:get, URI('http://spapi.pixiv.net/iphone/illust.php?illust_id=12345678&PHPSESSID=0123456789abcdef0123456789abcdef')).and_return(response('/book/pixiv/illust.csv'))
+      expect( book ).to receive(:get).with(URI('http://spapi.pixiv.net/iphone/illust.php?illust_id=12345678&PHPSESSID=0123456789abcdef0123456789abcdef')).and_return(response('/book/pixiv/illust.csv'))
 
       expect( subject ).to eq [
         '11111111',
@@ -132,15 +150,29 @@ describe EBookloader::Book::Pixiv do
 
   describe '#login' do
     subject{ book.__send__ :login }
+    let(:conn){ double('FaradayConnector') }
+    let(:response){ double('Response') }
+
+    before{
+      allow( response ).to receive(:[]).with('set-cookie').and_return('PHPSESSID=123456_0123456789abcdef0123456789abcdef; expires=Sun, 02-Mar-2014 00:22:10 GMT; Max-Age=3600; path=/; domain=.pixiv.net, p_ab_id=3; expires=Fri, 01-Jan-2019 00:00:00 GMT; Max-Age=157766400; path=/; domain=.pixiv.net')
+      allow( book ).to receive(:conn).and_return(conn)
+      allow( conn ).to receive(:run_request).and_return(response)
+    }
 
     it 'はPixivにログインする' do
-      response = double('Response')
-      expect( response ).to receive(:[]).with('set-cookie').and_return('PHPSESSID=123456_0123456789abcdef0123456789abcdef; expires=Sun, 02-Mar-2014 00:22:10 GMT; Max-Age=3600; path=/; domain=.pixiv.net, p_ab_id=3; expires=Fri, 01-Jan-2019 00:00:00 GMT; Max-Age=157766400; path=/; domain=.pixiv.net')
       expect( book ).to receive(:post).with(URI('https://www.secure.pixiv.net/login.php'), 'mode=login&pixiv_id=pixiv_id&pass=password').and_return(response)
 
       subject
 
       expect( book.instance_variable_get :@session ).to eql '123456_0123456789abcdef0123456789abcdef'
+    end
+
+    context '未ログインの場合' do
+      it 'はセッションIDを取得しようとして無限ループしない' do
+        expect( book ).to receive(:post).with(URI('https://www.secure.pixiv.net/login.php'), 'mode=login&pixiv_id=pixiv_id&pass=password').and_call_original.once
+
+        subject
+      end
     end
 
     context 'パスワードが設定されていない場合' do
@@ -180,10 +212,7 @@ describe EBookloader::Book::Pixiv do
 
     it 'はファイルを読み込んで保存する' do
       expect( book ).to receive(:page).and_return(URI('http://i2.pixiv.net/img999/img/member_nick_id/11111111.png'))
-      expect( book ).to receive(:write).with(save_file_path, URI('http://i2.pixiv.net/img999/img/member_nick_id/11111111.png'), {
-        'Referer' => 'http://iphone.pxv.jp/',
-        'Cookie' => 'PHPSESSID=0123456789abcdef0123456789abcdef',
-      })
+      expect( book ).to receive(:write).with(save_file_path, URI('http://i2.pixiv.net/img999/img/member_nick_id/11111111.png'))
       subject
     end
 
