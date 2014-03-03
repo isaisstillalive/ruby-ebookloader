@@ -12,7 +12,7 @@ describe EBookloader::Book::Togetter do
     it_behaves_like 'a BookInfo updater', title: 'name'
 
     before{
-      allow( book ).to receive(:get).and_return(responce('/book/togetter/identifier.html'))
+      allow( book ).to receive(:get).and_return(response('/book/togetter/identifier.html'))
     }
 
     it 'はhtmlを取得する' do
