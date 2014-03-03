@@ -24,6 +24,8 @@ module EBookloader
 
         true
       end
+
+      require_relative 'gangan_online/idolmaster'
     end
   end
 end
