@@ -44,14 +44,14 @@ describe EBookloader::Site::DMangaOnline do
         EBookloader::Book::ActiBook.new('http://d-manga.dengeki.com/books/identifier_04/_SWF_Window.html'),
         EBookloader::Book::ActiBook.new('http://d-manga.dengeki.com/books/identifier_ex01/_SWF_Window.html'),
       ]
-      expect( site.books.map{ |book| book.episode } ).to eql [
+      expect( site.books.map(&:episode) ).to eql [
         '01',
         '02',
         '03',
         '04',
         '番外編 01',
       ]
-      expect( site.books.map{ |book| book.options } ).to eql [
+      expect( site.books.map(&:options) ).to eql [
         {headers: {'Referer' => 'http://d-manga.dengeki.com/books/identifier_01/_SWF_Window.html'}},
         {headers: {'Referer' => 'http://d-manga.dengeki.com/books/identifier_02/_SWF_Window.html'}},
         {headers: {'Referer' => 'http://d-manga.dengeki.com/books/identifier_03/_SWF_Window.html'}},

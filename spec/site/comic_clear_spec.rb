@@ -44,7 +44,7 @@ describe EBookloader::Site::ComicClear do
         EBookloader::Book::FlipperU.new('http://ct.webcomic-eb.com/viewer/EB/identifier/0003-0/index.html'),
         EBookloader::Book::FlipperU.new('http://ct.webcomic-eb.com/viewer/EB/identifier/0004-0/index.html'),
       ]
-      expect( site.books.map{ |book| book.episode } ).to eql [
+      expect( site.books.map(&:episode) ).to eql [
         '01 episode1',
         '02 episode2',
         '03.5 episode3.5',

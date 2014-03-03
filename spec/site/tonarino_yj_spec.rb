@@ -38,7 +38,7 @@ describe EBookloader::Site::TonarinoYJ do
         EBookloader::Book::Aoharu.new('http://tonarinoyj.jp/manga/identifier/extra-1/'),
         EBookloader::Book::Aoharu.new('http://tonarinoyj.jp/manga/identifier/extra-2/'),
       ]
-      expect( site.books.map{ |book| book.episode } ).to eql [
+      expect( site.books.map(&:episode) ).to eql [
         'episode1',
         'episode1.5',
         'episode2',

@@ -38,7 +38,7 @@ describe EBookloader::Site::AoharuOnline do
         EBookloader::Book::Aoharu.new('http://aoharu.jp/comic/identifier/4/'),
         EBookloader::Book::Aoharu.new('http://aoharu.jp/comic/identifier/5/'),
       ]
-      expect( site.books.map{ |book| book.episode } ).to eql [
+      expect( site.books.map(&:episode) ).to eql [
         'ep1 episode1',
         'ep2',
         'ep3 episode3',

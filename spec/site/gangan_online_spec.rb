@@ -36,7 +36,7 @@ describe EBookloader::Site::GanganOnline do
         EBookloader::Book::ActiBook.new('http://www.ganganonline.com/viewer/pc/comic/identifier/001/_SWF_Window.html'),
         EBookloader::Book::ActiBook.new('http://www.ganganonline.com/viewer/pc/comic/identifier/002/_SWF_Window.html'),
       ]
-      expect( site.books.map{ |book| book.episode } ).to eql [
+      expect( site.books.map(&:episode) ).to eql [
         'ep1 episode1',
         'ep2 episode2',
       ]
