@@ -18,7 +18,7 @@ describe EBookloader::Site::ComicClear do
   describe '#lazy_load' do
     subject{ site.__send__ :lazy_load }
 
-    it_behaves_like 'a BookInfo updater', title: 'title'
+    it_behaves_like 'a BookInfo updater', title: 'title', author: 'author0, author1, author2, other1, other2'
 
     before{
       allow( site ).to receive(:get).and_return(response('/site/comic_clear/identifier.html'))
@@ -28,12 +28,6 @@ describe EBookloader::Site::ComicClear do
     it 'はhtmlを取得する' do
       expect( site ).to receive(:get).with(URI('http://www.famitsu.com/comic_clear/identifier/')).and_return(response('/site/comic_clear/identifier.html'))
       expect( subject ).to eql true
-    end
-
-    it 'は本の情報を設定する' do
-      subject
-      expect( site.title ).to eql 'title'
-      expect( site.author ).to eql 'author0, author1, author2, other1, other2'
     end
 
     it 'は@booksを設定する' do
