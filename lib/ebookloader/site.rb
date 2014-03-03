@@ -30,7 +30,7 @@ module EBookloader
           return '%02d' % episode_number if episode_number.match /^\d*$/
           return '%05.2f' % episode_number if episode_number.match /^\d\.\d*$/
 
-          match = episode_number.match /第(?<first>\d+)(-(?<last>\d+))?(?:話|回)/
+          match = episode_number.match /(?:第|#)(?<first>\d+)(-(?<last>\d+))?(?:話|回)?/
           return episode_number unless match
 
           format = match[:last] ? '%02d-%02d' : '%02d'

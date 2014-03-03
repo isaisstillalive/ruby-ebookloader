@@ -132,6 +132,14 @@ describe EBookloader::Site do
       end
     end
 
+    context '「#00」' do
+      let(:episode){ '#1' }
+
+      it 'は話数を返す' do
+        expect( subject ).to eql '01'
+      end
+    end
+
     context '数が「n-m」' do
       let(:episode){ '第1-5話' }
 
