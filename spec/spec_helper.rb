@@ -73,7 +73,8 @@ shared_examples_for 'a BookInfo updater' do |values|
       values.each do |name, value|
         expect( arg[name] ).to eql value
       end
-    }.and_call_original
+      bookinfo.__send__ :update_core, arg, true
+    }
     subject
   end
 end
