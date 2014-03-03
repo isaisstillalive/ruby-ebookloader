@@ -11,7 +11,7 @@ module EBookloader
         def lazy_load
           csv = get_illust_csv
 
-          self.merge! title: csv[3], author: csv[5]
+          merge title: csv[3], author: csv[5]
           @extension = csv[2]
 
           page_count = csv[19].to_i

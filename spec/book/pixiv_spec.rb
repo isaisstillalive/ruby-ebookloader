@@ -32,7 +32,7 @@ describe EBookloader::Book::Pixiv do
 
     it 'はCSVから書籍情報を更新する' do
       allow( book ).to receive(:get_illust_csv).and_return(response('/book/pixiv/illust.csv').body.parse_csv)
-      expect( book ).to receive(:merge!).with(duck_type(:[])){ |arg|
+      expect( book ).to receive(:merge).with(duck_type(:[])){ |arg|
         expect( arg[:title] ).to eql 'title'
         expect( arg[:author] ).to eql 'member_name'
       }
