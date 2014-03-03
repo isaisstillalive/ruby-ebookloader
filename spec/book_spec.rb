@@ -125,18 +125,23 @@ describe EBookloader::Book do
   end
 
   describe '#save' do
-    subject{ book.save Pathname('dir') }
+    subject{ book.save Pathname('dir'), {option: :option} }
     before{
       allow( book ).to receive(:name).and_return('name')
     }
 
     it 'は#save_coreを実行し戻り値を返す' do
-      allow( book ).to receive(:save_core).and_return(true)
+      expect( book ).to receive(:save_core).and_return(true)
       expect( subject ).to eql true
     end
 
+    it 'はオプションを渡す' do
+      expect( book ).to receive(:save_core).with(anything(), {option: :option}).and_return(true)
+      subject
+    end
+
     it 'は保存先パスに本の名前を足して保存パスとして使用する' do
-      expect( book ).to receive(:save_core).with(Pathname('dir/name'))
+      expect( book ).to receive(:save_core).with(Pathname('dir/name'), anything())
       subject
     end
 
@@ -144,7 +149,7 @@ describe EBookloader::Book do
       subject{ book.save 'dir' }
 
       it 'はPathnameと同様に処理する' do
-        expect( book ).to receive(:save_core).with(Pathname('dir/name'))
+        expect( book ).to receive(:save_core).with(Pathname('dir/name'), anything())
         subject
       end
     end

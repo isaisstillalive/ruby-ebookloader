@@ -18,9 +18,9 @@ module EBookloader
         @options = update(options)
       end
 
-      def save dir
+      def save dir, options = {}
         dir_path = Pathname(dir) + name
-        save_core dir_path
+        save_core dir_path, options
       end
 
       def == other

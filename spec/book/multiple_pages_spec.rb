@@ -1,6 +1,7 @@
 # coding: utf-8
 
 require_relative '../spec_helper.rb'
+require 'zip'
 
 describe EBookloader::Book::MultiplePages do
   let(:book){ Object.new.extend described_class }
@@ -69,6 +70,45 @@ describe EBookloader::Book::MultiplePages do
         expect( save_path ).to receive(:mkpath)
         subject
       end
+    end
+
+    context '保存時のオプションに zip: true を渡した場合' do
+      subject{ book.__send__ :save_core, save_path, zip: true }
+
+      it 'は#zipを実行しzip圧縮する' do
+        expect( book ).to receive(:zip).with(save_path).and_return(true)
+        subject
+      end
+    end
+  end
+
+  describe '#zip' do
+    let(:dir_path){ Pathname('dir/name') }
+    subject{ book.__send__ :zip, dir_path }
+    before{
+      allow(dir_path).to receive(:rmtree)
+    }
+
+    it 'はrubyzipを利用してzip圧縮を行う' do
+      expect( Zip::File ).to receive(:open).with(Pathname('dir/name.zip'), Zip::File::CREATE)
+      subject
+    end
+
+    it 'は指定したディレクトリの全てのファイルを圧縮する' do
+      zip = double('zip')
+      allow( dir_path ).to receive(:each_entry).and_yield(Pathname('1.jpg')).and_yield(Pathname('2.jpg'))
+      expect( Zip::File ).to receive(:open).and_yield(zip)
+      expect( zip ).to receive(:add).with('name/1.jpg', Pathname('dir/name/1.jpg'))
+      expect( zip ).to receive(:add).with('name/2.jpg', Pathname('dir/name/2.jpg'))
+      subject
+    end
+
+    it 'は指定したディレクトリを削除する' do
+      zip = double('zip')
+      allow( dir_path ).to receive(:each_entry)
+      allow( Zip::File ).to receive(:open)
+      expect(dir_path).to receive(:rmtree)
+      subject
     end
   end
 end
