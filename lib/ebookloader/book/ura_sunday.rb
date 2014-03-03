@@ -11,7 +11,7 @@ module EBookloader
         source = get @uri
         source.body.force_encoding Encoding::UTF_8
 
-        merge source.body.match %r{<h1><a href="\.\./index.html" title=".*">(?<title>.*?)</a></h1>.*?<h2>(?<author>.*?)</h2>.*?<li class="comicTitleDate">(?<episode>.*?) ｜}m
+        merge source.body.match(%r{<h1><a href="\.\./index.html" title=".*">(?<title>.*?)</a></h1>.*?<h2>(?<author>.*?)</h2>.*?<li class="comicTitleDate">(?<episode>.*?) ｜}m).extend(Extensions::MatchData)
 
         if source.body.include? '../../js/comic_write.js'
           base_uri = URI('http://img.urasunday.com/eximages/')

@@ -10,7 +10,7 @@ module EBookloader
         source = get @uri
         source.body.force_encoding Encoding::UTF_8
 
-        merge source.body.match(%r{<h2 id="summary-title">\s*?<span class="ttl1">(?<title>[^<]*?)</span>\s*?<span class="ttl2">(?<author>[^<]*?)</span></h2>}m)
+        merge source.body.match(%r{<h2 id="summary-title">\s*?<span class="ttl1">(?<title>[^<]*?)</span>\s*?<span class="ttl2">(?<author>[^<]*?)</span></h2>}m).extend(Extensions::MatchData)
 
         source.body.extend EBookloader::Extensions::String
         @books = source.body.global_match(%r{<li class="card mod-s">.*?<a href="(?<uri>.*?)" class="card-togo">\s*<span class="title2">(?<episode_num>[^<]*?)</span>(?:\s*<span class="title">(?<episode>[^<]*?)</span>)?\s*</a>|<li>\s*<a href="(?<uri>[^"]*?)">\s*<span class="bitsy-stl">(?<episode_num>[^<]*?)</span>(?:\s*<span class="bitsy-ttl">(?<episode>[^<]*?)</span>)?\s*</a>\s*</li>}m).reverse_each.map do |sc|
