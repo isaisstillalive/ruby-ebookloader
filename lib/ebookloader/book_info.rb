@@ -20,7 +20,7 @@ module EBookloader
 
     private
     def update_core options, merge = false
-      return if options.nil?
+      return {} if options.nil?
       options = Hash[options]
 
       if options.include? :title

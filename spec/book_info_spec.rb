@@ -125,7 +125,7 @@ describe EBookloader::BookInfo do
       subject{ book.__send__ :update_core, nil }
 
       it 'は空のハッシュと同様に処理する' do
-        subject
+        expect( subject ).to eql({})
         expect( book.title ).to eql 'title'
         expect( book.author ).to eql 'author'
       end
