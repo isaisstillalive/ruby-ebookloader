@@ -16,9 +16,9 @@ module EBookloader
         xml = get configue_uri
         doc = REXML::Document.new xml.body
 
-        merge title: doc.elements['/config/title'].text, author: doc.elements['/config/author'].text
+        merge title: doc.text('/config/title'), author: doc.text('/config/author')
 
-        page_count = doc.elements['/config/number'].text.to_i
+        page_count = doc.text('/config/number').to_i
         @pages = (1..page_count).map do |page|
           Page.new base_uri + './img%02d.jpg' % page, page: page
         end

@@ -14,27 +14,25 @@ module EBookloader
         xml = get configue_uri
         doc = REXML::Document.new xml.body
 
-        merge title: doc.elements['/setting/bookInformation/bookTitle'].text
+        bookInformation = doc.elements['/setting/bookInformation']
+        sliceViewer = doc.elements['/setting/renderer/SliceViewer']
 
-        scale = doc.elements['/setting/bookInformation/maxMagnification'].text.to_i
-        prefix = doc.elements['/setting/renderer/SliceViewer/pathPrefix'].text
-        extension = doc.elements['/setting/renderer/SliceViewer/fileExtension'].text.to_sym
+        merge title: bookInformation.text('bookTitle')
 
-        width = slice_count(doc.elements, 'Width', scale)
-        height = slice_count(doc.elements, 'Height', scale)
+        scale = bookInformation.text('maxMagnification').to_i
+        options_base = {
+          extension: sliceViewer.text('fileExtension').to_sym,
+          prefix: sliceViewer.text('pathPrefix'),
+          scale: scale,
+          width: slice_count(bookInformation, 'Width', scale),
+          height: slice_count(bookInformation, 'Height', scale),
+        }
 
-        page_count = doc.elements['/setting/bookInformation/total'].text.to_i
-        datas = doc.elements['/setting/bookInformation/data'].text.split(',')
-        labels = doc.elements['/setting/bookInformation/label'].text.split(',')
+        datas = bookInformation.text('data').split(',')
+        labels = bookInformation.text('label').split(',')
         @pages = datas.zip(labels).map do |page, name|
-          options = {
-            page: page.to_i,
-            extension: extension,
-            prefix: prefix,
-            scale: scale,
-            width: width,
-            height: height,
-          }
+          options = options_base.dup
+          options[:page] = page.to_i;
           options[:name] = name unless page == name
           Page.new @uri + "./page#{page}/page.xml", options
         end
@@ -43,8 +41,8 @@ module EBookloader
       end
 
       def slice_count elements, key, scale
-        pageSize = elements["/setting/bookInformation/page#{key}"].text.to_i
-        sliceSize = elements["/setting/bookInformation/slice#{key}"].text.to_i
+        pageSize = elements.text("page#{key}").to_i
+        sliceSize = elements.text("slice#{key}").to_i
         ((pageSize * scale).to_f / sliceSize).ceil
       end
     end

@@ -21,8 +21,8 @@ describe EBookloader::Book::FlipperU do
     end
 
     it 'は@pagesを設定する' do
-      expect( book ).to receive(:slice_count).with(kind_of(REXML::Elements), 'Width', 2).and_return(3).ordered
-      expect( book ).to receive(:slice_count).with(kind_of(REXML::Elements), 'Height', 2).and_return(4).ordered
+      expect( book ).to receive(:slice_count).with(kind_of(REXML::Element), 'Width', 2).and_return(3)
+      expect( book ).to receive(:slice_count).with(kind_of(REXML::Element), 'Height', 2).and_return(4)
 
       subject
 
@@ -39,8 +39,8 @@ describe EBookloader::Book::FlipperU do
     let(:elements){ double('Elements') }
 
     it 'は元画像のスケール倍を規定サイズで分割した時の枚数を返す' do
-      expect( elements ).to receive(:[]).with('/setting/bookInformation/pageWidth').and_return(double('Element', text: '100')).ordered
-      expect( elements ).to receive(:[]).with('/setting/bookInformation/sliceWidth').and_return(double('Element', text: '150')).ordered
+      expect( elements ).to receive(:text).with('pageWidth').and_return('100')
+      expect( elements ).to receive(:text).with('sliceWidth').and_return('150')
       expect( subject ).to eql 2
     end
   end
