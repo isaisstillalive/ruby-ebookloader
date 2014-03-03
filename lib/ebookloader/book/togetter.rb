@@ -19,7 +19,7 @@ module EBookloader
         tweets.body.force_encoding Encoding::UTF_8
         body = tweets.body
 
-        body.extend EBookloader::StringExtender
+        body.extend EBookloader::StringExtensions
         @pages = body.global_match(%r{<div class='list_photo'><a[^>]*?><img src="(?<uri>[^"]*)" /></a></div>}m).map.with_index 1 do |sc, page|
           Page.new URI(sc[:uri] + ':large'), page: page, extension: Pathname(sc[:uri]).extname[1..-1].to_sym
         end

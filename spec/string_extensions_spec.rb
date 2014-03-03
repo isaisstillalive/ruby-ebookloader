@@ -2,9 +2,9 @@
 
 require_relative 'spec_helper.rb'
 
-describe EBookloader::StringExtender do
+describe EBookloader::StringExtensions do
   let(:string){ 'abcdef' }
-  let(:extended_string){ string.extend EBookloader::StringExtender }
+  let(:extended_string){ string.extend EBookloader::StringExtensions }
 
   describe '#global_match' do
     let(:regexp){ /(?<char>...)/ }

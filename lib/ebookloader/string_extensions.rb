@@ -1,7 +1,7 @@
 # coding: utf-8
 
 module EBookloader
-  module StringExtender
+  module StringExtensions
     def global_match pattern
       return to_enum(:global_match, pattern) unless block_given?
 

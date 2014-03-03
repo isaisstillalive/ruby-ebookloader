@@ -14,7 +14,7 @@ module EBookloader
 
         source.body.match %r{<ul id="contentCenterBknmbrList">(?<list>.*?)</ul>}m do |match|
           list = match[:list]
-          list.extend EBookloader::StringExtender
+          list.extend EBookloader::StringExtensions
           @books = list.global_match(%r{<li[^>]*?>【(?<episode_num>[^】]*?)】(?<episode>.*?)：<a [^>]*?onclick="javascript:Fullscreen\('(?<uri>[^']*?)'\);"[^>]*?>PC</a>}).map do |sc|
             uri = @uri + sc[:uri]
             episode = '%s %s' % [sc[:episode_num], sc[:episode]]
