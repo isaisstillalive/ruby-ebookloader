@@ -22,6 +22,7 @@ module EBookloader
     def save_core save_path, options = {}
       save_path.parent.mkpath unless save_path.parent.exist?
       write save_path, uri
+      true
     end
 
     require_relative 'book/base'
