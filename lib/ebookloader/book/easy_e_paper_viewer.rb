@@ -2,7 +2,7 @@
 
 module EBookloader
   class Book
-    class EasyEPaperViewer < Book
+    class EasyEPaperViewer < Base
       include Book::MultiplePages
       require 'rexml/document'
 

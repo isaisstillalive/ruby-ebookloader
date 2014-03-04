@@ -2,7 +2,7 @@
 
 module EBookloader
   class Book
-    class AkitashotenReadingCommunicator < Book
+    class AkitashotenReadingCommunicator < Base
       include Book::MultiplePages
 
       private

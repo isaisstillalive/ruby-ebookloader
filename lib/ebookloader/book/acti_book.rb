@@ -2,7 +2,7 @@
 
 module EBookloader
   class Book
-    class ActiBook < Book
+    class ActiBook < Base
       include Book::MultiplePages
       require 'rexml/document'
 

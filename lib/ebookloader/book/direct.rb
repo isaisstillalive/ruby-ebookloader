@@ -2,7 +2,7 @@
 
 module EBookloader
   class Book
-    class Direct < Book
+    class Direct < Base
       private
 
       def lazy_load

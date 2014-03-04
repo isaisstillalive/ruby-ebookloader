@@ -2,7 +2,7 @@
 
 module EBookloader
   class Book
-    class FlipperU < Book
+    class FlipperU < Base
       include Book::MultiplePages
       require 'rexml/document'
       require_relative 'flipper_u/page'

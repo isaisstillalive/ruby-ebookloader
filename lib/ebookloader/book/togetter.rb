@@ -2,7 +2,7 @@
 
 module EBookloader
   class Book
-    class Togetter < Book
+    class Togetter < Base
       include Book::MultiplePages
 
       private

@@ -2,7 +2,7 @@
 
 module EBookloader
   class Book
-    class Pixiv < Book
+    class Pixiv < Base
       attr_reader :illust_id
       attr_lazy_reader :page
 
