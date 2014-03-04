@@ -1,8 +1,8 @@
 # coding: utf-8
 
 module EBookloader
-  # @!parse class Book::Base; end
   # @!parse class Book < Book::Base; end
+  # @!parse class Book::Base; end
   class Book < Class.new
     Base = self.superclass
 

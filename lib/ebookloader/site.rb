@@ -1,6 +1,8 @@
 # coding: utf-8
 
 module EBookloader
+  # @!parse class Site < Site::Base; end
+  # @!parse class Site::Base; end
   class Site < Class.new
     Base = self.superclass
 

@@ -2,6 +2,7 @@
 
 module EBookloader
   class Book
+    # 電子書籍の基本クラス
     # @abstract
     # @!attribute [r] uri
     #   @return [URI] URI
@@ -18,13 +19,15 @@ module EBookloader
       attr_accessor :options
       attr_lazy_accessor :title, :author, :episode
 
-      # @param [URI, String] uri URI
+      # 初期化
+      # @param [URI, String] uri_str URI、またはURI文字列
       # @param [#to_hash] options オプション
       # @option options [String] :title 題名
       # @option options [String] :author 作者名
       # @option options [String] :episode エピソード名
-      def initialize uri, options = {}
-        @uri = URI(uri)
+      # @raise [URI::InvalidURIError] URI文字列がパースできなかった場合に発生します
+      def initialize uri_str, options = {}
+        @uri = URI(uri_str)
         @options = update(options)
       end
 
