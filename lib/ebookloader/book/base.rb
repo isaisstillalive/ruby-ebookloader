@@ -38,7 +38,7 @@ module EBookloader
 
       private
 
-      def save_core save_path
+      def save_core save_path, options = {}
         true
       end
 

@@ -8,9 +8,10 @@ module EBookloader
 
     def lazy_load
       merge title: Pathname(@uri.path).basename.to_s
+      true
     end
 
-    def save_core save_path
+    def save_core save_path, options = {}
       save_path.parent.mkpath unless save_path.parent.exist?
       write save_path, uri
     end
