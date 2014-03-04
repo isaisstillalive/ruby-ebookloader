@@ -1,16 +1,24 @@
 # coding: utf-8
 
 module EBookloader
+  # @!parse class Book::Base; end
+  # @!parse class Book < Book::Base; end
   class Book < Class.new
     Base = self.superclass
 
     private
 
+    # 遅延読み込みを行う
+    # @return [Boolean] 成功したか
     def lazy_load
       merge title: Pathname(@uri.path).basename.to_s
       true
     end
 
+    # 保存処理を行う
+    # @param [Pathname] save_path 保存先
+    # @param [#to_hash] options Book::Base#save に渡されたオプション
+    # @return [Boolean] 成功したか
     def save_core save_path, options = {}
       save_path.parent.mkpath unless save_path.parent.exist?
       write save_path, uri
