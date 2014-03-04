@@ -2,14 +2,23 @@
 
 module EBookloader
   class Book
+    # @!attribute [r] pages
+    #   @return [Array<Page>] ページ情報
     module MultiplePages
       include LazyLoadable
+
       attr_lazy_reader :pages
 
       require_relative 'multiple_pages/page'
 
       private
 
+      # 保存の実処理
+      # @param [Pathname] save_path 保存先
+      # @param [#to_hash] options Book::Base#save に渡されたオプション
+      # @option options [Boolean] :zip trueならばzip圧縮する
+      # @return [Boolean] 成功したか
+      # @see Book::Base#save
       def save_core save_path, options = {}
         save_path.mkpath unless save_path.exist?
 
@@ -23,6 +32,8 @@ module EBookloader
         true
       end
 
+      # zip圧縮する
+      # @param [Pathname] dir_path 圧縮元フォルダ
       def zip dir_path
         require 'zip'
         zip_path = dir_path.parent + ("#{dir_path.basename}.zip")

@@ -15,7 +15,7 @@ module EBookloader
       true
     end
 
-    # 保存処理を行う
+    # 保存の実処理
     # @param [Pathname] save_path 保存先
     # @param [#to_hash] options Book::Base#save に渡されたオプション
     # @return [Boolean] 成功したか

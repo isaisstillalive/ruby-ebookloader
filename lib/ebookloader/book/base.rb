@@ -30,7 +30,7 @@ module EBookloader
 
       # @param [Pathname,String] dir 保存先
       # @param [#to_hash] options オプション
-      # @option options [Boolean] :zip trueならばzip圧縮する
+      # @return [Boolean] 成功したか
       def save dir, options = {}
         dir_path = Pathname(dir) + name
         save_core dir_path, options
@@ -56,7 +56,7 @@ module EBookloader
 
       private
 
-      # 保存処理を行う
+      # 保存の実処理
       # @param [Pathname] save_path 保存先
       # @param [#to_hash] options Book::Base#save に渡されたオプション
       # @return [Boolean] 成功したか
@@ -66,7 +66,7 @@ module EBookloader
         true
       end
 
-      # 更新処理を行う
+      # 属性をまとめて更新する実処理
       # @param [#to_hash] options 新しい値
       # @option options [String] :title 題名
       # @option options [String] :author 作者名
