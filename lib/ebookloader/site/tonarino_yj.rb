@@ -1,6 +1,6 @@
 module EBookloader
   class Site
-    class TonarinoYJ < Site
+    class TonarinoYJ < Base
       def initialize identifier, options = {}
         super "http://tonarinoyj.jp/manga/#{identifier}/", options
       end

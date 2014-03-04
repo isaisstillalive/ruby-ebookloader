@@ -1,6 +1,6 @@
 module EBookloader
   class Site
-    class DMangaOnline < Site
+    class DMangaOnline < Base
       def initialize identifier, options = {}
         super "http://d-manga.dengeki.com/work/#{identifier}/", options
       end

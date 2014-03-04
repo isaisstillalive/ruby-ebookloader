@@ -1,6 +1,6 @@
 module EBookloader
   class Site
-    class GanganOnline < Site
+    class GanganOnline < Base
       def initialize identifier, options = {}
         super "http://www.ganganonline.com/comic/#{identifier}/", options
       end
