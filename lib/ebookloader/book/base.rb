@@ -18,6 +18,17 @@ module EBookloader
       attr_reader :uri, :options
       attr_lazy_accessor :title, :author, :episode
 
+      # @!attribute [r] name
+      # @return [String] ファイル名
+      # @see EBookloader::BookInfo#name
+      def name
+        if @episode
+          "#{super} #{@episode}"
+        else
+          super
+        end
+      end
+
       # 初期化
       # @param uri_str [URI, String] URI、またはURI文字列
       # @param options [#to_hash] 初期化オプション
@@ -31,13 +42,13 @@ module EBookloader
       end
 
       # 保存する
-      # @param dir [Pathname,String] 保存先
+      # @param dir [Pathname, String] 保存先ディレクトリ
       # @param options [#to_hash] 保存オプション
       # @return [Boolean] 成功したか
       # @see Book::Base#save_core
       def save dir, options = {}
         dir_path = Pathname(dir) + name
-        save_core dir_path, options
+        save_core dir_path, Hash[options]
       end
 
       # 比較する
@@ -49,22 +60,11 @@ module EBookloader
         true
       end
 
-      # @!attribute [r] name
-      # @return [String] ファイル名
-      # @see EBookloader::BookInfo#name
-      def name
-        if @episode
-          "#{super} #{@episode}"
-        else
-          super
-        end
-      end
-
       private
 
       # 保存の実処理
-      # @param save_path [Pathname] 保存先
-      # @param options [#to_hash] 保存オプション
+      # @param save_path [Pathname] 保存先パス
+      # @param options [Hash] 保存オプション
       # @return [Boolean] 成功したか
       # @abstract サブクラスで上書きする
       # @see Book::Base#save

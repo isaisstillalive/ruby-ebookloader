@@ -1,7 +1,7 @@
 # coding: utf-8
 
 module EBookloader
-  # 単独ページの電子書籍ファイル
+  # 電子書籍ファイル
   # @!parse class Book < Book::Base; end
   # @!parse class Book::Base; end
   class Book < Class.new
@@ -17,8 +17,8 @@ module EBookloader
     end
 
     # 保存の実処理
-    # @param save_path [Pathname] 保存先
-    # @param options [#to_hash] 保存オプション
+    # @param save_path [Pathname] 保存先パス
+    # @param options [Hash] 保存オプション
     # @return [Boolean] 成功したか
     # @see Book::Base#save
     def save_core save_path, options = {}
