@@ -31,9 +31,11 @@ module EBookloader
         @options = update(options)
       end
 
+      # 保存する
       # @param [Pathname,String] dir 保存先
       # @param [#to_hash] options オプション
       # @return [Boolean] 成功したか
+      # @see Book::Base#save_core
       def save dir, options = {}
         dir_path = Pathname(dir) + name
         save_core dir_path, options

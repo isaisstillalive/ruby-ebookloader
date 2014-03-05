@@ -1,9 +1,22 @@
 # coding: utf-8
 
 module EBookloader
+  # 遅延読み込みを行うモジュール
   module LazyLoadable
     private
 
+    # @!method attr_lazy_reader(*names)
+    #   遅延処理を行うリーダを定義
+    #   @scope class
+    #   @visibility private
+    #   @param [Symbol,String] names 名前
+    #   @return [nil]
+    # @!method attr_lazy_accessor(*names)
+    #   遅延処理を行うアクセサを定義
+    #   @scope class
+    #   @visibility private
+    #   @param [Symbol,String] names 名前
+    #   @return [nil]
     def self.included mod
       class << mod
         private
@@ -25,6 +38,9 @@ module EBookloader
       end
     end
 
+    # 読み込みを行う
+    # @return [Boolean] 成功したか
+    # @see LazyLoadable#lazy_load
     def load
       return if @loaded
       @loaded = true
@@ -36,6 +52,10 @@ module EBookloader
       end
     end
 
+    # 読み込みの実処理
+    # @return [Boolean] 成功したか。trueを返した場合、それ以降の読み込みは行われません
+    # @abstract includeしたクラスで上書きする
+    # @see LazyLoadable#load
     def lazy_load
       true
     end
