@@ -9,13 +9,13 @@ module EBookloader
     #   遅延処理を行うリーダを定義
     #   @scope class
     #   @visibility private
-    #   @param [Symbol,String] names 名前
+    #   @param names [Symbol,String] 名前
     #   @return [nil]
     # @!method attr_lazy_accessor(*names)
     #   遅延処理を行うアクセサを定義
     #   @scope class
     #   @visibility private
-    #   @param [Symbol,String] names 名前
+    #   @param names [Symbol,String] 名前
     #   @return [nil]
     def self.included mod
       class << mod
@@ -52,7 +52,7 @@ module EBookloader
       end
     end
 
-    # 読み込みの実処理
+    # 読み込みの実処理
     # @return [Boolean] 成功したか。trueを返した場合、それ以降の読み込みは行われません
     # @abstract includeしたクラスで上書きする
     # @see LazyLoadable#load

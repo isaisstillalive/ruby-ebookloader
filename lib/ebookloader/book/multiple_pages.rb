@@ -14,8 +14,8 @@ module EBookloader
       private
 
       # 保存の実処理
-      # @param [Pathname] save_path 保存先
-      # @param [#to_hash] options Book::Base#save に渡されたオプション
+      # @param save_path [Pathname] 保存先
+      # @param options [#to_hash] 保存オプション
       # @option options [Boolean] :zip trueならばzip圧縮する
       # @return [Boolean] 成功したか
       # @see Book::Base#save
@@ -33,7 +33,7 @@ module EBookloader
       end
 
       # zip圧縮する
-      # @param [Pathname] dir_path 圧縮元フォルダ
+      # @param dir_path [Pathname] 圧縮元フォルダ
       def zip dir_path
         require 'zip'
         zip_path = dir_path.parent + ("#{dir_path.basename}.zip")

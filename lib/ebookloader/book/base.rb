@@ -20,8 +20,8 @@ module EBookloader
       attr_lazy_accessor :title, :author, :episode
 
       # 初期化
-      # @param [URI, String] uri_str URI、またはURI文字列
-      # @param [#to_hash] options オプション
+      # @param uri_str [URI, String] URI、またはURI文字列
+      # @param options [#to_hash] 初期化オプション
       # @option options [String] :title 題名
       # @option options [String] :author 作者名
       # @option options [String] :episode エピソード名
@@ -32,8 +32,8 @@ module EBookloader
       end
 
       # 保存する
-      # @param [Pathname,String] dir 保存先
-      # @param [#to_hash] options オプション
+      # @param dir [Pathname,String] 保存先
+      # @param options [#to_hash] 保存オプション
       # @return [Boolean] 成功したか
       # @see Book::Base#save_core
       def save dir, options = {}
@@ -62,8 +62,8 @@ module EBookloader
       private
 
       # 保存の実処理
-      # @param [Pathname] save_path 保存先
-      # @param [#to_hash] options Book::Base#save に渡されたオプション
+      # @param save_path [Pathname] 保存先
+      # @param options [#to_hash] 保存オプション
       # @return [Boolean] 成功したか
       # @abstract サブクラスで上書きする
       # @see Book::Base#save
@@ -71,12 +71,13 @@ module EBookloader
         true
       end
 
-      # 属性をまとめて更新する実処理
-      # @param [#to_hash] options 新しい値
+      # 書籍情報をまとめて更新する実処理
+      # @param options [#to_hash] 書籍情報
       # @option options [String] :title 題名
       # @option options [String] :author 作者名
       # @option options [String] :episode エピソード名
-      # @return [Hash] 処理されなかった新しい値
+      # @param overwrite [Boolean] 上書きするかどうか
+      # @return [Hash] 処理されなかった書籍情報
       # @see EBookloader::BookInfo#update_core
       def update_core options, merge = false
         super.tap do |options|

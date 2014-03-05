@@ -20,8 +20,8 @@ module EBookloader
       attr_lazy_accessor :title, :author, :books
 
       # 初期化
-      # @param [URI, String] uri_str URI、またはURI文字列
-      # @param [#to_hash] options オプション
+      # @param uri_str [URI, String] URI、またはURI文字列
+      # @param options [#to_hash] オプション
       # @option options [String] :title 題名
       # @option options [String] :author 作者名
       # @raise [URI::InvalidURIError] URI文字列がパースできなかった場合に発生します

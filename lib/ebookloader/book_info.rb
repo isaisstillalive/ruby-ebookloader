@@ -21,14 +21,14 @@ module EBookloader
       '[%s] %s' % [authors.join(', '), title]
     end
 
-    # @!attribute [r] name
+    # @!attribute [r] bookinfo
     # @return [Hash] 書籍情報
     def bookinfo
       {title: @title, author: @author}
     end
 
     # 書籍情報を上書き更新する
-    # @param [#to_hash] options 書籍情報
+    # @param options [#to_hash] 書籍情報
     # @option options [String] :title 題名
     # @option options [String] :author 作者名
     # @return [Hash] 処理されなかった書籍情報
@@ -39,7 +39,7 @@ module EBookloader
     private
 
     # 書籍情報を上書きしないで更新する
-    # @param [#to_hash] options 書籍情報
+    # @param options [#to_hash] 書籍情報
     # @option options [String] :title 題名
     # @option options [String] :author 作者名
     # @return [Hash] 処理されなかった書籍情報
@@ -48,10 +48,10 @@ module EBookloader
     end
 
     # 書籍情報をまとめて更新する実処理
-    # @param [#to_hash] options 書籍情報
+    # @param options [#to_hash] 書籍情報
     # @option options [String] :title 題名
     # @option options [String] :author 作者名
-    # @param [Boolean] overwrite 上書きするかどうか
+    # @param overwrite [Boolean] 上書きするかどうか
     # @return [Hash] 処理されなかった書籍情報
     # @see EBookloader::BookInfo#update
     # @see EBookloader::BookInfo#update_without_overwrite

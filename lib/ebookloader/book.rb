@@ -16,9 +16,10 @@ module EBookloader
     end
 
     # 保存の実処理
-    # @param [Pathname] save_path 保存先
-    # @param [#to_hash] options Book::Base#save に渡されたオプション
+    # @param save_path [Pathname] 保存先
+    # @param options [#to_hash] 保存オプション
     # @return [Boolean] 成功したか
+    # @see Book::Base#save
     def save_core save_path, options = {}
       save_path.parent.mkpath unless save_path.parent.exist?
       write save_path, uri
