@@ -16,6 +16,7 @@ describe EBookloader::Site::TonarinoYJ do
 
   describe '#lazy_load' do
     subject{ site.__send__ :lazy_load }
+    before{ site.instance_variable_set :@loaded, true }
 
     it_behaves_like 'a BookInfo updater', title: 'title', author: 'author'
 

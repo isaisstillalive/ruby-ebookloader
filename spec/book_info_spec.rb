@@ -9,8 +9,8 @@ describe EBookloader::BookInfo do
 
   let(:book){ Book.new }
   before{
-    book.instance_variable_set :@title, 'title'
-    book.instance_variable_set :@author, 'author'
+    book.title = 'title'
+    book.author = 'author'
   }
 
   describe '#title' do
@@ -37,7 +37,7 @@ describe EBookloader::BookInfo do
     end
 
     context '作者が設定されていない場合' do
-      before{ book.instance_variable_set :@author, nil }
+      before{ book.author = nil }
 
       it 'は題名を返す' do
         expect( subject ).to eql 'title'
@@ -45,7 +45,7 @@ describe EBookloader::BookInfo do
     end
 
     context '作者が複数設定されている場合' do
-      before{ book.instance_variable_set :@author, ['author1', 'author2'] }
+      before{ book.author = ['author1', 'author2'] }
 
       it 'は作者をカンマで区切って返す' do
         expect( subject ).to eql '[author1, author2] title'

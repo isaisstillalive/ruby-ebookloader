@@ -60,11 +60,11 @@ module EBookloader
       options = Hash[options]
 
       if options.include? :title
-        @title = options[:title] if overwrite || !@title
+        self.title = options[:title] if overwrite || !title
         options.delete :title
       end
       if options.include? :author
-        @author = options[:author] if overwrite || !@author
+        self.author = options[:author] if overwrite || !author
         options.delete :author
       end
 

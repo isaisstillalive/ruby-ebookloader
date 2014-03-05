@@ -8,6 +8,7 @@ describe EBookloader::Book::UraSunday do
 
   describe '#lazy_load' do
     subject{ book.__send__ :lazy_load }
+    before{ book.instance_variable_set :@loaded, true }
 
     it 'はhtmlを取得する' do
       expect( book ).to receive(:get).with(URI('http://urasunday.com/identifier/comic/001_001.html')).and_return(response('/book/ura_sunday/001_001.html'))

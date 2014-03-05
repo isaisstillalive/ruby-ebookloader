@@ -17,6 +17,7 @@ describe EBookloader::Site::ComicClear do
 
   describe '#lazy_load' do
     subject{ site.__send__ :lazy_load }
+    before{ site.instance_variable_set :@loaded, true }
 
     it_behaves_like 'a BookInfo updater', title: 'title', author: ['author0', 'author1', 'author2', 'other1', 'other2']
 

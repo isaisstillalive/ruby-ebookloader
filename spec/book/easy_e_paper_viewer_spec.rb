@@ -8,6 +8,7 @@ describe EBookloader::Book::EasyEPaperViewer do
 
   describe '#lazy_load' do
     subject{ book.__send__ :lazy_load }
+    before{ book.instance_variable_set :@loaded, true }
 
     it_behaves_like 'a BookInfo updater', title: 'title', author: 'author'
 
