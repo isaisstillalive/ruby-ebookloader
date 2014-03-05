@@ -18,7 +18,7 @@ module EBookloader
         @pages = doc.get_elements('/book/pages/page').map do |page|
           page_number = page.text('number')
           extension = page.text('type')
-          Page.new @uri + "./books/images/2/#{page_number}.#{extension}", page: page_number.to_i, extension: extension.to_sym
+          Page.new @uri + "./books/images/2/#{page_number}.#{extension}", options.merge(page: page_number.to_i, extension: extension.to_sym)
         end
 
         true
