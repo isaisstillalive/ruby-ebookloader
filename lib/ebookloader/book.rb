@@ -1,6 +1,7 @@
 # coding: utf-8
 
 module EBookloader
+  # 単独ページの電子書籍ファイル
   # @!parse class Book < Book::Base; end
   # @!parse class Book::Base; end
   class Book < Class.new

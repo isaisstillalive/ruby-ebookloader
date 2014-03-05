@@ -40,6 +40,7 @@ module EBookloader
         save_core dir_path, options
       end
 
+      # 比較する
       def == other
         return false unless self.class == other.class
         return false unless self.uri == other.uri
