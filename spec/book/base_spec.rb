@@ -177,6 +177,60 @@ describe EBookloader::Book::Base do
     end
   end
 
+  describe '#update_core' do
+    let(:options){ { title: title, author: author, episode: episode, other: :other } }
+    let(:title){ 'new_title' }
+    let(:author){ 'new_author' }
+    let(:episode){ 'new_episode' }
+    subject{ book.__send__ :update_core, options }
+    before{
+      book.episode = 'episode'
+    }
+
+    it 'は未処理のキーを含めたハッシュを返す' do
+      expect( subject ).to eql({other: :other})
+    end
+
+    it 'は引数として渡したハッシュを変更しない' do
+      subject
+      expect( options ).to eql({ title: title, author: author, episode: episode, other: :other })
+    end
+
+    context 'オプション引数にエピソード名がある場合' do
+      it 'はエピソード名を設定する' do
+        subject
+        expect( book.episode ).to eql 'new_episode'
+      end
+
+      context 'nilの場合' do
+        let(:episode){ nil }
+
+        it 'はnilに設定する' do
+          subject
+          expect( book.episode ).to eql nil
+        end
+      end
+    end
+
+    context 'オプション引数にエピソード名がない場合' do
+      subject{ book.__send__ :update_core, {} }
+
+      it 'は作者を設定しない' do
+        subject
+        expect( book.episode ).to eql 'episode'
+      end
+    end
+
+    context '上書きしない場合' do
+      subject{ book.__send__ :update_core, { episode: 'new_episode' }, false }
+
+      it 'はすでに設定されているエピソード名を設定しない' do
+        subject
+        expect( book.episode ).to eql 'episode'
+      end
+    end
+  end
+
   describe '#save_core' do
     subject{ book.__send__ :save_core, nil }
 

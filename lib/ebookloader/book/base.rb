@@ -79,10 +79,10 @@ module EBookloader
       # @param overwrite [Boolean] 上書きするかどうか
       # @return [Hash] 処理されなかった書籍情報
       # @see EBookloader::BookInfo#update_core
-      def update_core options, merge = false
+      def update_core options, overwrite = true
         super.tap do |options|
           if options.include? :episode
-            @episode = options[:episode] unless merge && @episode
+            self.episode = options[:episode] if overwrite || !episode
             options.delete :episode
           end
         end
