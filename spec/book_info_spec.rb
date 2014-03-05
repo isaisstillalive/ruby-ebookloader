@@ -46,9 +46,6 @@ describe EBookloader::BookInfo do
   end
 
   describe '#bookinfo' do
-    before{
-      book.update title: 'title', author: 'author'
-    }
     subject{ book.bookinfo }
 
     it 'は作者と題名をハッシュで返す' do

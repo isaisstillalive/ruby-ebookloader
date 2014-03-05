@@ -8,7 +8,7 @@ module EBookloader
   # @!attribute [rw] bookinfo
   #   @return [Hash] 情報
   module BookInfo
-    attr_accessor :title, :author, :bookinfo
+    attr_accessor :title, :author
 
     # @!attribute [r] name
     # @return [String] ファイル名
@@ -16,6 +16,12 @@ module EBookloader
       return title unless author
 
       '[%s] %s' % [author, title]
+    end
+
+    # @!attribute [r] name
+    # @return [Hash] 書籍情報
+    def bookinfo
+      {title: @title, author: @author}
     end
 
     # 書籍情報を上書き更新する
@@ -58,7 +64,7 @@ module EBookloader
         @author = options[:author] if overwrite || !@author
         options.delete :author
       end
-      @bookinfo = {title: @title, author: @author}
+
       options
     end
   end
