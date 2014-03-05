@@ -17,7 +17,7 @@ module EBookloader
           list.extend EBookloader::Extensions::String
           @books = list.global_match(%r{<li>\s*(?:<a\s*href="(?<uri>.*?)".*?>\s*(?<episode>.*?)\s*</a>|<div.*?>\s*<strong>(?<episode>.*?)</strong>.*?<a href="(?<uri>[^"]*)">\s*縦読み\s*</a>\s*</div>)\s*</li>}m).reverse_each.map do |sc|
             uri = @uri + sc[:uri]
-            Book::Aoharu.new(uri, self.bookinfo.merge(episode: sc[:episode]))
+            Book::Aoharu.new(uri, bookinfo.merge(episode: sc[:episode]))
           end
         end
 

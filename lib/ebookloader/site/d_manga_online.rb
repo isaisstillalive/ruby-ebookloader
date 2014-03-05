@@ -21,7 +21,7 @@ module EBookloader
             uri = @uri + sc[:uri]
             format = sc[:extra].empty? ? '%1$s' : '%2$s %1$s'
             episode = (format % [Site.get_episode_number(sc[:episode_num]), sc[:extra]]).strip
-            Book::ActiBook.new(uri, self.bookinfo.merge(episode: episode, headers: {'Referer' => uri.to_s}))
+            Book::ActiBook.new(uri, bookinfo.merge(episode: episode, headers: {'Referer' => uri.to_s}))
           end
         end
 

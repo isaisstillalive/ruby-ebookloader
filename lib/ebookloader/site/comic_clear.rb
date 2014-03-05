@@ -22,7 +22,7 @@ module EBookloader
           @books = list.global_match(%r{div class="mb\d*px"><a href="javascript:var objPcViewer=window\.open\('(?<uri>[^']*?)'[^"]*\)"><img src="../images/common/btn(?<episode_num>[^"]*).jpg" alt="(?<episode>[^"]*)" />}).reverse_each.map do |sc|
             uri = @uri + sc[:uri]
             episode = '%s %s' % [sc[:episode_num], get_episode(sc[:episode], @title, @options)]
-            Book::FlipperU.new(uri, self.bookinfo.merge(episode: episode))
+            Book::FlipperU.new(uri, bookinfo.merge(episode: episode))
           end
         end
 

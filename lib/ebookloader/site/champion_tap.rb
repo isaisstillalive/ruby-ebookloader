@@ -17,7 +17,7 @@ module EBookloader
           uri = @uri + sc[:uri]
 
           episode = '%s %s' % [Site.get_episode_number(sc[:episode_num]), sc[:episode]]
-          Book::AkitashotenReadingCommunicator.new(uri, self.bookinfo.merge(episode: episode))
+          Book::AkitashotenReadingCommunicator.new(uri, bookinfo.merge(episode: episode))
         end
 
         true

@@ -54,7 +54,7 @@ describe EBookloader::BookInfo do
   end
 
   describe '#bookinfo' do
-    subject{ book.bookinfo }
+    subject{ book.__send__ :bookinfo }
 
     it 'は作者と題名をハッシュで返す' do
       expect( subject ).to eql(author: 'author', title: 'title')

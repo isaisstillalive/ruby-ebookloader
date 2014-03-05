@@ -6,8 +6,6 @@ module EBookloader
   #   @return [String] 題名
   # @!attribute [rw] author
   #   @return [String, Array<String>] 作者名
-  # @!attribute [rw] bookinfo
-  #   @return [Hash] 情報
   module BookInfo
     attr_accessor :title, :author
 
@@ -21,12 +19,6 @@ module EBookloader
       '[%s] %s' % [authors.join(', '), title]
     end
 
-    # @!attribute [r] bookinfo
-    # @return [Hash] 書籍情報
-    def bookinfo
-      {title: @title, author: @author}
-    end
-
     # 書籍情報を上書き更新する
     # @param options [#to_hash] 書籍情報
     # @option options [String] :title 題名
@@ -37,6 +29,12 @@ module EBookloader
     end
 
     private
+
+    # @!attribute [r] bookinfo
+    # @return [Hash] 書籍情報
+    def bookinfo
+      {title: @title, author: @author}
+    end
 
     # 書籍情報を上書きしないで更新する
     # @param options [#to_hash] 書籍情報
