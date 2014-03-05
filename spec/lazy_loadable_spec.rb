@@ -58,33 +58,17 @@ describe EBookloader::LazyLoadable do
     before{
       class << lazy_object
         def lazy_load
-          @lazy_property2 = 'lazy_property2'
           @lazy_property = 'lazy_property'
           true
         end
-
-        def lazy_property
-          @lazy_property
-        end
       end
     }
-    let(:property){ :lazy_property }
-    subject{ lazy_object_eigenclass.__send__ :attr_lazy_reader, property }
+    subject{ lazy_object_eigenclass.__send__ :attr_lazy_reader, :lazy_property }
 
-    it 'は#loadを実行し、リーダーメソッドを実行した結果を返すプロパティを作成する' do
+    it 'は#loadを実行し、インスタンス変数を返すプロパティを作成する' do
       expect( lazy_object ).to receive(:lazy_load).once.and_call_original
       subject
       expect( lazy_object.lazy_property ).to eql 'lazy_property'
-    end
-
-    context 'リーダーメソッドが存在しない場合' do
-      let(:property){ :lazy_property2 }
-
-      it 'はインスタンス変数を返す' do
-        expect( lazy_object ).to receive(:lazy_load).once.and_call_original
-        subject
-        expect( lazy_object.lazy_property2 ).to eql 'lazy_property2'
-      end
     end
 
     it 'はnilを返す' do
