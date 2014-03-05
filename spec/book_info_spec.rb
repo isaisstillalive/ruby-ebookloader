@@ -143,8 +143,8 @@ describe EBookloader::BookInfo do
       end
     end
 
-    context 'マージの場合' do
-      subject{ book.__send__ :update_core, { title: 'new_title', author: 'new_author' }, true }
+    context '上書きしない場合' do
+      subject{ book.__send__ :update_core, { title: 'new_title', author: 'new_author' }, false }
 
       it 'はすでに設定されている題名を設定しない' do
         subject
@@ -159,19 +159,19 @@ describe EBookloader::BookInfo do
   end
 
   describe '#update' do
-    subject{ book.update title: 'new_title' }
+    subject{ book.__send__ :update, title: 'new_title' }
 
-    it 'は#update_coreを非マージで実行する' do
-      expect( book ).to receive(:update_core).with({ title: 'new_title'}, false)
+    it 'は#update_coreを上書きモードで実行する' do
+      expect( book ).to receive(:update_core).with({ title: 'new_title'}, true)
       subject
     end
   end
 
-  describe '#merge' do
-    subject{ book.merge title: 'new_title' }
+  describe '#update_without_overwrite' do
+    subject{ book.__send__ :update_without_overwrite, title: 'new_title' }
 
-    it 'は#update_coreをマージで実行する' do
-      expect( book ).to receive(:update_core).with({ title: 'new_title'}, true)
+    it 'は#update_coreを非上書きモードで実行する' do
+      expect( book ).to receive(:update_core).with({ title: 'new_title'}, false)
       subject
     end
   end

@@ -11,7 +11,7 @@ module EBookloader
     # 遅延読み込みを行う
     # @return [Boolean] 成功したか
     def lazy_load
-      merge title: Pathname(@uri.path).basename.to_s
+      update_without_overwrite title: Pathname(@uri.path).basename.to_s
       true
     end
 

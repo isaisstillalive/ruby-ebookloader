@@ -10,7 +10,7 @@ module EBookloader
         source = get @uri
         source.body.force_encoding Encoding::UTF_8
 
-        merge source.body.match(%r{<h2 class="workTextTtl">\s*?<img[^>]*alt="(?<title>[^"]*?)">\s*?</h2>\s*?<p class="workTextAuthor">\s*?著者名： (?<author>.*?)\s*?</p>}m).extend(Extensions::MatchData)
+        update_without_overwrite source.body.match(%r{<h2 class="workTextTtl">\s*?<img[^>]*alt="(?<title>[^"]*?)">\s*?</h2>\s*?<p class="workTextAuthor">\s*?著者名： (?<author>.*?)\s*?</p>}m).extend(Extensions::MatchData)
 
         source.body.match %r{<ul class="workList backnumber">(?<list>.*?)</ul>(?:.*?<ul class="workList extra">(?<extra>.*?)</ul>)?}m do |match|
           extra = match[:extra] || ''

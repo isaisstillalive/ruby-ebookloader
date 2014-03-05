@@ -16,7 +16,7 @@ module EBookloader
         xml = get configue_uri
         doc = REXML::Document.new xml.body
 
-        merge title: doc.text('/config/title'), author: doc.text('/config/author')
+        update_without_overwrite title: doc.text('/config/title'), author: doc.text('/config/author')
 
         page_count = doc.text('/config/number').to_i
         @pages = (1..page_count).map do |page|

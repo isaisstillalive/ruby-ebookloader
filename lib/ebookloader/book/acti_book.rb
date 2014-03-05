@@ -13,7 +13,7 @@ module EBookloader
         xml = get configue_uri
         doc = REXML::Document.new xml.body
 
-        merge title: doc.text('/book/name')
+        update_without_overwrite title: doc.text('/book/name')
 
         @pages = doc.get_elements('/book/pages/page').map do |page|
           page_number = page.text('number')

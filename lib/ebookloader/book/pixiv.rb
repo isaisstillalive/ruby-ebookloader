@@ -16,7 +16,7 @@ module EBookloader
       def lazy_load
         csv = get_illust_csv
 
-        merge title: csv[3], author: csv[5]
+        update_without_overwrite title: csv[3], author: csv[5]
         @extension = csv[2]
 
         @page = URI('http://i2.pixiv.net/img%5$02d/img/%25$s/%1$d.%3$s' % csv)

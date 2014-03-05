@@ -18,7 +18,7 @@ module EBookloader
 
             match = body.match(%r{<h3><img src="img/#{@identifier}_01.png" alt="(?<title>[^"]*?)" /></h3>.*?<p><img src="img/#{@identifier}_02.png" alt="(?<author>[^"]*?)" /></?p>}m)
             author = match[:author].gsub('漫画：', '').gsub('　脚本：', ' with ')
-            merge title: match[:title], author: author
+            update_without_overwrite title: match[:title], author: author
 
             @books = body.global_match(%r{<div class="viewerBox"[^>]*?>.*?<div class="viewerBoxSam">.*?<span>((?<episode_num>[^「]*?)\s*「(?<episode>[^」]*?)」|(?<episode>.*?))</span>.*?<!-- .viewerBoxSam --></div>.*?javascript:Fullscreen\('(?<uri>[^']*)'\);.*?<!-- \.viewerBox --></div>}m).map do |sc|
               uri = @uri + sc[:uri]

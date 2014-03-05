@@ -23,7 +23,7 @@ describe EBookloader::Book::Pixiv::Manga do
     end
 
     it 'はCSVから書籍情報を更新する' do
-      expect( book ).to receive(:merge).with(duck_type(:[])){ |arg|
+      expect( book ).to receive(:update_without_overwrite).with(duck_type(:[])){ |arg|
         expect( arg[:title] ).to eql 'title'
         expect( arg[:author] ).to eql 'member_name'
       }

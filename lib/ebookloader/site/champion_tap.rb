@@ -10,7 +10,7 @@ module EBookloader
         source = get @uri
         source.body.force_encoding Encoding::UTF_8
 
-        merge source.body.match(%r{<header><h1><strong>(?<title>.*?)</strong> ／ (?<author>.*?)</h1></header>}).extend(Extensions::MatchData)
+        update_without_overwrite source.body.match(%r{<header><h1><strong>(?<title>.*?)</strong> ／ (?<author>.*?)</h1></header>}).extend(Extensions::MatchData)
 
         source.body.extend EBookloader::Extensions::String
         @books = source.body.global_match(%r{<li><a href="(?<uri>[^"]*)" class="openViewer".*?<figcaption><strong>(?<episode_num>.*?)（[^）]*?）</strong>(?<episode>.*?)</figcaption>}m).reverse_each.map do |sc|

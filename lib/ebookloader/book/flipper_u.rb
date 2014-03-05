@@ -17,7 +17,7 @@ module EBookloader
         bookInformation = doc.elements['/setting/bookInformation']
         sliceViewer = doc.elements['/setting/renderer/SliceViewer']
 
-        merge title: bookInformation.text('bookTitle')
+        update_without_overwrite title: bookInformation.text('bookTitle')
 
         scale = bookInformation.text('maxMagnification').to_i
         options_base = {
