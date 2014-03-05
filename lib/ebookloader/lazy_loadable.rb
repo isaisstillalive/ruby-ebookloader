@@ -11,9 +11,18 @@ module EBookloader
 
       def attr_lazy_reader *names
         names.each do |name|
-          define_method name do
-            var = proc{ instance_variable_get("@#{name}") }
-            var.call || (load; var.call)
+          if method_defined? name
+            original_name = "#{name}_original".to_sym
+            alias_method original_name, name
+            define_method name do
+              var = proc{ __send__ original_name }
+              var.call || (load; var.call)
+            end
+          else
+            define_method name do
+              var = proc{ instance_variable_get("@#{name}") }
+              var.call || (load; var.call)
+            end
           end
         end
         nil
