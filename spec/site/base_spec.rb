@@ -8,6 +8,28 @@ describe EBookloader::Site::Base do
 
   it_behaves_like 'a LazyLoadable BookInfo'
 
+  describe '初期化' do
+    context 'URIが渡された場合' do
+      it 'はURIをそのまま使用する' do
+        book = described_class.new URI('http://example.com/')
+        expect( book.instance_variable_get :@uri ).to eql URI('http://example.com/')
+      end
+    end
+
+    context 'URI文字列が渡された場合' do
+      it 'はURI文字列をURIにパースする' do
+        book = described_class.new 'http://example.com/'
+        expect( book.instance_variable_get :@uri ).to eql URI('http://example.com/')
+      end
+    end
+
+    context '不正な文字列が渡された場合' do
+      it 'は例外を発生させる' do
+        expect{ described_class.new '日本語.com' }.to raise_error URI::InvalidURIError
+      end
+    end
+  end
+
   describe '#uri' do
     subject{ site.uri }
 
