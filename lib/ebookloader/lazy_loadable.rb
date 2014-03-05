@@ -3,8 +3,11 @@
 module EBookloader
   module LazyLoadable
     private
+
     def self.included mod
       class << mod
+        private
+
         def attr_lazy_reader *names
           names.each do |name|
             define_method name do
@@ -12,6 +15,7 @@ module EBookloader
               var.call || (load; var.call)
             end
           end
+          nil
         end
 
         def attr_lazy_accessor *names

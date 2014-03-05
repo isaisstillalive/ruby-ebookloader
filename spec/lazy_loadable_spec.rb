@@ -8,6 +8,7 @@ describe EBookloader::LazyLoadable do
   end
 
   let(:lazy_object){ LazyObject.new }
+  let(:lazy_object_eigenclass){ (class << lazy_object; self; end) }
 
   describe '#load' do
     subject{ lazy_object.__send__ :load }
@@ -56,44 +57,36 @@ describe EBookloader::LazyLoadable do
   describe '.attr_lazy_reader' do
     before{
       class << lazy_object
-        attr_lazy_reader :lazy_property
-
         def lazy_load
           @lazy_property = 'lazy_property'
           true
         end
       end
     }
-    subject{ lazy_object.lazy_property }
+    subject{ lazy_object_eigenclass.__send__ :attr_lazy_reader, :lazy_property }
 
     it 'は#loadを実行し、インスタンス変数を返すプロパティを作成する' do
       expect( lazy_object ).to receive(:lazy_load).once.and_call_original
-      expect( subject ).to eql 'lazy_property'
+      subject
+      expect( lazy_object.lazy_property ).to eql 'lazy_property'
+    end
+
+    it 'はnilを返す' do
+      expect( subject ).to eql nil
     end
   end
 
   describe '.attr_lazy_accessor' do
-    before{
-      class << lazy_object
-        attr_lazy_accessor :lazy_property
+    subject{ lazy_object_eigenclass.__send__ :attr_lazy_accessor, :lazy_property }
 
-        def lazy_load
-          @lazy_property = 'lazy_property'
-          true
-        end
-      end
-    }
-    subject{ lazy_object.lazy_property }
-
-    it 'は#loadを実行し、インスタンス変数を返すプロパティを作成する' do
-      expect( lazy_object ).to receive(:load).once.and_call_original
-      expect( subject ).to eql 'lazy_property'
+    it 'はattr_lazy_readerとattr_writerを実行する' do
+      expect( lazy_object_eigenclass ).to receive(:attr_lazy_reader).with(:lazy_property)
+      expect( lazy_object_eigenclass ).to receive(:attr_writer).with(:lazy_property)
+      subject
     end
 
-    it 'はインスタンス変数の値を設定できるプロパティを作成する' do
-      lazy_object.lazy_property = 'old_value'
-      expect( lazy_object ).to_not receive(:load)
-      expect( subject ).to eql 'old_value'
+    it 'はnilを返す' do
+      expect( subject ).to eql nil
     end
   end
 end
