@@ -5,12 +5,15 @@ require 'csv'
 
 describe EBookloader::Book::Pixiv::Manga do
   let(:book){ described_class.new '12345678', pixiv_id: 'pixiv_id', password: 'password' }
+  let(:bookinfo){ book }
   before{
     allow( book ).to receive(:write)
   }
 
   describe '#lazy_load' do
     subject{ book.__send__ :lazy_load }
+
+    it_behaves_like 'a BookInfo updater', title: 'title', author: 'member_name'
 
     before{
       allow( book ).to receive(:get_illust_csv).and_return(response('/book/pixiv/manga.csv').body.parse_csv)
@@ -20,14 +23,6 @@ describe EBookloader::Book::Pixiv::Manga do
     it 'はAPIからCSVを取得する' do
       expect( book ).to receive(:get_illust_csv).and_return(response('/book/pixiv/manga.csv').body.parse_csv)
       expect( subject ).to eql true
-    end
-
-    it 'はCSVから書籍情報を更新する' do
-      expect( book ).to receive(:update_without_overwrite).with(duck_type(:[])){ |arg|
-        expect( arg[:title] ).to eql 'title'
-        expect( arg[:author] ).to eql 'member_name'
-      }
-      subject
     end
 
     it 'は@pagesを設定する' do
