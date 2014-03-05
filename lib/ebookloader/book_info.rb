@@ -7,7 +7,9 @@ module EBookloader
   # @!attribute [rw] author
   #   @return [String, Array<String>] 作者名
   module BookInfo
-    attr_accessor :title, :author
+    include LazyLoadable
+
+    attr_lazy_accessor :title, :author
 
     # @!attribute [r] name
     # @return [String] ファイル名

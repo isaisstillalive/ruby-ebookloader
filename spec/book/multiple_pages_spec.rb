@@ -7,7 +7,7 @@ describe EBookloader::Book::MultiplePages do
   let(:book){ Object.new.extend described_class }
   let(:bookinfo){ book }
 
-  it_behaves_like 'a LazyLoadable object', :pages, false
+  it_behaves_like 'a LazyLoadable', :pages, false
 
   describe '#save_core' do
     let(:save_path){ Pathname('dirname') }

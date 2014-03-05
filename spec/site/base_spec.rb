@@ -4,9 +4,6 @@ require_relative '../spec_helper.rb'
 
 describe EBookloader::Site::Base do
   let(:site){ described_class.new 'uri' }
-  let(:bookinfo){ site }
-
-  it_behaves_like 'a LazyLoadable BookInfo'
 
   describe '初期化' do
     context 'URIが渡された場合' do

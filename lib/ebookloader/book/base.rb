@@ -16,7 +16,7 @@ module EBookloader
       include BookInfo
 
       attr_reader :uri, :options
-      attr_lazy_accessor :title, :author, :episode
+      attr_lazy_accessor :episode
 
       # @!attribute [r] name
       # @return [String] ファイル名

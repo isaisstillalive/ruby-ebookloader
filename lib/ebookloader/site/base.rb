@@ -16,7 +16,7 @@ module EBookloader
       include BookInfo
 
       attr_reader :uri, :options
-      attr_lazy_accessor :title, :author, :books
+      attr_lazy_accessor :books
 
       # 初期化
       # @param uri_str [URI, String] URI、またはURI文字列

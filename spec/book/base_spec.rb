@@ -6,8 +6,7 @@ describe EBookloader::Book::Base do
   let(:book){ described_class.new 'uri' }
   let(:bookinfo){ book }
 
-  it_behaves_like 'a LazyLoadable BookInfo'
-  it_behaves_like 'a LazyLoadable object', :author, true
+  it_behaves_like 'a LazyLoadable', :episode, true
 
   describe '初期化' do
     context 'URIが渡された場合' do

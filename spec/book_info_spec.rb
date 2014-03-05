@@ -8,10 +8,14 @@ describe EBookloader::BookInfo do
   end
 
   let(:book){ Book.new }
+  let(:bookinfo){ book }
   before{
     book.title = 'title'
     book.author = 'author'
   }
+
+  it_behaves_like 'a LazyLoadable', :title, false
+  it_behaves_like 'a LazyLoadable', :author, false
 
   describe '#title' do
     subject{ book.title }

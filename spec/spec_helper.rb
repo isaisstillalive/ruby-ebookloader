@@ -29,12 +29,7 @@ def response path
   RSpec::Mocks::Mock.new('response', { :body => html(path) })
 end
 
-shared_examples_for 'a LazyLoadable BookInfo' do
-  it_behaves_like 'a LazyLoadable object', :title, true
-  it_behaves_like 'a LazyLoadable object', :author, true
-end
-
-shared_examples_for 'a LazyLoadable object' do |name, with_initialize|
+shared_examples_for 'a LazyLoadable' do |name, with_initialize|
   describe "\##{name}" do
     subject{ bookinfo.__send__ name }
 
@@ -57,6 +52,8 @@ shared_examples_for 'a LazyLoadable object' do |name, with_initialize|
     end
 
     context "@#{name}が設定されていない場合" do
+      before{ bookinfo.instance_variable_set "@#{name}", nil }
+
       it "は#lazy_loadを実行し、@#{name}を返す" do
         expect( bookinfo ).to receive(:lazy_load).and_return(true) do
           bookinfo.instance_variable_set "@#{name}", 'update_value'
