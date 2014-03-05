@@ -7,6 +7,7 @@ describe EBookloader::Book::Base do
   let(:bookinfo){ book }
 
   it_behaves_like 'a LazyLoadable BookInfo'
+  it_behaves_like 'a LazyLoadable object', :author, true
 
   describe '初期化' do
     context 'URIが渡された場合' do
@@ -35,37 +36,6 @@ describe EBookloader::Book::Base do
 
     it 'は@uriを返す' do
       expect( subject ).to eql URI('uri')
-    end
-  end
-
-  describe '#episode' do
-    subject{ book.episode }
-
-    context '@episodeが初期化されている場合' do
-      let(:book){ described_class.new 'uri', episode: 'episode' }
-
-      it 'は@episodeを返す' do
-        expect( subject ).to eql 'episode'
-      end
-    end
-
-    context '@episodeが設定されている場合' do
-      before{ book.episode = 'episode' }
-
-      it 'は@episodeを返す' do
-        expect( subject ).to eql 'episode'
-      end
-    end
-
-    context '@episodeが設定されていない場合' do
-      it 'は#lazy_loadを実行し、@episodeを返す' do
-        def book.lazy_load
-          @episode = 'episode'
-          true
-        end
-        expect( bookinfo ).to receive(:lazy_load).and_call_original
-        expect( subject ).to eql 'episode'
-      end
     end
   end
 
@@ -165,7 +135,8 @@ describe EBookloader::Book::Base do
   end
 
   describe '#save' do
-    subject{ book.save Pathname('dir'), {option: :option} }
+    let(:options){ {option: :option} }
+    subject{ book.save Pathname('dir'), options }
     before{
       allow( book ).to receive(:name).and_return('name')
     }
@@ -178,6 +149,16 @@ describe EBookloader::Book::Base do
     it 'はオプションを渡す' do
       expect( book ).to receive(:save_core).with(anything(), {option: :option}).and_return(true)
       subject
+    end
+
+    context 'オプションがHash以外の場合' do
+      let(:options){ double('Like A Hash') }
+
+      it 'は#to_hashを用いてHashに変換する' do
+        expect( options ).to receive(:to_hash).and_return({option: :option})
+        expect( book ).to receive(:save_core).with(anything(), {option: :option}).and_return(true)
+        subject
+      end
     end
 
     it 'は保存先パスに本の名前を足して保存パスとして使用する' do
