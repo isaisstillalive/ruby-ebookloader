@@ -43,6 +43,14 @@ describe EBookloader::BookInfo do
         expect( subject ).to eql 'title'
       end
     end
+
+    context '作者が複数設定されている場合' do
+      before{ book.instance_variable_set :@author, ['author1', 'author2'] }
+
+      it 'は作者をカンマで区切って返す' do
+        expect( subject ).to eql '[author1, author2] title'
+      end
+    end
   end
 
   describe '#bookinfo' do

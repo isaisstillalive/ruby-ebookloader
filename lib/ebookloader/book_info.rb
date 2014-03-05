@@ -1,10 +1,11 @@
 # coding: utf-8
 
 module EBookloader
+  # 書籍情報を表すモジュール
   # @!attribute [rw] title
   #   @return [String] 題名
   # @!attribute [rw] author
-  #   @return [String] 作者名
+  #   @return [String, Array<String>] 作者名
   # @!attribute [rw] bookinfo
   #   @return [Hash] 情報
   module BookInfo
@@ -15,7 +16,9 @@ module EBookloader
     def name
       return title unless author
 
-      '[%s] %s' % [author, title]
+      authors = author.kind_of?(Array) ? author : [author]
+
+      '[%s] %s' % [authors.join(', '), title]
     end
 
     # @!attribute [r] name

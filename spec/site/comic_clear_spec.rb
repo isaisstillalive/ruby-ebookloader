@@ -18,7 +18,7 @@ describe EBookloader::Site::ComicClear do
   describe '#lazy_load' do
     subject{ site.__send__ :lazy_load }
 
-    it_behaves_like 'a BookInfo updater', title: 'title', author: 'author0, author1, author2, other1, other2'
+    it_behaves_like 'a BookInfo updater', title: 'title', author: ['author0', 'author1', 'author2', 'other1', 'other2']
 
     before{
       allow( site ).to receive(:get).and_return(response('/site/comic_clear/identifier.html'))

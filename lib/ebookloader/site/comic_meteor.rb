@@ -11,10 +11,9 @@ module EBookloader
         source = get @uri
         source.body.force_encoding Encoding::UTF_8
 
-        authors = source.body.scan(%r{<h4 class="tit_04">.*?：(.*?)</h4>}m)
-        author = authors.flatten.join ', '
+        authors = source.body.scan(%r{<h4 class="tit_04">.*?：(.*?)</h4>}m).flatten
         match = source.body.match(%r{<h2 class="h2Title">(?<title>.*?)</h2>}m)
-        update_without_overwrite title: match[:title], author: author
+        update_without_overwrite title: match[:title], author: authors
 
         source.body.extend EBookloader::Extensions::String
         @books = source.body.global_match(%r{<div class="totalinfo">\s*<div class="eachStoryText">\s*<h4>(?<episode>[^<]*?)</h4>.*?<a target="_new" href="(?<uri>[^""]*?)">読む</a>}m).reverse_each.map do |sc|

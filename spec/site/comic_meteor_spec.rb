@@ -17,7 +17,7 @@ describe EBookloader::Site::ComicMeteor do
   describe '#lazy_load' do
     subject{ site.__send__ :lazy_load }
 
-    it_behaves_like 'a BookInfo updater', title: 'title', author: 'author1, author2'
+    it_behaves_like 'a BookInfo updater', title: 'title', author: ['author1', 'author2']
 
     before{
       allow( site ).to receive(:get).and_return(response('/site/comic_meteor/identifier.html'))
