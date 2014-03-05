@@ -115,12 +115,12 @@ describe EBookloader::Book::Base do
   describe '#==' do
     subject{ book1 == book2 }
 
-    class Book1 < EBookloader::Book; end
-    class Book2 < EBookloader::Book; end
+    class Book1 < described_class; end
+    class Book2 < described_class; end
 
-    context '@uriとクラスが同じ場合' do
-      let(:book1){ described_class.new('uri') }
-      let(:book2){ described_class.new('uri') }
+    context '@uriとクラスとオプションが同じ場合' do
+      let(:book1){ described_class.new('uri', episode: :episode, option: :option) }
+      let(:book2){ described_class.new('uri', episode: :episode, option: :option) }
 
       it 'はtrueを返す' do
         expect( subject ).to eql true
@@ -128,8 +128,8 @@ describe EBookloader::Book::Base do
     end
 
     context '@uriが異なる場合' do
-      let(:book1){ described_class.new('uri1') }
-      let(:book2){ described_class.new('uri2') }
+      let(:book1){ described_class.new('uri1', episode: :episode, option: :option) }
+      let(:book2){ described_class.new('uri2', episode: :episode, option: :option) }
 
       it 'はfalseを返す' do
         expect( subject ).to eql false
@@ -137,11 +137,29 @@ describe EBookloader::Book::Base do
     end
 
     context 'クラスが異なる場合' do
-      let(:book1){ Book1.new('uri1') }
-      let(:book2){ Book2.new('uri2') }
+      let(:book1){ Book1.new('uri', episode: :episode, option: :option) }
+      let(:book2){ Book2.new('uri', episode: :episode, option: :option) }
 
       it 'はfalseを返す' do
         expect( subject ).to eql false
+      end
+    end
+
+    context 'オプションが異なる場合' do
+      let(:book1){ described_class.new('uri', episode: :episode, option: :option1) }
+      let(:book2){ described_class.new('uri', episode: :episode, option: :option2) }
+
+      it 'はfalseを返す' do
+        expect( subject ).to eql false
+      end
+    end
+
+    context '書籍情報だけが異なる場合' do
+      let(:book1){ described_class.new('uri', episode: :episode1, option: :option) }
+      let(:book2){ described_class.new('uri', episode: :episode2, option: :option) }
+
+      it 'はtrueを返す' do
+        expect( subject ).to eql true
       end
     end
   end

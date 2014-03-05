@@ -70,9 +70,9 @@ describe EBookloader::Site::Base do
     class Site1 < EBookloader::Site; end
     class Site2 < EBookloader::Site; end
 
-    context '@uriとクラスが同じ場合' do
-      let(:site1){ described_class.new('uri') }
-      let(:site2){ described_class.new('uri') }
+    context '@uriとクラスとオプションが同じ場合' do
+      let(:site1){ described_class.new('uri', title: :title, option: :option) }
+      let(:site2){ described_class.new('uri', title: :title, option: :option) }
 
       it 'はtrueを返す' do
         expect( subject ).to eql true
@@ -80,8 +80,8 @@ describe EBookloader::Site::Base do
     end
 
     context '@uriが異なる場合' do
-      let(:site1){ described_class.new('uri1') }
-      let(:site2){ described_class.new('uri2') }
+      let(:site1){ described_class.new('uri1', title: :title, option: :option) }
+      let(:site2){ described_class.new('uri2', title: :title, option: :option) }
 
       it 'はfalseを返す' do
         expect( subject ).to eql false
@@ -89,11 +89,29 @@ describe EBookloader::Site::Base do
     end
 
     context 'クラスが異なる場合' do
-      let(:site1){ Site1.new('uri1') }
-      let(:site2){ Site2.new('uri2') }
+      let(:site1){ Site1.new('uri1', title: :title, option: :option) }
+      let(:site2){ Site2.new('uri2', title: :title, option: :option) }
 
       it 'はfalseを返す' do
         expect( subject ).to eql false
+      end
+    end
+
+    context 'オプションが異なる場合' do
+      let(:site1){ described_class.new('uri', title: :title, option: :option1) }
+      let(:site2){ described_class.new('uri', title: :title, option: :option2) }
+
+      it 'はfalseを返す' do
+        expect( subject ).to eql false
+      end
+    end
+
+    context '書籍情報だけが異なる場合' do
+      let(:site1){ described_class.new('uri', title: :title1, option: :option) }
+      let(:site2){ described_class.new('uri', title: :title2, option: :option) }
+
+      it 'はtrueを返す' do
+        expect( subject ).to eql true
       end
     end
   end

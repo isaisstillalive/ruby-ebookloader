@@ -6,7 +6,7 @@ module EBookloader
     # @abstract
     # @!attribute [r] uri
     #   @return [URI] URI
-    # @!attribute [rw] options
+    # @!attribute [r] options
     #   @return [Hash] オプション
     # @!attribute [rw] episode
     #   @return [String] エピソード名
@@ -15,8 +15,7 @@ module EBookloader
       include LazyLoadable
       include BookInfo
 
-      attr_reader :uri
-      attr_accessor :options
+      attr_reader :uri, :options
       attr_lazy_accessor :title, :author, :episode
 
       # 初期化
@@ -44,6 +43,7 @@ module EBookloader
       def == other
         return false unless self.class == other.class
         return false unless self.uri == other.uri
+        return false unless self.options == other.options
 
         true
       end
