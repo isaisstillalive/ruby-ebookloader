@@ -11,9 +11,10 @@ describe EBookloader::Book::MultiplePages do
 
   describe '#save_core' do
     let(:save_path){ Pathname('dirname') }
-    subject{ book.__send__ :save_core, save_path }
+    subject{ book.__send__ :save_core, save_path, save_option }
 
     let(:options){ {} }
+    let(:save_option){ {} }
 
     let(:page){ double('Page') }
 
@@ -47,8 +48,8 @@ describe EBookloader::Book::MultiplePages do
       end
     end
 
-    context 'オプションとしてオフセットが指定されている場合' do
-      let(:options){ {offset: 2} }
+    context '保存オプションとしてオフセットが指定されている場合' do
+      let(:save_option){ {offset: 2} }
 
       it 'はオフセットを渡して保存する' do
         expect( page ).to receive(:save).with(save_path, 2)

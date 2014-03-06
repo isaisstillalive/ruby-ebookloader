@@ -18,12 +18,13 @@ module EBookloader
       # @param save_path [Pathname] 保存先
       # @param options [#to_hash] 保存オプション
       # @option options [Boolean] :zip trueならばzip圧縮する
+      # @option options [Integer] :offset (0) 保存時にページ番号をズラす値
       # @return [Boolean] 成功したか
       # @see Book::Base#save
       def save_core save_path, options = {}
         save_path.mkpath unless save_path.exist?
 
-        offset = self.options[:offset] || 0
+        offset = options[:offset] || 0
 
         pages = self.pages
         if self.options[:slice]
