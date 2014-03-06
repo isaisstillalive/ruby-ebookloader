@@ -33,5 +33,7 @@ module EBookloader
     def write file_path, uri, headers = {}
       file_path.open('wb') { |p| p.write(get(uri, headers).body) }
     end
+
+    require_relative 'connectable/pixiv'
   end
 end

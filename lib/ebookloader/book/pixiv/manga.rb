@@ -9,7 +9,7 @@ module EBookloader
         private
 
         def lazy_load
-          csv = get_illust_csv
+          csv = get_illust_csv @illust_id
 
           update_without_overwrite title: csv[3], author: csv[5]
           @extension = csv[2]

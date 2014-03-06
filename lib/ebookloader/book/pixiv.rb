@@ -3,6 +3,8 @@
 module EBookloader
   class Book
     class Pixiv < Base
+      include Connectable::Pixiv
+
       attr_reader :illust_id
       attr_lazy_reader :page
 
@@ -14,7 +16,7 @@ module EBookloader
       private
 
       def lazy_load
-        csv = get_illust_csv
+        csv = get_illust_csv @illust_id
 
         update_without_overwrite title: csv[3], author: csv[5]
         @extension = csv[2]
@@ -29,35 +31,6 @@ module EBookloader
         save_path.parent.mkpath unless save_path.parent.exist?
 
         write save_path, page
-      end
-
-      def get_illust_csv
-        require 'csv'
-        csv = get URI("http://spapi.pixiv.net/iphone/illust.php?illust_id=#{@illust_id}&PHPSESSID=#{session}")
-        csv.body.force_encoding Encoding::UTF_8
-        csv.body.parse_csv
-      end
-
-      def run_request method, uri, body = nil, headers = {}
-        headers ||= {}
-        headers['Referer'] = 'http://iphone.pxv.jp/'
-        headers['Cookie'] = "PHPSESSID=#{session}"
-
-        super method, uri, body, headers
-      end
-
-      def session
-        login if @session.nil?
-        @session
-      end
-
-      def login
-        return if @options[:pixiv_id].nil? || @options[:password].nil?
-
-        @session = 'dummy'
-        header = post URI('https://www.secure.pixiv.net/login.php'), "mode=login&pixiv_id=#{@options[:pixiv_id]}&pass=#{@options[:password]}"
-        set_cookie = header['set-cookie']
-        @session = set_cookie.match(/PHPSESSID=(\d*_[0-9a-f]{32})/)[1]
       end
 
       require_relative 'pixiv/manga'
