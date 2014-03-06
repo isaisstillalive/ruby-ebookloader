@@ -87,7 +87,7 @@ module EBookloader
       def update_core options, overwrite = true
         super.tap do |options|
           if options.include? :episode
-            self.episode = options[:episode] if overwrite || !episode
+            self.episode = options[:episode] if overwrite || !self.episode
             options.delete :episode
           end
         end
