@@ -60,7 +60,7 @@ module EBookloader
         Zip::File.open(zip_path, Zip::File::CREATE) do |zipfile|
           dir_path.each_entry do |filename|
             next if filename.directory?
-            zipfile.add("#{dir_path.basename}/#{filename}".encode(Encoding::Shift_JIS), dir_path + filename)
+            zipfile.add("#{dir_path.basename}/#{filename}".encode(Encoding::Shift_JIS, invalid: :replace, undef: :replace), dir_path + filename)
           end
         end
 

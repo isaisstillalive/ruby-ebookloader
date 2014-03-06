@@ -166,5 +166,18 @@ describe EBookloader::Book::MultiplePages do
       expect(dir_path).to receive(:rmtree)
       subject
     end
+
+    context 'パスが日本語の場合' do
+      let(:dir_path){ Pathname('dir/日本語～') }
+
+      it 'はShift_JISに変換する' do
+        zip = double('zip')
+        allow( dir_path ).to receive(:each_entry).and_yield(Pathname('1.jpg')).and_yield(Pathname('2.jpg'))
+        expect( Zip::File ).to receive(:open).and_yield(zip)
+        expect( zip ).to receive(:add).with('日本語～/1.jpg'.encode(Encoding::Shift_JIS, invalid: :replace, undef: :replace), Pathname('dir/日本語～/1.jpg'))
+        expect( zip ).to receive(:add).with('日本語～/2.jpg'.encode(Encoding::Shift_JIS, invalid: :replace, undef: :replace), Pathname('dir/日本語～/2.jpg'))
+        subject
+      end
+    end
   end
 end
