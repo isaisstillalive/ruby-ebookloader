@@ -24,6 +24,23 @@ module EBookloader
         save_path.mkpath unless save_path.exist?
 
         offset = self.options[:offset] || 0
+
+        pages = self.pages
+        if self.options[:slice]
+          slice = self.options[:slice]
+
+          case slice
+          when Integer
+            slice = (slice >= 0) ? slice..-1 : 0..(slice-1)
+          when Range
+            if slice.last < 0
+              slice = slice.first..(slice.last-1)
+            end
+          end
+          offset -= slice.first
+          pages = pages[slice]
+        end
+
         pages.each do |page|
           page.save save_path, offset
         end

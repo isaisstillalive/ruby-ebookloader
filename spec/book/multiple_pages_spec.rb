@@ -56,6 +56,61 @@ describe EBookloader::Book::MultiplePages do
       end
     end
 
+    context 'オプションとしてスライスが指定されている場合' do
+      let(:options){ {slice: 1..3} }
+      let(:pages){ Array.new(10){ double('Page') } }
+      before{
+        allow( book ).to receive(:pages).and_return(pages)
+      }
+
+      it 'は範囲内のページだけ保存する' do
+        pages[1..3].each do |page|
+          expect( page ).to receive(:save)
+        end
+        subject
+      end
+
+      it 'は先頭の分だけオフセットをズラす' do
+        pages[1..3].each do |page|
+          expect( page ).to receive(:save).with(anything(), -1)
+        end
+        subject
+      end
+
+      context '範囲の末尾がマイナスの場合' do
+        let(:options){ {slice: 1..-1} }
+
+        it 'は後ろから数える' do
+          pages[1..8].each do |page|
+            expect( page ).to receive(:save)
+          end
+          subject
+        end
+      end
+
+      context '正の整数の場合' do
+        let(:options){ {slice: 2} }
+
+        it 'は先頭を捨てる' do
+          pages[2..9].each do |page|
+            expect( page ).to receive(:save).with(anything(), -2)
+          end
+          subject
+        end
+      end
+
+      context '負の整数の場合' do
+        let(:options){ {slice: -1} }
+
+        it 'は末尾を捨てる' do
+          pages[0..8].each do |page|
+            expect( page ).to receive(:save).with(anything(), 0)
+          end
+          subject
+        end
+      end
+    end
+
     context '保存ディレクトリが存在する場合' do
       it 'は保存ディレクトリを作成しない' do
         expect( save_path ).to receive(:exist?).and_return(true)

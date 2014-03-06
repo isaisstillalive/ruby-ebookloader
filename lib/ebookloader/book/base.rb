@@ -35,6 +35,10 @@ module EBookloader
       # @option options [String] :title 題名
       # @option options [String] :author 作者名
       # @option options [String] :episode エピソード名
+      # @option options [Integer &gt; 0] :slice ページの先頭を除外する（2ならば先頭の2ページを除外）
+      # @option options [Integer &lt; 0] :slice ページの末尾を除外する（-1ならば末尾の1ページを除外）
+      # @option options [Range] :slice ページの前後を除外する（1..-3ならば先頭の1ページと末尾の3ページを除外）
+      # @note :sliceオプションは、負数の扱いがArray#slice(Range)とは異なります
       # @raise [URI::InvalidURIError] URI文字列がパースできなかった場合に発生します
       def initialize uri_str, options = {}
         @uri = URI(uri_str)
