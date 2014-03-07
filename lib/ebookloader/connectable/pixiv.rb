@@ -15,18 +15,36 @@ module EBookloader
         headers['Referer'] = 'http://iphone.pxv.jp/'
         headers['Cookie'] = "PHPSESSID=#{session}"
 
-        super method, uri, body, headers
+        result = super method, uri, body, headers
+        result.body.force_encoding Encoding::UTF_8
+        result
       end
 
       def get_csv uri
         require 'csv'
+
+        uri = uri.dup
+        query = uri.query || ''
+
+        result = []
+        loop.with_index 1 do |_, page|
+          uri.query = query + "&p=#{page}"
+          csv_source = get uri
+          csv = CSV.parse csv_source.body
+          result += csv
+          break unless csv.size == 50
+        end
+        result
+      end
+
+      def get_single_csv uri
+        require 'csv'
         csv = get uri
-        csv.body.force_encoding Encoding::UTF_8
-        CSV.parse csv.body
+        CSV.parse_line csv.body
       end
 
       def get_illust_csv illust_id
-        get_csv(URI("http://spapi.pixiv.net/iphone/illust.php?illust_id=#{illust_id}"))[0]
+        get_single_csv(URI("http://spapi.pixiv.net/iphone/illust.php?illust_id=#{illust_id}"))
       end
 
       def get_member_illist_csv member_id

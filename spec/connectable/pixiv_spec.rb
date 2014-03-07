@@ -23,7 +23,7 @@ describe EBookloader::Connectable::Pixiv do
     before{
       allow( connectable_object ).to receive(:login)
       allow( connectable_object ).to receive(:conn).and_return(conn)
-      allow( conn ).to receive(:run_request)
+      allow( conn ).to receive(:run_request).and_return(double('Response', body: ''))
     }
 
     it 'はリファラとセッションCookieを渡してFaradayにアクセスする' do
@@ -39,6 +39,14 @@ describe EBookloader::Connectable::Pixiv do
       connectable_object.instance_variable_set :@session, '0123456789abcdef0123456789abcdef'
       expect( conn ).to receive(:run_request).with(:method, '/path?&PHPSESSID=0123456789abcdef0123456789abcdef', anything(), anything())
       subject
+    end
+
+    it 'はレスポンスボディのエンコーディングをUTF8に変更する' do
+      connectable_object.instance_variable_set :@session, '0123456789abcdef0123456789abcdef'
+      body = 'abcde'
+      body.force_encoding Encoding::ASCII
+      allow( conn ).to receive(:run_request).with(:method, anything(), anything(), anything()).and_return(double('Response', body: body))
+      expect( subject.body.encoding ).to eql Encoding::UTF_8
     end
 
     context 'ボディが渡されている場合' do
@@ -79,11 +87,53 @@ describe EBookloader::Connectable::Pixiv do
     end
   end
 
+  describe '#get_single_csv' do
+    subject{ connectable_object.__send__ :get_single_csv, URI('http://example.com/') }
+
+    it 'はPixivにアクセスしてCSVを取得する' do
+      expect( connectable_object ).to receive(:get).with(URI('http://example.com/')).and_return(response('/book/pixiv/illust.csv'))
+
+      expect( subject ).to eq [
+        '11111111',
+        'member_id',
+        'extension',
+        'title',
+        '999',
+        'member_name',
+        'thumbnail_image_uri',
+        nil,
+        nil,
+        'medium_image_uri',
+        nil,
+        nil,
+        'update_date',
+        'tag1 tag2',
+        'tool',
+        'vote_count',
+        'vote_total',
+        'pv',
+        'description',
+        'page_max',
+        nil,
+        nil,
+        '123',
+        '3',
+        'member_nick_id',
+        nil,
+        '1',
+        nil,
+        nil,
+        'member_profile_image_uri',
+        nil,
+      ]
+    end
+  end
+
   describe '#get_csv' do
     subject{ connectable_object.__send__ :get_csv, URI('http://example.com/') }
 
     it 'はPixivにアクセスしてCSVを取得する' do
-      expect( connectable_object ).to receive(:get).with(URI('http://example.com/')).and_return(response('/book/pixiv/illust.csv'))
+      expect( connectable_object ).to receive(:get).with(URI('http://example.com/?&p=1')).and_return(response('/book/pixiv/illust.csv'))
 
       expect( subject ).to eq [[
         '11111111',
@@ -119,6 +169,21 @@ describe EBookloader::Connectable::Pixiv do
         nil,
       ]]
     end
+
+    context '50件返ってきた場合' do
+      it 'は次のページを処理する' do
+        expect( connectable_object ).to receive(:get).with(URI('http://example.com/?&p=1')).and_return(double('Response', body: '1'))
+        expect( connectable_object ).to receive(:get).with(URI('http://example.com/?&p=2')).and_return(double('Response', body: '2'))
+        expect( CSV ).to receive(:parse).with('1').and_return(Array.new(50))
+        expect( CSV ).to receive(:parse).with('2').and_return([:page2_1, :page2_2, :page2_3])
+
+        expect = Array.new(50)
+        expect << :page2_1
+        expect << :page2_2
+        expect << :page2_3
+        expect( subject ).to eq expect
+      end
+    end
   end
 
   describe '#get_illust_csv' do
@@ -126,7 +191,7 @@ describe EBookloader::Connectable::Pixiv do
     let(:result){ double('CSV Result') }
 
     it 'はPixivにアクセスしてCSVを取得する' do
-      expect( connectable_object ).to receive(:get_csv).with(URI('http://spapi.pixiv.net/iphone/illust.php?illust_id=12345678')).and_return([result])
+      expect( connectable_object ).to receive(:get_single_csv).with(URI('http://spapi.pixiv.net/iphone/illust.php?illust_id=12345678')).and_return(result)
 
       expect( subject ).to eql result
     end
@@ -183,7 +248,7 @@ describe EBookloader::Connectable::Pixiv do
   describe '#login' do
     subject{ connectable_object.__send__ :login }
     let(:conn){ double('FaradayConnector') }
-    let(:response){ double('Response') }
+    let(:response){ double('Response', body: '') }
 
     before{
       allow( response ).to receive(:[]).with('set-cookie').and_return('PHPSESSID=123456_0123456789abcdef0123456789abcdef; expires=Sun, 02-Mar-2014 00:22:10 GMT; Max-Age=3600; path=/; domain=.pixiv.net, p_ab_id=3; expires=Fri, 01-Jan-2019 00:00:00 GMT; Max-Age=157766400; path=/; domain=.pixiv.net')
