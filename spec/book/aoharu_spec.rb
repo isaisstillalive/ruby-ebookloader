@@ -30,8 +30,8 @@ describe EBookloader::Book::Aoharu do
         subject
 
         expect( book.pages ).to eq [
-          EBookloader::Book::MultiplePages::Page.new(URI('http://aoharu.jp/comic/identifier/1/iPhone/ipad/1/1.jpg'), page: 1),
-          EBookloader::Book::MultiplePages::Page.new(URI('http://aoharu.jp/comic/identifier/1/iPhone/ipad/1/2.jpg'), page: 2),
+          EBookloader::Book::Page.new(URI('http://aoharu.jp/comic/identifier/1/iPhone/ipad/1/1.jpg'), page: 1),
+          EBookloader::Book::Page.new(URI('http://aoharu.jp/comic/identifier/1/iPhone/ipad/1/2.jpg'), page: 2),
         ]
       end
     end

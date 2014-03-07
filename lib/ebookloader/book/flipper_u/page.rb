@@ -3,7 +3,7 @@
 module EBookloader
   class Book
     class FlipperU
-      class Page < EBookloader::Book::MultiplePages::Page
+      class Page < EBookloader::Book::Page
         def save dir, offset = 0
           require 'rubygems'
           require 'rmagick'

@@ -26,8 +26,8 @@ describe EBookloader::Book::UraSunday do
         subject
 
         expect( book.pages ).to eq [
-          EBookloader::Book::MultiplePages::Page.new(URI('http://urasunday.com/comic/identifier/pc/001/001_001_01.jpg'), page: 1),
-          EBookloader::Book::MultiplePages::Page.new(URI('http://urasunday.com/comic/identifier/pc/001/001_001_02.jpg'), page: 2),
+          EBookloader::Book::Page.new(URI('http://urasunday.com/comic/identifier/pc/001/001_001_01.jpg'), page: 1),
+          EBookloader::Book::Page.new(URI('http://urasunday.com/comic/identifier/pc/001/001_001_02.jpg'), page: 2),
         ]
       end
     end
@@ -43,8 +43,8 @@ describe EBookloader::Book::UraSunday do
         subject
 
         expect( book.pages ).to eq [
-          EBookloader::Book::MultiplePages::Page.new(URI('http://img.urasunday.com/eximages/comic/identifier/pc/002/002_002_01.jpg'), page: 1),
-          EBookloader::Book::MultiplePages::Page.new(URI('http://img.urasunday.com/eximages/comic/identifier/pc/002/002_002_02.jpg'), page: 2),
+          EBookloader::Book::Page.new(URI('http://img.urasunday.com/eximages/comic/identifier/pc/002/002_002_01.jpg'), page: 1),
+          EBookloader::Book::Page.new(URI('http://img.urasunday.com/eximages/comic/identifier/pc/002/002_002_02.jpg'), page: 2),
         ]
       end
     end

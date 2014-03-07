@@ -26,9 +26,9 @@ describe EBookloader::Book::Pixiv::Manga do
       subject
 
       expect( book.pages ).to eq [
-        EBookloader::Book::MultiplePages::Page.new(URI('http://i2.pixiv.net/img999/img/member_nick_id/11111111_big_p0.extension'), page: 1, extension: :extension, headers: {'Referer' => 'http://www.pixiv.net/'}),
-        EBookloader::Book::MultiplePages::Page.new(URI('http://i2.pixiv.net/img999/img/member_nick_id/11111111_big_p1.extension'), page: 2, extension: :extension, headers: {'Referer' => 'http://www.pixiv.net/'}),
-        EBookloader::Book::MultiplePages::Page.new(URI('http://i2.pixiv.net/img999/img/member_nick_id/11111111_big_p2.extension'), page: 3, extension: :extension, headers: {'Referer' => 'http://www.pixiv.net/'}),
+        EBookloader::Book::Page.new(URI('http://i2.pixiv.net/img999/img/member_nick_id/11111111_big_p0.extension'), page: 1, extension: :extension, headers: {'Referer' => 'http://www.pixiv.net/'}),
+        EBookloader::Book::Page.new(URI('http://i2.pixiv.net/img999/img/member_nick_id/11111111_big_p1.extension'), page: 2, extension: :extension, headers: {'Referer' => 'http://www.pixiv.net/'}),
+        EBookloader::Book::Page.new(URI('http://i2.pixiv.net/img999/img/member_nick_id/11111111_big_p2.extension'), page: 3, extension: :extension, headers: {'Referer' => 'http://www.pixiv.net/'}),
       ]
     end
   end

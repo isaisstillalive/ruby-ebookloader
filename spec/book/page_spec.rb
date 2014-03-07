@@ -2,7 +2,7 @@
 
 require_relative '../spec_helper.rb'
 
-describe EBookloader::Book::MultiplePages::Page do
+describe EBookloader::Book::Page do
   describe '初期化' do
     let(:options){ { option: :option } }
     subject{ described_class.new 'uri', options }
