@@ -6,7 +6,7 @@ module EBookloader
       include Connectable::Pixiv
 
       attr_reader :illust_id
-      attr_lazy_reader :page
+      attr_lazy_reader :page, :extension
 
       def initialize illust_id, options = {}
         @illust_id = illust_id
@@ -32,8 +32,8 @@ module EBookloader
         csv
       end
 
-      def save_core save_path
-        save_path = save_path.parent + "#{save_path.basename}.#{@extension}"
+      def save_core save_path, options = {}
+        save_path = save_path.sub_ext('.' + extension) if extension
         save_path.parent.mkpath unless save_path.parent.exist?
 
         write save_path, page

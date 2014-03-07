@@ -59,36 +59,38 @@ describe EBookloader::Book::Pixiv do
 
   describe '#save_core' do
     let(:save_path){ Pathname('/path/file') }
-    let(:save_dir_path){ Pathname('/path/') }
-    let(:save_file_path){ Pathname('/path/file') }
+    let(:save_file_path){ Pathname('/path/file.jpg') }
     subject{ book.__send__ :save_core, save_path }
     before{
+      allow_any_instance_of( Pathname ).to receive(:exist?).and_return(true)
+      allow_any_instance_of( Pathname ).to receive(:mkpath)
+
       allow( book ).to receive(:get_illust_csv).and_return(response('/book/pixiv/illust.csv').body.parse_csv)
-      allow( save_path ).to receive(:parent).and_return(save_dir_path)
-      allow( save_dir_path ).to receive(:+).and_return(save_file_path)
-      allow( save_file_path ).to receive(:parent).and_return(save_dir_path)
-      allow( save_dir_path ).to receive(:mkpath)
-      book.instance_variable_set :@session, '0123456789abcdef0123456789abcdef'
     }
 
     it 'はファイルを読み込んで保存する' do
-      expect( book ).to receive(:page).and_return(URI('http://i2.pixiv.net/img999/img/member_nick_id/11111111.png'))
-      expect( book ).to receive(:write).with(save_file_path, URI('http://i2.pixiv.net/img999/img/member_nick_id/11111111.png'))
+      expect( book ).to receive(:write).with(anything(), URI('http://i2.pixiv.net/img999/img/member_nick_id/11111111.extension'))
+      subject
+    end
+
+    it 'はファイル名に拡張子を追加する' do
+      book.instance_variable_set :@extension, 'jpg'
+      expect( book ).to receive(:write).with(Pathname('/path/file.jpg'), anything())
       subject
     end
 
     context '保存ファイルのディレクトリが存在する場合' do
       it 'は保存ファイルのディレクトリを作成しない' do
-        expect( save_dir_path ).to receive(:exist?).and_return(true)
-        expect( save_dir_path ).to_not receive(:mkpath)
+        expect_any_instance_of( Pathname ).to receive(:exist?).and_return(true)
+        expect_any_instance_of( Pathname ).to_not receive(:mkpath)
         subject
       end
     end
 
     context '保存ファイルのディレクトリが存在しない場合' do
       it 'は保存ファイルのディレクトリを作成する' do
-        expect( save_dir_path ).to receive(:exist?).and_return(false)
-        expect( save_dir_path ).to receive(:mkpath)
+        expect_any_instance_of( Pathname ).to receive(:exist?).and_return(false)
+        expect_any_instance_of( Pathname ).to receive(:mkpath)
         subject
       end
     end
