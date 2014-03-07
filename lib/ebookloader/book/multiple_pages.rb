@@ -55,7 +55,7 @@ module EBookloader
       # @param dir_path [Pathname] 圧縮元フォルダ
       def zip dir_path
         require 'zip'
-        zip_path = dir_path.parent + ("#{dir_path.basename}.zip")
+        zip_path = dir_path.sub_ext('.zip')
 
         Zip::File.open(zip_path, Zip::File::CREATE) do |zipfile|
           dir_path.each_entry do |filename|
