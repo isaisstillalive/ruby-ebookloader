@@ -29,6 +29,14 @@ module EBookloader
         get_csv(URI("http://spapi.pixiv.net/iphone/illust.php?illust_id=#{illust_id}"))[0]
       end
 
+      def get_member_illist_csv member_id
+        get_csv URI("http://spapi.pixiv.net/iphone/member_illust.php?id=#{member_id}")
+      end
+
+      def get_member member_id
+        get URI("http://spapi.pixiv.net/iphone/profile.php?id=#{member_id}")
+      end
+
       def session
         login if @session.nil?
         @session
