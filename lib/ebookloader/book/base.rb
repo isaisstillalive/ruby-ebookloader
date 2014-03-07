@@ -65,6 +65,25 @@ module EBookloader
         true
       end
 
+      def << other
+        unless @pages
+          self.extend MultiplePages
+          @pages = [page.dup]
+          @page = nil
+
+          options = @pages[0].instance_variable_get :@options
+          options = Hash[options]
+          options[:page] = 1
+          @pages[0].instance_variable_set :@options, options
+        end
+
+        self << other
+      end
+
+      def + other
+        self.dup << other
+      end
+
       private
 
       # 保存の実処理

@@ -133,6 +133,88 @@ describe EBookloader::Book::Base do
     end
   end
 
+  describe '#<<' do
+    subject{ book1 << book2 }
+
+    let(:book1){ described_class.new 'uri', author: 'author1', title: 'title1', episode: 'episode1' }
+    let(:book2){ described_class.new 'uri', author: 'author2', title: 'title2', episode: 'episode2' }
+
+    before{
+      book1.instance_variable_set :@page, EBookloader::Book::Page.new('Book1Page1', name: 'page1', page: 1)
+      book2.instance_variable_set :@page, EBookloader::Book::Page.new('Book2Page1', name: 'page1', page: 1)
+    }
+
+    it 'は最初の本を返す' do
+      expect( subject ).to eql book1
+    end
+
+    context '単ページの本が加えられた場合' do
+      it 'は複数ページの本を返す' do
+        expect( subject ).to be_a EBookloader::Book::Base
+        expect( subject ).to be_a EBookloader::Book::MultiplePages
+      end
+
+      it 'はページを追加した複数ページの本を返す' do
+        expect( subject.pages ).to eq [
+          EBookloader::Book::Page.new('Book1Page1', name: 'page1', page: 1),
+          EBookloader::Book::Page.new('Book2Page1', name: 'page1', page: 2),
+        ]
+      end
+    end
+
+    context '複数ページの本が加えられた場合' do
+      before{
+        book2.extend EBookloader::Book::MultiplePages
+        book2.instance_variable_set :@pages, [
+          EBookloader::Book::Page.new('Book2Page1', name: 'page1', page: 1),
+          EBookloader::Book::Page.new('Book2Page2', name: 'page2', page: 2),
+        ]
+      }
+
+      it 'は複数ページの本を返す' do
+        expect( subject ).to be_a EBookloader::Book::Base
+        expect( subject ).to be_a EBookloader::Book::MultiplePages
+      end
+
+      it 'はページを追加した複数ページの本を返す' do
+        expect( subject.pages ).to eq [
+          EBookloader::Book::Page.new('Book1Page1', name: 'page1', page: 1),
+          EBookloader::Book::Page.new('Book2Page1', name: 'page1', page: 2),
+          EBookloader::Book::Page.new('Book2Page2', name: 'page2', page: 3),
+        ]
+      end
+    end
+  end
+
+  describe '#+' do
+    subject{ book1 + book2 }
+
+    let(:book1){ described_class.new 'uri', author: 'author1', title: 'title1', episode: 'episode1' }
+    let(:book2){ described_class.new 'uri', author: 'author2', title: 'title2', episode: 'episode2' }
+    let(:book1_clone){ book1.dup }
+
+    before{
+      book1.instance_variable_set :@pages, [
+        EBookloader::Book::Page.new('Book1Page1', name: 'page1', page: 1),
+        EBookloader::Book::Page.new('Book1Page2', name: 'page2', page: 2),
+      ]
+      book2.instance_variable_set :@page, EBookloader::Book::Page.new('Book2Page1', name: 'page1', page: 1)
+
+      allow( book1 ).to receive(:dup).and_return(book1_clone)
+      allow( book1_clone ).to receive(:<<).and_return(book1_clone)
+    }
+
+    it 'は最初の本の複製を返す' do
+      expect( subject ).to eq book1
+      expect( subject ).to_not eql book1
+    end
+
+    it 'は合成する' do
+      expect( book1_clone ).to receive(:<<).with(book2).and_return(book1_clone)
+      subject
+    end
+  end
+
   describe '#save' do
     let(:options){ {option: :option} }
     subject{ book.save Pathname('dir'), options }

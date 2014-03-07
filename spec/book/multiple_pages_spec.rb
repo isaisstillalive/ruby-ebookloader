@@ -234,31 +234,4 @@ describe EBookloader::Book::MultiplePages do
       end
     end
   end
-
-  describe '#+' do
-    subject{ book1 + book2 }
-
-    let(:book1){ MultiplePagesBook.new('Book1') }
-    let(:book2){ EBookloader::Book::Base.new('Book2') }
-
-    before{
-      book1.instance_variable_set :@pages, [
-        EBookloader::Book::Page.new('Book1Page1', name: 'page1', page: 1),
-        EBookloader::Book::Page.new('Book1Page2', name: 'page2', page: 2),
-      ]
-      book2.instance_variable_set :@page, EBookloader::Book::Page.new('Book2Page1', name: 'page1', page: 1)
-    }
-
-    it 'は最初の本の複製を返す' do
-      expect( subject ).to eq book1
-      expect( subject ).to_not eql book1
-    end
-
-    it 'は合成する' do
-      book1_clone = book1.dup
-      expect( book1 ).to receive(:dup).and_return(book1_clone)
-      expect( book1_clone ).to receive(:<<).with(book2)
-      subject
-    end
-  end
 end

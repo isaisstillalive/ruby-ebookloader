@@ -26,12 +26,6 @@ module EBookloader
         self
       end
 
-      def + other
-        self.dup.tap do |book|
-          book << other
-        end
-      end
-
       private
 
       # 保存の実処理
