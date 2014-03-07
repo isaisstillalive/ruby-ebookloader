@@ -53,8 +53,7 @@ module EBookloader
       # @return [Boolean] 成功したか
       # @see Book::Base#save_core
       def save dir, options = {}
-        dir_path = Pathname(dir) + name
-        save_core dir_path, Hash[options]
+        save_core Pathname(dir), Hash[options]
       end
 
       # 比較する
@@ -69,14 +68,14 @@ module EBookloader
       private
 
       # 保存の実処理
-      # @param save_path [Pathname] 保存先パス
+      # @param dir [Pathname] 保存先ディレクトリ
       # @param options [Hash] 保存オプション
       # @return [Boolean] 成功したか
       # @abstract サブクラスで上書きする
       # @see Book::Base#save
-      def save_core save_path, options = {}
-        save_path.parent.mkpath unless save_path.parent.exist?
-        page.save save_path
+      def save_core dir, options = {}
+        dir.mkpath unless dir.exist?
+        page.save dir
       end
 
       # 書籍情報をまとめて更新する実処理

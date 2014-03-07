@@ -10,22 +10,18 @@ describe EBookloader::Book::MultiplePages do
   it_behaves_like 'a LazyLoadable', :pages, false
 
   describe '#save_core' do
-    let(:save_path){ Pathname('dirname') }
-    subject{ book.__send__ :save_core, save_path, save_option }
-
+    let(:dir){ Pathname('dir') }
     let(:options){ {} }
     let(:save_option){ {} }
-
     let(:page){ double('Page') }
-
+    subject{ book.__send__ :save_core, dir, save_option }
     before{
       allow( book ).to receive(:name).and_return('name')
       allow( book ).to receive(:options).and_return(options)
       allow( book ).to receive(:pages).and_return([page])
-
-      allow( save_path ).to receive(:mkpath)
-
       allow( page ).to receive(:save)
+
+      allow_any_instance_of( Pathname ).to receive(:mkpath)
     }
 
     it 'はtrueを返す' do
@@ -33,7 +29,7 @@ describe EBookloader::Book::MultiplePages do
     end
 
     it 'はPage#saveを実行する' do
-      expect( page ).to receive(:save).with(save_path, 0)
+      expect( page ).to receive(:save).with(Pathname('dir/name'), 0)
       subject
     end
 
@@ -42,8 +38,8 @@ describe EBookloader::Book::MultiplePages do
         page1 = double('Page')
         page2 = double('Page')
         expect( book ).to receive(:pages).and_return([page1, page2])
-        expect( page1 ).to receive(:save).with(save_path, 0)
-        expect( page2 ).to receive(:save).with(save_path, 0)
+        expect( page1 ).to receive(:save).with(Pathname('dir/name'), 0)
+        expect( page2 ).to receive(:save).with(Pathname('dir/name'), 0)
         subject
       end
     end
@@ -52,7 +48,7 @@ describe EBookloader::Book::MultiplePages do
       let(:save_option){ {offset: 2} }
 
       it 'はオフセットを渡して保存する' do
-        expect( page ).to receive(:save).with(save_path, 2)
+        expect( page ).to receive(:save).with(anything(), 2)
         subject
       end
     end
@@ -114,6 +110,8 @@ describe EBookloader::Book::MultiplePages do
 
     context '保存ディレクトリが存在する場合' do
       it 'は保存ディレクトリを作成しない' do
+        save_path = Pathname('dir/name')
+        expect( dir ).to receive(:+).and_return(save_path)
         expect( save_path ).to receive(:exist?).and_return(true)
         expect( save_path ).to_not receive(:mkpath)
         subject
@@ -122,6 +120,8 @@ describe EBookloader::Book::MultiplePages do
 
     context '保存ディレクトリが存在しない場合' do
       it 'は保存ディレクトリを作成する' do
+        save_path = Pathname('dir/name')
+        expect( dir ).to receive(:+).and_return(save_path)
         expect( save_path ).to receive(:exist?).and_return(false)
         expect( save_path ).to receive(:mkpath)
         subject
@@ -129,10 +129,10 @@ describe EBookloader::Book::MultiplePages do
     end
 
     context '保存時のオプションに zip: true を渡した場合' do
-      subject{ book.__send__ :save_core, save_path, zip: true }
+      subject{ book.__send__ :save_core, Pathname('dir'), zip: true }
 
       it 'は#zipを実行しzip圧縮する' do
-        expect( book ).to receive(:zip).with(save_path).and_return(true)
+        expect( book ).to receive(:zip).with(Pathname('dir/name')).and_return(true)
         subject
       end
     end

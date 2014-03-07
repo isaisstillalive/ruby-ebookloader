@@ -136,13 +136,24 @@ describe EBookloader::Book::Base do
   describe '#save' do
     let(:options){ {option: :option} }
     subject{ book.save Pathname('dir'), options }
-    before{
-      allow( book ).to receive(:name).and_return('name')
-    }
 
     it 'は#save_coreを実行し戻り値を返す' do
       expect( book ).to receive(:save_core).and_return(true)
       expect( subject ).to eql true
+    end
+
+    it 'は保存先パスを渡す' do
+      expect( book ).to receive(:save_core).with(Pathname('dir'), anything())
+      subject
+    end
+
+    context '保存先パスが文字列の場合' do
+      subject{ book.save 'dir' }
+
+      it 'はPathnameに変換して渡す' do
+        expect( book ).to receive(:save_core).with(Pathname('dir'), anything())
+        subject
+      end
     end
 
     it 'はオプションを渡す' do
@@ -159,17 +170,44 @@ describe EBookloader::Book::Base do
         subject
       end
     end
+  end
 
-    it 'は保存先パスに本の名前を足して保存パスとして使用する' do
-      expect( book ).to receive(:save_core).with(Pathname('dir/name'), anything())
+  describe '#save_core' do
+    let(:dir){ Pathname('dir') }
+    subject{ book.__send__ :save_core, dir }
+    before{
+      allow( dir ).to receive(:mkpath)
+      allow( book ).to receive(:page).and_return(double('Page'))
+      allow( book.page ).to receive(:save)
+    }
+
+    it 'はファイルを読み込んで保存する' do
+      expect( book.page ).to receive(:save).with(dir)
       subject
     end
 
-    context '保存先パスが文字列の場合' do
-      subject{ book.save 'dir' }
+    it 'はファイルを読み込んで保存する' do
+      expect( book.page ).to receive(:save).with(dir)
+      subject
+    end
 
-      it 'はPathnameと同様に処理する' do
-        expect( book ).to receive(:save_core).with(Pathname('dir/name'), anything())
+    it 'は成功したらtrueを返却する' do
+      allow( book.page ).to receive(:save).and_return(true)
+      expect( subject ).to eql true
+    end
+
+    context '保存ディレクトリが存在する場合' do
+      it 'は保存ディレクトリを作成しない' do
+        expect( dir ).to receive(:exist?).and_return(true)
+        expect( dir ).to_not receive(:mkpath)
+        subject
+      end
+    end
+
+    context '保存ディレクトリが存在しない場合' do
+      it 'は保存ディレクトリを作成する' do
+        expect( dir ).to receive(:exist?).and_return(false)
+        expect( dir ).to receive(:mkpath)
         subject
       end
     end
@@ -225,49 +263,6 @@ describe EBookloader::Book::Base do
       it 'はすでに設定されているエピソード名を設定しない' do
         subject
         expect( book.episode ).to eql 'episode'
-      end
-    end
-  end
-
-  describe '#save_core' do
-    let(:save_path){ Pathname('/path/file.jpg') }
-    let(:save_dir_path){ Pathname('/path/') }
-    subject{ book.__send__ :save_core, save_path }
-    before{
-      allow( save_path ).to receive(:parent).and_return(save_dir_path)
-      allow( save_dir_path ).to receive(:mkpath)
-      allow( book ).to receive(:page).and_return(double('Page'))
-      allow( book.page ).to receive(:save)
-    }
-
-    it 'はファイルを読み込んで保存する' do
-      expect( book.page ).to receive(:save).with(save_path)
-      subject
-    end
-
-    it 'はファイルを読み込んで保存する' do
-      expect( book.page ).to receive(:save).with(save_path)
-      subject
-    end
-
-    it 'は成功したらtrueを返却する' do
-      allow( book.page ).to receive(:save).and_return(true)
-      expect( subject ).to eql true
-    end
-
-    context '保存ファイルのディレクトリが存在する場合' do
-      it 'は保存ファイルのディレクトリを作成しない' do
-        expect( save_dir_path ).to receive(:exist?).and_return(true)
-        expect( save_dir_path ).to_not receive(:mkpath)
-        subject
-      end
-    end
-
-    context '保存ファイルのディレクトリが存在しない場合' do
-      it 'は保存ファイルのディレクトリを作成する' do
-        expect( save_dir_path ).to receive(:exist?).and_return(false)
-        expect( save_dir_path ).to receive(:mkpath)
-        subject
       end
     end
   end
