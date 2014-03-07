@@ -18,7 +18,6 @@ module EBookloader
             extension[1..-1].to_sym
           end
         end
-        @options[:page] ||= 1
 
         @options.freeze
       end
@@ -35,17 +34,22 @@ module EBookloader
         @options[:extension]
       end
 
-      def filename page
-        format = if name
-          '%1$03d_%3$s.%2$s'
+      def filename offset = 0
+        if self.page
+          page = self.page + offset
+          if name
+            format = '%1$03d_%3$s.%2$s'
+          else
+            format = '%1$03d.%2$s'
+          end
         else
-          '%1$03d.%2$s'
+          format = '%3$s.%2$s'
         end
         format % [page, extension, name]
       end
 
       def save dir, offset = 0
-        file = Pathname(dir) + filename(offset + page)
+        file = Pathname(dir) + filename(offset)
         write file, @uri, @options[:headers]
       end
 
