@@ -13,16 +13,13 @@ describe EBookloader::Book::Pixiv::Manga do
   describe '#lazy_load' do
     subject{ book.__send__ :lazy_load }
 
-    it_behaves_like 'a BookInfo updater', title: 'title', author: 'member_name'
-
     before{
-      allow( book ).to receive(:get_illust_csv).and_return(response('/book/pixiv/manga.csv').body.parse_csv)
-      book.instance_variable_set :@session, '0123456789abcdef0123456789abcdef'
+      allow( book ).to receive(:update_from_illust_csv).and_return(response('/book/pixiv/manga.csv').body.parse_csv)
     }
 
-    it 'はAPIからCSVを取得する' do
-      expect( book ).to receive(:get_illust_csv).and_return(response('/book/pixiv/manga.csv').body.parse_csv)
-      expect( subject ).to eql true
+    it 'は書籍情報を更新する' do
+      expect( book ).to receive(:update_from_illust_csv).and_return(response('/book/pixiv/manga.csv').body.parse_csv)
+      subject
     end
 
     it 'は@pagesを設定する' do

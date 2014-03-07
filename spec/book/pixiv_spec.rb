@@ -22,6 +22,25 @@ describe EBookloader::Book::Pixiv do
     subject{ book.__send__ :lazy_load }
     before{ book.instance_variable_set :@loaded, true }
 
+    before{
+      allow( book ).to receive(:update_from_illust_csv).and_return(response('/book/pixiv/illust.csv').body.parse_csv)
+    }
+
+    it 'は書籍情報を更新する' do
+      expect( book ).to receive(:update_from_illust_csv).and_return(response('/book/pixiv/illust.csv').body.parse_csv)
+      subject
+    end
+
+    it 'は画像を設定する' do
+      subject
+
+      expect( book.page ).to eql URI('http://i2.pixiv.net/img999/img/member_nick_id/11111111.extension')
+    end
+  end
+
+  describe '#update_from_illust_csv' do
+    subject{ book.__send__ :update_from_illust_csv }
+
     it_behaves_like 'a BookInfo updater', title: 'title', author: 'member_name'
 
     before{
@@ -30,13 +49,11 @@ describe EBookloader::Book::Pixiv do
 
     it 'はAPIからCSVを取得する' do
       expect( book ).to receive(:get_illust_csv).with('12345678').and_return(response('/book/pixiv/illust.csv').body.parse_csv)
-      expect( subject ).to eql true
+      subject
     end
 
-    it 'は画像を設定する' do
-      subject
-
-      expect( book.page ).to eql URI('http://i2.pixiv.net/img999/img/member_nick_id/11111111.extension')
+    it 'はCSVを返却する' do
+      expect( subject ).to eql response('/book/pixiv/illust.csv').body.parse_csv
     end
   end
 

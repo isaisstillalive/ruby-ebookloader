@@ -9,10 +9,7 @@ module EBookloader
         private
 
         def lazy_load
-          csv = get_illust_csv @illust_id
-
-          update_without_overwrite title: csv[3], author: csv[5]
-          @extension = csv[2]
+          csv = update_from_illust_csv
 
           page_count = csv[19].to_i
           @pages = (1..page_count).map do |page|
