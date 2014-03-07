@@ -12,18 +12,14 @@ module EBookloader
     # 遅延読み込みを行う
     # @return [Boolean] 成功したか
     def lazy_load
-      update_without_overwrite title: Pathname(@uri.path).basename.to_s
-      true
-    end
+      path = Pathname(@uri.path)
+      name = path.basename('.*').to_s
+      extension = path.extname[1..-1].to_sym
 
-    # 保存の実処理
-    # @param save_path [Pathname] 保存先パス
-    # @param options [Hash] 保存オプション
-    # @return [Boolean] 成功したか
-    # @see Book::Base#save
-    def save_core save_path, options = {}
-      save_path.parent.mkpath unless save_path.parent.exist?
-      write save_path, uri
+      update_without_overwrite title: name
+
+      @page = Page.new @uri, options.merge(name: name, extension: extension)
+
       true
     end
 

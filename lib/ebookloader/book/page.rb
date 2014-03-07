@@ -51,6 +51,7 @@ module EBookloader
       def save dir, offset = 0
         file = Pathname(dir) + filename(offset)
         write file, @uri, @options[:headers]
+        true
       end
 
       def == other

@@ -230,10 +230,45 @@ describe EBookloader::Book::Base do
   end
 
   describe '#save_core' do
-    subject{ book.__send__ :save_core, nil }
+    let(:save_path){ Pathname('/path/file.jpg') }
+    let(:save_dir_path){ Pathname('/path/') }
+    subject{ book.__send__ :save_core, save_path }
+    before{
+      allow( save_path ).to receive(:parent).and_return(save_dir_path)
+      allow( save_dir_path ).to receive(:mkpath)
+      allow( book ).to receive(:page).and_return(double('Page'))
+      allow( book.page ).to receive(:save)
+    }
 
-    it 'は常にtrueを返す' do
+    it 'はファイルを読み込んで保存する' do
+      expect( book.page ).to receive(:save).with(save_path)
+      subject
+    end
+
+    it 'はファイルを読み込んで保存する' do
+      expect( book.page ).to receive(:save).with(save_path)
+      subject
+    end
+
+    it 'は成功したらtrueを返却する' do
+      allow( book.page ).to receive(:save).and_return(true)
       expect( subject ).to eql true
+    end
+
+    context '保存ファイルのディレクトリが存在する場合' do
+      it 'は保存ファイルのディレクトリを作成しない' do
+        expect( save_dir_path ).to receive(:exist?).and_return(true)
+        expect( save_dir_path ).to_not receive(:mkpath)
+        subject
+      end
+    end
+
+    context '保存ファイルのディレクトリが存在しない場合' do
+      it 'は保存ファイルのディレクトリを作成する' do
+        expect( save_dir_path ).to receive(:exist?).and_return(false)
+        expect( save_dir_path ).to receive(:mkpath)
+        subject
+      end
     end
   end
 end

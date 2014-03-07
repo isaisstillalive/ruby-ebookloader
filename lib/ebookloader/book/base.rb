@@ -8,6 +8,8 @@ module EBookloader
     #   @return [URI] URI
     # @!attribute [r] options
     #   @return [Hash] オプション
+    # @!attribute [r] page
+    #   @return [Page] ページ
     # @!attribute [rw] episode
     #   @return [String] エピソード名
     class Base
@@ -16,7 +18,7 @@ module EBookloader
       include BookInfo
 
       attr_reader :uri, :options
-      attr_lazy_accessor :episode
+      attr_lazy_accessor :episode, :page
 
       # @!attribute [r] name
       # @return [String] ファイル名
@@ -73,7 +75,8 @@ module EBookloader
       # @abstract サブクラスで上書きする
       # @see Book::Base#save
       def save_core save_path, options = {}
-        true
+        save_path.parent.mkpath unless save_path.parent.exist?
+        page.save save_path
       end
 
       # 書籍情報をまとめて更新する実処理

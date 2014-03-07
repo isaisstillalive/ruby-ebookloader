@@ -206,6 +206,12 @@ describe EBookloader::Book::Page do
       subject
     end
 
+    it 'は成功したらtrueを返却する' do
+      allow( page ).to receive(:filename).and_return('1.jpg')
+      allow( page ).to receive(:write)
+      expect( subject ).to eql true
+    end
+
     context '保存先パスが文字列の場合' do
       subject{ page.save 'dirname' }
 
