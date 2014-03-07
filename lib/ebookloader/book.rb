@@ -28,6 +28,7 @@ module EBookloader
     end
 
     require_relative 'book/base'
+    require_relative 'book/page'
     require_relative 'book/multiple_pages'
 
     require_relative 'book/acti_book'

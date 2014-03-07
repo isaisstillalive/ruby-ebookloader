@@ -10,8 +10,6 @@ module EBookloader
 
       attr_lazy_reader :pages
 
-      require_relative 'multiple_pages/page'
-
       private
 
       # 保存の実処理

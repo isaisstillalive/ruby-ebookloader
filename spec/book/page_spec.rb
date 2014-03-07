@@ -1,6 +1,6 @@
 # coding: utf-8
 
-require_relative '../../spec_helper.rb'
+require_relative '../spec_helper.rb'
 
 describe EBookloader::Book::MultiplePages::Page do
   describe '初期化' do
