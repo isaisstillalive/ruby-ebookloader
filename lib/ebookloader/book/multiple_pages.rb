@@ -10,6 +10,28 @@ module EBookloader
 
       attr_lazy_reader :pages
 
+      def << other
+        other_pages = other.pages rescue [other.page]
+
+        other_pages.each.with_index(@pages.size+1) do |new_page, page|
+          new_page = new_page.dup
+
+          options = Hash[new_page.options]
+          options[:page] = page
+          new_page.instance_variable_set :@options, options
+
+          @pages << new_page
+        end
+
+        self
+      end
+
+      def + other
+        self.dup.tap do |book|
+          book << other
+        end
+      end
+
       private
 
       # 保存の実処理

@@ -4,7 +4,11 @@ require_relative '../spec_helper.rb'
 require 'zip'
 
 describe EBookloader::Book::MultiplePages do
-  let(:book){ Object.new.extend described_class }
+  class MultiplePagesBook < EBookloader::Book::Base
+    include EBookloader::Book::MultiplePages
+  end
+
+  let(:book){ MultiplePagesBook.new 'uri' }
   let(:bookinfo){ book }
 
   it_behaves_like 'a LazyLoadable', :pages, false
@@ -178,6 +182,83 @@ describe EBookloader::Book::MultiplePages do
         expect( zip ).to receive(:add).with('日本語～/2.jpg'.encode(Encoding::Shift_JIS, invalid: :replace, undef: :replace), Pathname('dir/日本語～/2.jpg'))
         subject
       end
+    end
+  end
+
+  describe '#<<' do
+    subject{ book1 << book2 }
+
+    let(:book1){ MultiplePagesBook.new('Book1') }
+    let(:book2){ EBookloader::Book::Base.new('Book2') }
+
+    before{
+      book1.instance_variable_set :@pages, [
+        EBookloader::Book::Page.new('Book1Page1', name: 'page1', page: 1),
+        EBookloader::Book::Page.new('Book1Page2', name: 'page2', page: 2),
+      ]
+      book2.instance_variable_set :@page, EBookloader::Book::Page.new('Book2Page1', name: 'page1', page: 1)
+    }
+
+    it 'は最初の本を返す' do
+      expect( subject ).to eql book1
+    end
+
+    context '単ページの本が加えられた場合' do
+      it 'は末尾にページを追加する' do
+        subject
+        expect( book1.pages ).to eq [
+          EBookloader::Book::Page.new('Book1Page1', name: 'page1', page: 1),
+          EBookloader::Book::Page.new('Book1Page2', name: 'page2', page: 2),
+          EBookloader::Book::Page.new('Book2Page1', name: 'page1', page: 3),
+        ]
+      end
+    end
+
+    context '複数ページの本が加えられた場合' do
+      let(:book2){ MultiplePagesBook.new('Book2') }
+      before{
+        book2.instance_variable_set :@pages, [
+          EBookloader::Book::Page.new('Book2Page1', name: 'page1', page: 1),
+          EBookloader::Book::Page.new('Book2Page2', name: 'page2', page: 2),
+        ]
+      }
+
+      it 'は末尾にページを追加する' do
+        subject
+        expect( book1.pages ).to eq [
+          EBookloader::Book::Page.new('Book1Page1', name: 'page1', page: 1),
+          EBookloader::Book::Page.new('Book1Page2', name: 'page2', page: 2),
+          EBookloader::Book::Page.new('Book2Page1', name: 'page1', page: 3),
+          EBookloader::Book::Page.new('Book2Page2', name: 'page2', page: 4),
+        ]
+      end
+    end
+  end
+
+  describe '#+' do
+    subject{ book1 + book2 }
+
+    let(:book1){ MultiplePagesBook.new('Book1') }
+    let(:book2){ EBookloader::Book::Base.new('Book2') }
+
+    before{
+      book1.instance_variable_set :@pages, [
+        EBookloader::Book::Page.new('Book1Page1', name: 'page1', page: 1),
+        EBookloader::Book::Page.new('Book1Page2', name: 'page2', page: 2),
+      ]
+      book2.instance_variable_set :@page, EBookloader::Book::Page.new('Book2Page1', name: 'page1', page: 1)
+    }
+
+    it 'は最初の本の複製を返す' do
+      expect( subject ).to eq book1
+      expect( subject ).to_not eql book1
+    end
+
+    it 'は合成する' do
+      book1_clone = book1.dup
+      expect( book1 ).to receive(:dup).and_return(book1_clone)
+      expect( book1_clone ).to receive(:<<).with(book2)
+      subject
     end
   end
 end
