@@ -13,7 +13,7 @@ module EBookloader
       def << other
         other_pages = other.pages rescue [other.page]
 
-        other_pages.each.with_index(@pages.size+1) do |new_page, page|
+        other_pages.each.with_index(pages.size+1) do |new_page, page|
           new_page = new_page.dup
 
           options = Hash[new_page.options]
