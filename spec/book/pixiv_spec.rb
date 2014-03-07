@@ -35,8 +35,7 @@ describe EBookloader::Book::Pixiv do
       book.title = 'title'
       subject
 
-      expect( book.page ).to eq EBookloader::Book::Page.new(URI('http://i2.pixiv.net/img999/img/member_nick_id/11111111.extension'), extension: 'extension', name: 'title', pixiv_id: 'pixiv_id', password: 'password')
-      expect( book.page ).to be_a EBookloader::Connectable::Pixiv
+      expect( book.page ).to eq EBookloader::Book::Page.new(URI('http://i2.pixiv.net/img999/img/member_nick_id/11111111.extension'), extension: 'extension', name: 'title', headers: { 'Referer' => 'http://www.pixiv.net/' })
     end
   end
 

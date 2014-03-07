@@ -20,8 +20,7 @@ module EBookloader
         extension = csv[2]
         uri = URI('http://i2.pixiv.net/img%5$02d/img/%25$s/%1$d.%3$s' % csv)
 
-        @page = Page.new uri, options.merge(name: title, extension: extension)
-        @page.extend Connectable::Pixiv
+        @page = Page.new uri, name: title, extension: extension, headers: { 'Referer' => 'http://www.pixiv.net/' }
 
         true
       end
