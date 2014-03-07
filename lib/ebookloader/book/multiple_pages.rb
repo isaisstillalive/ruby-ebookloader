@@ -26,6 +26,17 @@ module EBookloader
         self
       end
 
+      def dup
+        super.tap do |book|
+          book.pages = book.pages.dup
+          book.pages.map!(&:dup)
+        end
+      end
+
+      protected
+
+      attr_writer :pages
+
       private
 
       # 保存の実処理

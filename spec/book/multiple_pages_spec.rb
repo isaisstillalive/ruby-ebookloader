@@ -235,6 +235,21 @@ describe EBookloader::Book::MultiplePages do
     end
   end
 
+  describe '#dup' do
+    subject{ book.dup }
+    let(:pages){ [EBookloader::Book::Page.new('Page1', name: 'page1')] }
+    before{
+      book.instance_variable_set :@pages, pages
+    }
+
+    it 'はページも複製する' do
+      expect( subject.pages ).to eq pages
+      expect( subject.pages ).to_not eql pages
+      expect( subject.pages[0] ).to eq pages[0]
+      expect( subject.pages[0] ).to_not eql pages[0]
+    end
+  end
+
   describe '.extended' do
     let(:book){ EBookloader::Book::Base.new 'uri' }
     let(:page){ EBookloader::Book::Page.new('Page1') }

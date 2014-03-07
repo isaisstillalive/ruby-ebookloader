@@ -348,4 +348,17 @@ describe EBookloader::Book::Base do
       end
     end
   end
+
+  describe '#dup' do
+    subject{ book.dup }
+    let(:page){ EBookloader::Book::Page.new('Page1', name: 'page1') }
+    before{
+      book.instance_variable_set :@page, page
+    }
+
+    it 'はページも複製する' do
+      expect( subject.page ).to eq page
+      expect( subject.page ).to_not eql page
+    end
+  end
 end

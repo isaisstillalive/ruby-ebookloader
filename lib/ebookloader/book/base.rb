@@ -18,7 +18,8 @@ module EBookloader
       include BookInfo
 
       attr_reader :uri, :options
-      attr_lazy_accessor :episode, :page
+      attr_lazy_accessor :episode
+      attr_lazy_reader :page
 
       # @!attribute [r] name
       # @return [String] ファイル名
@@ -73,6 +74,16 @@ module EBookloader
       def + other
         self.dup << other
       end
+
+      def dup
+        super.tap do |book|
+          book.page = book.page.dup if book.page
+        end
+      end
+
+      protected
+
+      attr_writer :page
 
       private
 
