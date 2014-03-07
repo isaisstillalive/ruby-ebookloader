@@ -81,6 +81,19 @@ module EBookloader
 
         dir_path.rmtree
       end
+
+      def self.extended book
+        return unless book.page
+
+        page = book.page
+        options = page.instance_variable_get :@options
+        options = Hash[options]
+        options[:page] = 1
+        page.instance_variable_set :@options, options
+
+        book.instance_variable_set :@page, nil
+        book.instance_variable_set :@pages, [page]
+      end
     end
   end
 end

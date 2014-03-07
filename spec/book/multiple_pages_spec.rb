@@ -234,4 +234,34 @@ describe EBookloader::Book::MultiplePages do
       end
     end
   end
+
+  describe '.extended' do
+    let(:book){ EBookloader::Book::Base.new 'uri' }
+    let(:page){ EBookloader::Book::Page.new('Page1') }
+    before{
+      book.instance_variable_set :@page, page
+    }
+
+    subject{ book.extend described_class }
+
+    it 'は@pageを@pagesに変換する' do
+      subject
+      expect( book.instance_variable_get :@page ).to eql nil
+      expect( book.pages ).to eql [page]
+    end
+
+    it 'は@pageを@pagesの1ページ目にする' do
+      subject
+      expect( book.pages[0] ).to eq EBookloader::Book::Page.new('Page1', page: 1)
+    end
+
+    context 'extendを複数回行った場合' do
+      it 'は一度しか変換しない' do
+        book.extend described_class
+        subject
+        expect( book.instance_variable_get :@page ).to eql nil
+        expect( book.instance_variable_get :@pages ).to eql [page]
+      end
+    end
+  end
 end
