@@ -55,6 +55,22 @@ describe EBookloader::BookInfo do
         expect( subject ).to eql '[author1, author2] title'
       end
     end
+
+    context '題名にパス文字が含まれている場合' do
+      before{ book.title = (Pathname('title') + Pathname('title')).to_s }
+
+      it 'はパス文字を_に置換して返す' do
+        expect( subject ).to eql '[author] title_title'
+      end
+    end
+
+    context '作者名にパス文字が含まれている場合' do
+      before{ book.author = (Pathname('author') + Pathname('author')).to_s }
+
+      it 'はパス文字を_に置換して返す' do
+        expect( subject ).to eql '[author_author] title'
+      end
+    end
   end
 
   describe '#bookinfo' do

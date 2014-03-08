@@ -139,6 +139,14 @@ describe EBookloader::Book::Page do
         expect( subject ).to eql '003.png'
       end
     end
+
+    context 'パス文字が含まれている場合' do
+      let(:page){ described_class.new 'uri', name: (Pathname('name') + Pathname('name')).to_s, extension: :png }
+
+      it 'はBookInfo#nameを返す' do
+        expect( subject ).to eql 'name_name.png'
+      end
+    end
   end
 
   describe '#==' do

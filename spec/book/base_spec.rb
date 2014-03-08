@@ -47,10 +47,18 @@ describe EBookloader::Book::Base do
     end
 
     context 'エピソードが設定されていない場合' do
-      before{ book.instance_variable_set :@episode, nil }
+      before{ book.episode = nil }
 
       it 'はBookInfo#nameを返す' do
         expect( subject ).to eql '[author] title'
+      end
+    end
+
+    context 'エピソードにパス文字が含まれている場合' do
+      before{ book.episode =  (Pathname('episode') + Pathname('episode')).to_s }
+
+      it 'はBookInfo#nameを返す' do
+        expect( subject ).to eql '[author] title episode_episode'
       end
     end
   end

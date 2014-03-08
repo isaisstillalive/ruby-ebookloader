@@ -25,8 +25,10 @@ module EBookloader
       # @return [String] ファイル名
       # @see EBookloader::BookInfo#name
       def name
-        if @episode
-          "#{super} #{@episode}"
+        if self.episode
+          episode = self.episode
+          episode.gsub!(Pathname::SEPARATOR_PAT, '_')
+          "#{super} #{episode}"
         else
           super
         end

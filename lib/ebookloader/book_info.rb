@@ -18,7 +18,7 @@ module EBookloader
 
       authors = author.kind_of?(Array) ? author : [author]
 
-      '[%s] %s' % [authors.join(', '), title]
+      ('[%s] %s' % [authors.join(', '), title]).gsub(Pathname::SEPARATOR_PAT, '_')
     end
 
     # 書籍情報を上書き更新する

@@ -45,7 +45,7 @@ module EBookloader
         else
           format = '%3$s.%2$s'
         end
-        format % [page, extension, name]
+        (format % [page, extension, name]).gsub(Pathname::SEPARATOR_PAT, '_')
       end
 
       def save dir, offset = 0
