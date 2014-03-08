@@ -33,9 +33,10 @@ describe EBookloader::Book::Pixiv do
 
     it 'は@pageを設定する' do
       book.title = 'title'
+      book.author = 'author'
       subject
 
-      expect( book.page ).to eq EBookloader::Book::Page.new(URI('http://i2.pixiv.net/img999/img/member_nick_id/11111111.extension'), extension: 'extension', name: 'title', headers: { 'Referer' => 'http://www.pixiv.net/' })
+      expect( book.page ).to eq EBookloader::Book::Page.new(URI('http://i2.pixiv.net/img999/img/member_nick_id/11111111.extension'), extension: 'extension', name: '[author] title', headers: { 'Referer' => 'http://www.pixiv.net/' })
     end
   end
 
