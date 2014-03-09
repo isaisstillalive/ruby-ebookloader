@@ -27,7 +27,7 @@ module EBookloader
         @books = doc.get_elements('/response/image_list/image').map{ |image|
           id = image.text('id')
           title = image.text('title')
-          Book::Base.new id, bookinfo.merge(title: title).merge(@options)
+          Book::Seiga.new id, bookinfo.merge(title: title, episode: '').merge(@options)
         }.reverse
 
         true

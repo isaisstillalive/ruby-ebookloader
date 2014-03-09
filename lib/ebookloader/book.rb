@@ -35,5 +35,6 @@ module EBookloader
     require_relative 'book/flipper_u'
     require_relative 'book/easy_e_paper_viewer'
     require_relative 'book/pixiv'
+    require_relative 'book/seiga'
   end
 end

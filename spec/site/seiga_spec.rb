@@ -36,8 +36,8 @@ describe EBookloader::Site::Seiga do
       subject
 
       expect( site.books ).to eq [
-        EBookloader::Book::Base.new('87654321'),
-        EBookloader::Book::Base.new('87654322'),
+        EBookloader::Book::Seiga.new('87654321'),
+        EBookloader::Book::Seiga.new('87654322'),
       ]
       expect( site.books.map(&:title) ).to eql [
         'title1',
@@ -52,8 +52,8 @@ describe EBookloader::Site::Seiga do
         subject
 
         expect( site.books ).to eq [
-          EBookloader::Book::Base.new('87654321', login_id: :login_id, password: :password),
-          EBookloader::Book::Base.new('87654322', login_id: :login_id, password: :password),
+          EBookloader::Book::Seiga.new('87654321', login_id: :login_id, password: :password),
+          EBookloader::Book::Seiga.new('87654322', login_id: :login_id, password: :password),
         ]
       end
     end

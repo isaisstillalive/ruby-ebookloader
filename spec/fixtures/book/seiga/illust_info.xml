@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+    <image>
+        <id>12345678</id>
+        <user_id>87654321</user_id>
+        <title>title</title>
+        <description>description</description>
+        <summary>summary</summary>
+        <view_count>1</view_count>
+        <comment_count>2</comment_count>
+        <clip_count>3</clip_count>
+        <public_status>0</public_status>
+        <delete_flag>0</delete_flag>
+        <created>2014-01-01 00:00:00</created>
+        <thumbnail_url>http://thumbnail_url/12345678z?1234567890</thumbnail_url>
+        <adult_level>1</adult_level>
+    </image>
+</response>
