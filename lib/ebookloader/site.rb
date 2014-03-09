@@ -16,5 +16,6 @@ module EBookloader
     require_relative 'site/d_manga_online'
     require_relative 'site/comic_clear'
     require_relative 'site/pixiv'
+    require_relative 'site/seiga'
   end
 end

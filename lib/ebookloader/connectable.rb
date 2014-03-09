@@ -35,5 +35,6 @@ module EBookloader
     end
 
     require_relative 'connectable/pixiv'
+    require_relative 'connectable/seiga'
   end
 end

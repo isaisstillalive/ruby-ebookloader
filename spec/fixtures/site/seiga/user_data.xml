@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+    <image_count>1</image_count>
+    <image_list>
+        <image>
+            <id>87654322</id>
+            <user_id>12345678</user_id>
+            <title>title2</title>
+            <description>description</description>
+            <view_count>1</view_count>
+            <comment_count>2</comment_count>
+            <clip_count>3</clip_count>
+            <summary>summary</summary>
+            <genre>300</genre>
+            <category>1</category>
+            <image_type>1</image_type>
+            <illust_type>0</illust_type>
+            <inspection_status>1</inspection_status>
+            <anonymous_flag>0</anonymous_flag>
+            <public_status>0</public_status>
+            <delete_flag>0</delete_flag>
+            <delete_type>0</delete_type>
+            <cache_time />
+            <created>2014-01-01 00:00:00</created>
+        </image>
+        <image>
+            <id>87654321</id>
+            <user_id>12345678</user_id>
+            <title>title1</title>
+            <description>description</description>
+            <view_count>1</view_count>
+            <comment_count>2</comment_count>
+            <clip_count>3</clip_count>
+            <summary>summary</summary>
+            <genre>300</genre>
+            <category>1</category>
+            <image_type>1</image_type>
+            <illust_type>0</illust_type>
+            <inspection_status>1</inspection_status>
+            <anonymous_flag>0</anonymous_flag>
+            <public_status>0</public_status>
+            <delete_flag>0</delete_flag>
+            <delete_type>0</delete_type>
+            <cache_time />
+            <created>2014-01-01 00:00:00</created>
+        </image>
+    </image_list>
+    <comment_list>
+        <comment>
+            <comment_id>11111111</comment_id>
+            <id>87654321</id>
+            <image_id>12345678</image_id>
+            <res_id>0</res_id>
+            <content>content</content>
+            <command />
+            <created>2014-01-01 00:00:00</created>
+            <frame>-1</frame>
+            <user_hash>aaaaa</user_hash>
+            <anonymous_flag>1</anonymous_flag>
+        </comment>
+    </comment_list>
+</response>
