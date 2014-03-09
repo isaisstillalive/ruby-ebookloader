@@ -71,6 +71,13 @@ describe EBookloader::LazyLoadable do
       expect( lazy_object.lazy_property ).to eql 'lazy_property'
     end
 
+    it 'により作成されたプロパティは値がLazyLoadable::NONEの場合にlazy_loadを行わない' do
+      lazy_object.instance_variable_set :@lazy_property, EBookloader::LazyLoadable::NONE
+      expect( lazy_object ).to_not receive(:lazy_load)
+      subject
+      expect( lazy_object.lazy_property ).to eql EBookloader::LazyLoadable::NONE
+    end
+
     it 'はnilを返す' do
       expect( subject ).to eql nil
     end

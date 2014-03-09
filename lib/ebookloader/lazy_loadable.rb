@@ -3,6 +3,8 @@
 module EBookloader
   # 遅延読み込みを行うモジュール
   module LazyLoadable
+    NONE = :NONE
+
     private
 
     # LazyLoadableをincludeした際に定義されるクラスメソッド
