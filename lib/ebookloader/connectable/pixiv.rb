@@ -61,10 +61,10 @@ module EBookloader
       end
 
       def login
-        return if @options[:pixiv_id].nil? || @options[:password].nil?
+        return if @options[:login_id].nil? || @options[:password].nil?
 
         @session = 'dummy'
-        header = post URI('https://www.secure.pixiv.net/login.php'), "mode=login&pixiv_id=#{@options[:pixiv_id]}&pass=#{@options[:password]}"
+        header = post URI('https://www.secure.pixiv.net/login.php'), "mode=login&pixiv_id=#{@options[:login_id]}&pass=#{@options[:password]}"
         set_cookie = header['set-cookie']
         @session = set_cookie.match(/PHPSESSID=(\d*_[0-9a-f]{32})/)[1]
       end

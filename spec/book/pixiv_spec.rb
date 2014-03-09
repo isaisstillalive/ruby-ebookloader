@@ -4,7 +4,7 @@ require_relative '../spec_helper.rb'
 require 'csv'
 
 describe EBookloader::Book::Pixiv do
-  let(:book){ described_class.new '12345678', pixiv_id: 'pixiv_id', password: 'password' }
+  let(:book){ described_class.new '12345678', login_id: 'login_id', password: 'password' }
   let(:bookinfo){ book }
   before{
     allow( book ).to receive(:write)

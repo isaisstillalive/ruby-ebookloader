@@ -12,7 +12,7 @@ describe EBookloader::Connectable::Pixiv do
     end
   end
 
-  let(:connectable_object){ ConnectableObjectPixiv.new pixiv_id: 'pixiv_id', password: 'password' }
+  let(:connectable_object){ ConnectableObjectPixiv.new login_id: 'login_id', password: 'password' }
   let(:faraday) { double 'faraday' }
   let(:conn){ double 'conn' }
 
@@ -257,7 +257,7 @@ describe EBookloader::Connectable::Pixiv do
     }
 
     it 'はPixivにログインする' do
-      expect( connectable_object ).to receive(:post).with(URI('https://www.secure.pixiv.net/login.php'), 'mode=login&pixiv_id=pixiv_id&pass=password').and_return(response)
+      expect( connectable_object ).to receive(:post).with(URI('https://www.secure.pixiv.net/login.php'), 'mode=login&pixiv_id=login_id&pass=password').and_return(response)
 
       subject
 
@@ -266,14 +266,14 @@ describe EBookloader::Connectable::Pixiv do
 
     context '未ログインの場合' do
       it 'はセッションIDを取得しようとして無限ループしない' do
-        expect( connectable_object ).to receive(:post).with(URI('https://www.secure.pixiv.net/login.php'), 'mode=login&pixiv_id=pixiv_id&pass=password').and_call_original.once
+        expect( connectable_object ).to receive(:post).with(URI('https://www.secure.pixiv.net/login.php'), 'mode=login&pixiv_id=login_id&pass=password').and_call_original.once
 
         subject
       end
     end
 
     context 'パスワードが設定されていない場合' do
-      let(:connectable_object){ ConnectableObjectPixiv.new pixiv_id: 'pixiv_id' }
+      let(:connectable_object){ ConnectableObjectPixiv.new login_id: 'login_id' }
 
       it 'はPixivにログインしない' do
         expect( connectable_object ).to_not receive(:post)
@@ -282,7 +282,7 @@ describe EBookloader::Connectable::Pixiv do
       end
     end
 
-    context 'Pixiv IDが設定されていない場合' do
+    context 'ログインIDが設定されていない場合' do
       let(:connectable_object){ ConnectableObjectPixiv.new password: 'password' }
 
       it 'はPixivにログインしない' do

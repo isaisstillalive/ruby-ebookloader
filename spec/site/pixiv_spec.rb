@@ -44,15 +44,15 @@ describe EBookloader::Site::Pixiv do
       ]
     end
 
-    context 'pixiv_idとパスワードが設定されている場合' do
-      let(:site){ described_class.new '12345678', pixiv_id: :pixiv_id, password: :password }
+    context 'ログインIDとパスワードが設定されている場合' do
+      let(:site){ described_class.new '12345678', login_id: :login_id, password: :password }
 
-      it 'は@booksにpixiv_idとパスワードを設定する' do
+      it 'は@booksにログインIDとパスワードを設定する' do
         subject
 
         expect( site.books ).to eq [
-          EBookloader::Book::Pixiv.new('12345678', pixiv_id: :pixiv_id, password: :password),
-          EBookloader::Book::Pixiv::Manga.new('12345679', pixiv_id: :pixiv_id, password: :password),
+          EBookloader::Book::Pixiv.new('12345678', login_id: :login_id, password: :password),
+          EBookloader::Book::Pixiv::Manga.new('12345679', login_id: :login_id, password: :password),
         ]
       end
     end
