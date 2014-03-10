@@ -9,7 +9,7 @@
             <bgm_loop>0</bgm_loop>
             <duration>1</duration>
             <thread>1</thread>
-            <leaf>1</leaf>
+            <leaf>100</leaf>
             <width>640</width>
             <height>480</height>
             <spread_mode>0</spread_mode>
@@ -33,7 +33,7 @@
             <bgm_loop>0</bgm_loop>
             <duration>1</duration>
             <thread>1</thread>
-            <leaf>2</leaf>
+            <leaf>101</leaf>
             <width>708</width>
             <height>1000</height>
             <spread_mode>0</spread_mode>
