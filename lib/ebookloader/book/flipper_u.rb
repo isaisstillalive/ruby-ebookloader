@@ -1,7 +1,7 @@
 # coding: utf-8
 
 module EBookloader
-  class Book
+  module Book
     class FlipperU < Base
       include Book::MultiplePages
       require 'rexml/document'

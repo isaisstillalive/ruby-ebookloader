@@ -1,12 +1,8 @@
 # coding: utf-8
 
 module EBookloader
-  # 電子書籍ファイル
-  # @!parse class Book < Book::Base; end
-  # @!parse class Book::Base; end
-  class Book < Class.new
-    Base = self.superclass
-
+  # 電子書籍
+  module Book
     require_relative 'book/base'
     require_relative 'book/page'
     require_relative 'book/multiple_pages'

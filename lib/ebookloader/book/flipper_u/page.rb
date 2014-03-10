@@ -1,7 +1,7 @@
 # coding: utf-8
 
 module EBookloader
-  class Book
+  module Book
     class FlipperU
       class Page < EBookloader::Book::Page
         def save dir, offset = 0

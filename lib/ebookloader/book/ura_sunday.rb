@@ -1,7 +1,7 @@
 # coding: utf-8
 
 module EBookloader
-  class Book
+  module Book
     class UraSunday < Base
       include Book::MultiplePages
 

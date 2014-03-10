@@ -1,7 +1,7 @@
 # coding: utf-8
 
 module EBookloader
-  class Book
+  module Book
     class ActiBook < Base
       include Book::MultiplePages
       require 'rexml/document'

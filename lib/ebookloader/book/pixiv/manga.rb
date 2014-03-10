@@ -1,7 +1,7 @@
 # coding: utf-8
 
 module EBookloader
-  class Book
+  module Book
     class Pixiv
       class Manga < Pixiv
         include Book::MultiplePages

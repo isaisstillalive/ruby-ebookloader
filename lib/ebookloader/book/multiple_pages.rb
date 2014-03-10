@@ -1,7 +1,7 @@
 # coding: utf-8
 
 module EBookloader
-  class Book
+  module Book
     # 複数ページの電子書籍ファイルを表すモジュール
     # @!attribute [r] pages
     #   @return [Array<Page>] ページ情報

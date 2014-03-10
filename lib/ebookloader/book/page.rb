@@ -1,7 +1,7 @@
 # coding: utf-8
 
 module EBookloader
-  class Book
+  module Book
     class Page
       include Connectable
       attr_reader :uri, :options
