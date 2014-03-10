@@ -24,7 +24,7 @@ module EBookloader
 
         @books = csv.reverse.map do |line|
           klass = line[19].nil? ? Book::Pixiv : Book::Pixiv::Manga
-          klass.new(line[0], bookinfo.merge(title: line[3]).merge(@options))
+          klass.new(line[0], bookinfo.merge(title: line[3], episode: nil).merge(@options))
         end
 
         true
