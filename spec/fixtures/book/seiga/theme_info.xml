@@ -1,0 +1,54 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+    <theme>
+        <id>12345678</id>
+        <title>title</title>
+        <res_count>1</res_count>
+        <comment_count>2</comment_count>
+        <view_count>3</view_count>
+        <mylist_count>4</mylist_count>
+        <speed>0</speed>
+        <status>0</status>
+        <bgm_id />
+        <import_flag>0</import_flag>
+        <delete_flag>0</delete_flag>
+        <campaign_name />
+        <theme_type>1</theme_type>
+        <content />
+        <command />
+        <created>2014-01-01 00:00:00</created>
+        <updated>2014-01-01 00:00:00</updated>
+        <image_id>0</image_id>
+        <tag_list>
+            <tag>
+                <target_id>12345678</target_id>
+                <tag_id>tagid</tag_id>
+                <lock_status>0</lock_status>
+                <created>2014-01-01 00:00:00</created>
+                <updated>2014-01-01 00:00:00</updated>
+                <id>tagid</id>
+                <name>tag</name>
+                <normalize>tag</normalize>
+                <normalize_tag_id>tagid</normalize_tag_id>
+                <manga_count>0</manga_count>
+            </tag>
+        </tag_list>
+        <thumbnail_url>http://lohas.nicoseiga.jp/thumb12345678s</thumbnail_url>
+        <image_count>3</image_count>
+        <description>description</description>
+        <content_title>title</content_title>
+        <content_code />
+        <content_id>1</content_id>
+        <player_image_id>0</player_image_id>
+        <episode_title>episode</episode_title>
+        <start_effect>0</start_effect>
+        <thumbnail2_url>http://lohas.nicoseiga.jp/thumb/0q</thumbnail2_url>
+        <is_official>0</is_official>
+        <gro_level>3</gro_level>
+        <adult_level>3</adult_level>
+        <user_id>87654321</user_id>
+        <content_url>http://seiga.nicovideo.jp/comic/12345678</content_url>
+        <episode_url>http://seiga.nicovideo.jp/watch/mg12345678</episode_url>
+    </theme>
+</response>

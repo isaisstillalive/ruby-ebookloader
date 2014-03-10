@@ -29,6 +29,8 @@ module EBookloader
 
         true
       end
+
+      require_relative 'seiga/manga'
     end
   end
 end

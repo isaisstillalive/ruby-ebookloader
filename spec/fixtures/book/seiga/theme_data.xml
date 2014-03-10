@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+    <image_count>3</image_count>
+    <image_list>
+        <image>
+            <id>87654321</id>
+            <se_id />
+            <bgm_id />
+            <bgm_loop>0</bgm_loop>
+            <duration>1</duration>
+            <thread>1</thread>
+            <leaf>1</leaf>
+            <width>640</width>
+            <height>480</height>
+            <spread_mode>0</spread_mode>
+            <cache_time />
+            <source_url>http://lohas.nicoseiga.jp/thumb/87654321l?</source_url>
+            <drm_hash />
+            <balloon>
+                <image_id>87654321</image_id>
+                <x>1</x>
+                <y>2</y>
+                <w>3</w>
+                <h>4</h>
+                <is_auto>1</is_auto>
+                <version />
+            </balloon>
+        </image>
+        <image>
+            <id>87654322</id>
+            <se_id />
+            <bgm_id />
+            <bgm_loop>0</bgm_loop>
+            <duration>1</duration>
+            <thread>1</thread>
+            <leaf>2</leaf>
+            <width>708</width>
+            <height>1000</height>
+            <spread_mode>0</spread_mode>
+            <cache_time />
+            <source_url>http://lohas.nicoseiga.jp/thumb/87654322l?</source_url>
+            <drm_hash />
+            <balloon>
+                <image_id>87654322</image_id>
+                <x>11</x>
+                <y>12</y>
+                <w>13</w>
+                <h>14</h>
+                <is_auto>1</is_auto>
+                <version />
+            </balloon>
+        </image>
+    </image_list>
+    <comment_list>
+        <comment />
+    </comment_list>
+    <threads>
+        <thread>
+            <id>1</id>
+            <url>http://msg01.seiga.nicovideo.jp:80/</url>
+        </thread>
+    </threads>
+</response>
