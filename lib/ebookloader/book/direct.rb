@@ -18,6 +18,8 @@ module EBookloader
 
         true
       end
+
+      require_relative 'direct/multiple'
     end
   end
 end
