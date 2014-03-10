@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+  <channel>
+    <title>title - ニコニコ静画（マンガ）</title>
+    <link>http://seiga.nicovideo.jp/comic/12345678</link>
+    <description><![CDATA[title の更新情報です]]></description>
+    <pubDate>Tue, 01 Jan 2014 00:00:00 +0900</pubDate>
+    <language>ja</language>
+    <copyright>(c) niwango, inc. All rights reserved.</copyright>
+
+      <item>
+        <title>title episode2</title>
+        <link>http://seiga.nicovideo.jp/watch/mg87654322</link>
+        <description><![CDATA[
+          <p class="nicoseiga-thumbnail">
+            <img src="thumbnail2" border="0" />
+          </p>
+          <p class="nicoseiga-description"></p>
+          <p class="nicoseiga-info"><small>
+            <strong class="nico-info-date">2014年01月01日 00:00 投稿</strong>
+          </small></p>
+        ]]></description>
+        <guid isPermaLink="false">0123456789abcdef0123456789abcdef</guid>
+        <pubDate>Wed, 01 Jan 2014 00:00:00 +0900</pubDate>
+      </item>
+      <item>
+        <title>title episode1</title>
+        <link>http://seiga.nicovideo.jp/watch/mg87654321</link>
+        <description><![CDATA[
+          <p class="nicoseiga-thumbnail">
+            <img src="thumbnail1" border="0" />
+          </p>
+          <p class="nicoseiga-description"></p>
+          <p class="nicoseiga-info"><small>
+            <strong class="nico-info-date">2013年10月05日 00:00 投稿</strong>
+          </small></p>
+        ]]></description>
+        <guid isPermaLink="false">0123456789abcdef0123456789abcdef</guid>
+        <pubDate>Sat, 01 Jan 2014 00:00:00 +0900</pubDate>
+      </item>
+
+  </channel>
+</rss>

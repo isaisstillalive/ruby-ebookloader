@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+    <manga>
+        <id>12345678</id>
+        <title>title</title>
+        <author_name>author</author_name>
+        <description>description</description>
+        <player_type>1</player_type>
+        <category>category</category>
+        <is_official>0</is_official>
+        <gro_level>3</gro_level>
+        <adult_level>3</adult_level>
+        <view_count>1</view_count>
+        <mylist_count>2</mylist_count>
+        <episode_count>3</episode_count>
+        <created>2014-01-01 00:00:00</created>
+        <updated>2014-01-01 00:00:00</updated>
+        <status>1</status>
+        <icon_url>icon_url</icon_url>
+        <thumbnail_url>thumbnail_url</thumbnail_url>
+        <author_list>
+            <author>
+                <name>author</name>
+                <thumbnail_url>author_thumbnail_url</thumbnail_url>
+                <nico_id>87654321</nico_id>
+            </author>
+        </author_list>
+    </manga>
+</response>
