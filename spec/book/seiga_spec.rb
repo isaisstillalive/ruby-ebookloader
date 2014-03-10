@@ -11,10 +11,11 @@ describe EBookloader::Book::Seiga do
     subject{ book.__send__ :lazy_load }
     before{ book.instance_variable_set :@loaded, true }
 
-    it_behaves_like 'a BookInfo updater', title: 'title'
+    it_behaves_like 'a BookInfo updater', title: 'title', author: 'author'
 
     before{
       allow( book ).to receive(:get).and_return(response('/book/seiga/illust_info.xml'))
+      allow( book ).to receive(:get_author).and_return('author')
       head_response = double('Response')
       allow( book ).to receive(:head).and_return(head_response)
       allow(head_response).to receive(:[]).with(:location).and_return('http://lohas.nicoseiga.jp/o/123456789abcdef/12345678/12345678')
@@ -25,6 +26,21 @@ describe EBookloader::Book::Seiga do
       expect( subject ).to eql true
     end
 
+    it 'は作者取得APIを叩き名前を取得する' do
+      expect( book ).to receive(:get_author).with('87654321').and_return('author')
+      subject
+      expect( book.author ).to eql 'author'
+    end
+
+    context 'authorが設定されている場合' do
+      it 'は作者取得APIを叩かない' do
+        book.author = 'author1'
+        expect( book ).to_not receive(:get_author)
+        subject
+        expect( book.author ).to eql 'author1'
+      end
+    end
+
     it 'は@pageを設定する' do
       head_response = double('Response')
       expect( book ).to receive(:head).with(URI('http://seiga.nicovideo.jp/image/source/12345678')).and_return(head_response)
@@ -32,7 +48,7 @@ describe EBookloader::Book::Seiga do
 
       subject
 
-      expect( book.page ).to eq EBookloader::Book::Page.new(URI('http://lohas.nicoseiga.jp/priv/123456789abcdef/12345678/12345678'), name: 'title', extension: :jpg)
+      expect( book.page ).to eq EBookloader::Book::Page.new(URI('http://lohas.nicoseiga.jp/priv/123456789abcdef/12345678/12345678'), name: '[author] title', extension: :jpg)
     end
   end
 end

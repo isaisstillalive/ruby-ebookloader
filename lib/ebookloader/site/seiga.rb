@@ -16,10 +16,7 @@ module EBookloader
       private
 
       def lazy_load
-        author_xml = get URI("http://seiga.nicovideo.jp/api/user/info?id=#{@member_id}")
-        author_doc = REXML::Document.new author_xml.body
-
-        update_without_overwrite author: author_doc.text('response/user/nickname')
+        update_without_overwrite author: get_author(@member_id)
 
         xml = get URI("http://seiga.nicovideo.jp/api/user/data?id=#{@member_id}")
         doc = REXML::Document.new xml.body

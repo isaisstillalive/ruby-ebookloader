@@ -141,4 +141,13 @@ describe EBookloader::Connectable::Seiga do
       end
     end
   end
+
+  describe '#get_author' do
+    subject{ connectable_object.__send__ :get_author, '12345678' }
+
+    it 'はAPIを叩いて作者名を取得する' do
+      expect( connectable_object ).to receive(:get).with(URI('http://seiga.nicovideo.jp/api/user/info?id=12345678')).and_return(response('/site/seiga/user_info.xml'))
+      expect( subject ).to eql 'author'
+    end
+  end
 end

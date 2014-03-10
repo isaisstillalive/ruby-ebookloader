@@ -3,9 +3,16 @@
 module EBookloader
   module Connectable
     module Seiga
+      require 'rexml/document'
       include Connectable
 
       private
+
+      def get_author member_id
+        xml = get URI("http://seiga.nicovideo.jp/api/user/info?id=#{member_id}")
+        doc = REXML::Document.new xml.body
+        doc.text('response/user/nickname')
+      end
 
       def run_request method, uri, body = nil, headers = {}
         headers ||= {}

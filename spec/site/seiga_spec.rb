@@ -22,12 +22,12 @@ describe EBookloader::Site::Seiga do
     it_behaves_like 'a BookInfo updater', author: 'author'
 
     before{
-      allow( site ).to receive(:get).with(URI('http://seiga.nicovideo.jp/api/user/info?id=12345678')).and_return(response('/site/seiga/user_info.xml'))
+      allow( site ).to receive(:get_author).with('12345678').and_return('author')
       allow( site ).to receive(:get).with(URI('http://seiga.nicovideo.jp/api/user/data?id=12345678')).and_return(response('/site/seiga/user_data.xml'))
     }
 
     it 'はAPIからXMLを取得する' do
-      expect( site ).to receive(:get).with(URI('http://seiga.nicovideo.jp/api/user/info?id=12345678')).and_return(response('/site/seiga/user_info.xml'))
+      expect( site ).to receive(:get_author).with('12345678').and_return('author')
       expect( site ).to receive(:get).with(URI('http://seiga.nicovideo.jp/api/user/data?id=12345678')).and_return(response('/site/seiga/user_data.xml'))
       expect( subject ).to eql true
     end
