@@ -9,10 +9,6 @@ describe EBookloader::BookInfo do
 
   let(:book){ Book.new }
   let(:bookinfo){ book }
-  before{
-    book.title = 'title'
-    book.author = 'author'
-  }
 
   it_behaves_like 'a LazyLoadable', :title, false
   it_behaves_like 'a LazyLoadable', :author, false
@@ -21,6 +17,7 @@ describe EBookloader::BookInfo do
     subject{ book.title }
 
     it 'は題名を返す' do
+      book.title = 'title'
       expect( subject ).to eql 'title'
     end
   end
@@ -29,12 +26,17 @@ describe EBookloader::BookInfo do
     subject{ book.author }
 
     it 'は作者を返す' do
+      book.author = 'author'
       expect( subject ).to eql 'author'
     end
   end
 
   describe '#name' do
     subject{ book.name }
+    before{
+      book.title = 'title'
+      book.author = 'author'
+    }
 
     it 'は作者と題名を結合して返す' do
       expect( subject ).to eql '[author] title'
@@ -77,6 +79,8 @@ describe EBookloader::BookInfo do
     subject{ book.__send__ :bookinfo }
 
     it 'は作者と題名をハッシュで返す' do
+      book.title = 'title'
+      book.author = 'author'
       expect( subject ).to eql(author: 'author', title: 'title')
     end
   end
@@ -86,6 +90,10 @@ describe EBookloader::BookInfo do
     let(:title){ 'new_title' }
     let(:author){ 'new_author' }
     subject{ book.__send__ :update_core, options }
+    before{
+      book.title = 'title'
+      book.author = 'author'
+    }
 
     it 'は未処理のキーを含めたハッシュを返す' do
       expect( subject ).to eql({other: :other})

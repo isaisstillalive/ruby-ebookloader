@@ -71,15 +71,45 @@ describe EBookloader::LazyLoadable do
       expect( lazy_object.lazy_property ).to eql 'lazy_property'
     end
 
-    it 'により作成されたプロパティは値がLazyLoadable::NONEの場合にlazy_loadを行わない' do
-      lazy_object.instance_variable_set :@lazy_property, EBookloader::LazyLoadable::NONE
-      expect( lazy_object ).to_not receive(:lazy_load)
-      subject
-      expect( lazy_object.lazy_property ).to eql EBookloader::LazyLoadable::NONE
-    end
-
     it 'はnilを返す' do
       expect( subject ).to eql nil
+    end
+  end
+
+  describe 'attr_lazy_readerにより作成されたreaderメソッド' do
+    before{
+      class << lazy_object
+        attr_lazy_reader :lazy_property
+
+        def lazy_load
+          @lazy_property = 'lazy_property'
+          true
+        end
+      end
+    }
+    subject{ lazy_object.lazy_property }
+
+    context 'インスタンス変数が未設定の場合' do
+      it 'はloadを実行する' do
+        expect( lazy_object ).to receive(:load)
+        subject
+      end
+    end
+
+    context 'インスタンス変数が設定済みの場合' do
+      it 'はloadを実行しない' do
+        lazy_object.instance_variable_set :@lazy_property, 'lazy_property'
+        expect( lazy_object ).to_not receive(:load)
+        subject
+      end
+    end
+
+    context 'インスタンス変数がnilの場合' do
+      it 'はloadを実行しない' do
+        lazy_object.instance_variable_set :@lazy_property, nil
+        expect( lazy_object ).to_not receive(:load)
+        subject
+      end
     end
   end
 

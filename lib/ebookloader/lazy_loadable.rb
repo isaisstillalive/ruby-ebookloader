@@ -3,8 +3,6 @@
 module EBookloader
   # 遅延読み込みを行うモジュール
   module LazyLoadable
-    NONE = :NONE
-
     private
 
     # LazyLoadableをincludeした際に定義されるクラスメソッド
@@ -14,8 +12,8 @@ module EBookloader
       def attr_lazy_reader *names
         names.each do |name|
           define_method name do
-            var = proc{ instance_variable_get("@#{name}") }
-            var.call || (load; var.call)
+            load unless instance_variable_defined?("@#{name}")
+            instance_variable_get("@#{name}")
           end
         end
         nil
