@@ -18,7 +18,7 @@ module EBookloader
 
       authors = author.kind_of?(Array) ? author : [author]
 
-      ('[%s] %s' % [authors.join(', '), title]).gsub(Pathname::SEPARATOR_PAT, '_')
+      BookInfo.escape_name('[%s] %s' % [authors.join(', '), title])
     end
 
     # 書籍情報を上書き更新する
@@ -28,6 +28,10 @@ module EBookloader
     # @return [Hash] 処理されなかった書籍情報
     def update options
       update_core options, true
+    end
+
+    def self.escape_name name
+      name.tr('/:*?"<>|\\', '／：＊？”＜＞｜￥')
     end
 
     private

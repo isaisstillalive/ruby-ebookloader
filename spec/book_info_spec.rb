@@ -42,6 +42,11 @@ describe EBookloader::BookInfo do
       expect( subject ).to eql '[author] title'
     end
 
+    it 'は名前をエスケープする' do
+      expect( EBookloader::BookInfo ).to receive(:escape_name).with('[author] title').and_return('escaped')
+      expect( subject ).to eql 'escaped'
+    end
+
     context '作者が設定されていない場合' do
       before{ book.author = nil }
 
@@ -57,21 +62,13 @@ describe EBookloader::BookInfo do
         expect( subject ).to eql '[author1, author2] title'
       end
     end
+  end
 
-    context '題名にパス文字が含まれている場合' do
-      before{ book.title = (Pathname('title') + Pathname('title')).to_s }
+  describe '.escape_name' do
+    subject{ EBookloader::BookInfo.escape_name 'abcde\/:*?"<>|あいうえお' }
 
-      it 'はパス文字を_に置換して返す' do
-        expect( subject ).to eql '[author] title_title'
-      end
-    end
-
-    context '作者名にパス文字が含まれている場合' do
-      before{ book.author = (Pathname('author') + Pathname('author')).to_s }
-
-      it 'はパス文字を_に置換して返す' do
-        expect( subject ).to eql '[author_author] title'
-      end
+    it 'はパス名として使用不可能な文字を全角に置換して返す' do
+      expect( subject ).to eql 'abcde￥／：＊？”＜＞｜あいうえお'
     end
   end
 

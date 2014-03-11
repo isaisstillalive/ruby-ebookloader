@@ -26,8 +26,7 @@ module EBookloader
       # @see EBookloader::BookInfo#name
       def name
         if self.episode
-          episode = self.episode
-          episode.gsub!(Pathname::SEPARATOR_PAT, '_')
+          episode = BookInfo.escape_name self.episode
           "#{super} #{episode}"
         else
           super

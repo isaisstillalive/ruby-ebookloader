@@ -46,19 +46,17 @@ describe EBookloader::Book::Base do
       expect( subject ).to eql '[author] title episode'
     end
 
+    it 'はエピソードをエスケープする' do
+      allow( EBookloader::BookInfo ).to receive(:escape_name).with('[author] title').and_call_original
+      expect( EBookloader::BookInfo ).to receive(:escape_name).with('episode').and_return('escaped')
+      expect( subject ).to eql '[author] title escaped'
+    end
+
     context 'エピソードが設定されていない場合' do
       before{ book.episode = nil }
 
       it 'はBookInfo#nameを返す' do
         expect( subject ).to eql '[author] title'
-      end
-    end
-
-    context 'エピソードにパス文字が含まれている場合' do
-      before{ book.episode =  (Pathname('episode') + Pathname('episode')).to_s }
-
-      it 'はBookInfo#nameを返す' do
-        expect( subject ).to eql '[author] title episode_episode'
       end
     end
   end
