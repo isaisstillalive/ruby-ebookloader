@@ -17,5 +17,6 @@ module EBookloader
     require_relative 'site/comic_clear'
     require_relative 'site/pixiv'
     require_relative 'site/seiga'
+    require_relative 'site/ura_sunday'
   end
 end
