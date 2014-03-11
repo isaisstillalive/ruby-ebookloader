@@ -144,14 +144,27 @@ describe EBookloader::Book::MultiplePages do
 
   describe '#zip' do
     let(:dir_path){ Pathname('dir/name') }
+    let(:zip_path){ Pathname('dir/name.zip') }
     subject{ book.__send__ :zip, dir_path }
     before{
       allow(dir_path).to receive(:rmtree)
+      allow(dir_path).to receive(:sub_ext).and_return(zip_path)
+      allow(zip_path).to receive(:exist?).and_return(false)
+      allow( Zip::File ).to receive(:open)
     }
 
     it 'はrubyzipを利用してzip圧縮を行う' do
       expect( Zip::File ).to receive(:open).with(Pathname('dir/name.zip'), Zip::File::CREATE)
       subject
+    end
+
+    context '出力先のzipが存在する場合' do
+      it 'は事前に削除する' do
+        expect(dir_path).to receive(:sub_ext).with('.zip').and_return(zip_path)
+        expect(zip_path).to receive(:exist?).and_return(true)
+        expect(zip_path).to receive(:delete)
+        subject
+      end
     end
 
     it 'は指定したディレクトリの全てのファイルを圧縮する' do
