@@ -46,8 +46,8 @@ describe EBookloader::Site::GanganOnline::Idolmaster do
 
     it 'は@booksを設定する' do
       allow( site ).to receive(:title).and_return('title')
-      expect( EBookloader::Site ).to receive(:get_episode_number).with('第1話').and_return('01')
-      expect( EBookloader::Site ).to receive(:get_episode_number).with('第2話').and_return('02')
+      expect( EBookloader::Book::Base ).to receive(:get_episode_number).with('第1話').and_return('01')
+      expect( EBookloader::Book::Base ).to receive(:get_episode_number).with('第2話').and_return('02')
 
       subject
 
@@ -76,7 +76,7 @@ describe EBookloader::Site::GanganOnline::Idolmaster do
 
       it 'は@booksを設定する' do
         allow( site ).to receive(:title).and_return('title2')
-        expect( EBookloader::Site ).to_not receive(:get_episode_number)
+        expect( EBookloader::Book::Base ).to_not receive(:get_episode_number)
 
         subject
 

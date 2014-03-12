@@ -26,7 +26,7 @@ module EBookloader
               uri = @uri + sc[:uri]
               episode = sc[:episode].gsub(/<[^>]*>/, ' ')
               episode = if sc[:episode_num]
-                '%s %s' % [Site.get_episode_number(sc[:episode_num]), episode]
+                '%s %s' % [Book::Base.get_episode_number(sc[:episode_num]), episode]
               else
                 '%s' % [episode]
               end

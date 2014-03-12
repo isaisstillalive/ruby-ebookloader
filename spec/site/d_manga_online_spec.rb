@@ -30,11 +30,11 @@ describe EBookloader::Site::DMangaOnline do
     end
 
     it 'は@booksを設定する' do
-      expect( EBookloader::Site ).to receive(:get_episode_number).with('1').and_return('01').ordered
-      expect( EBookloader::Site ).to receive(:get_episode_number).with('2').and_return('02').ordered
-      expect( EBookloader::Site ).to receive(:get_episode_number).with('3').and_return('03').ordered
-      expect( EBookloader::Site ).to receive(:get_episode_number).with('4').and_return('04').ordered
-      expect( EBookloader::Site ).to receive(:get_episode_number).with('1').and_return('01').ordered
+      expect( EBookloader::Book::Base ).to receive(:get_episode_number).with('1').and_return('01').ordered
+      expect( EBookloader::Book::Base ).to receive(:get_episode_number).with('2').and_return('02').ordered
+      expect( EBookloader::Book::Base ).to receive(:get_episode_number).with('3').and_return('03').ordered
+      expect( EBookloader::Book::Base ).to receive(:get_episode_number).with('4').and_return('04').ordered
+      expect( EBookloader::Book::Base ).to receive(:get_episode_number).with('1').and_return('01').ordered
 
       subject
 
@@ -58,10 +58,10 @@ describe EBookloader::Site::DMangaOnline do
       it 'は番外編以外で@booksを設定する' do
         expect( site ).to receive(:get).with(URI('http://d-manga.dengeki.com/work/identifier/')).and_return(response('/site/d_manga_online/identifier_noextra.html'))
 
-        expect( EBookloader::Site ).to receive(:get_episode_number).with('1').and_return('01').ordered
-        expect( EBookloader::Site ).to receive(:get_episode_number).with('2').and_return('02').ordered
-        expect( EBookloader::Site ).to receive(:get_episode_number).with('3').and_return('03').ordered
-        expect( EBookloader::Site ).to receive(:get_episode_number).with('4').and_return('04').ordered
+        expect( EBookloader::Book::Base ).to receive(:get_episode_number).with('1').and_return('01').ordered
+        expect( EBookloader::Book::Base ).to receive(:get_episode_number).with('2').and_return('02').ordered
+        expect( EBookloader::Book::Base ).to receive(:get_episode_number).with('3').and_return('03').ordered
+        expect( EBookloader::Book::Base ).to receive(:get_episode_number).with('4').and_return('04').ordered
 
         subject
 

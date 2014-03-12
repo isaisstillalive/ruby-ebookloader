@@ -115,6 +115,19 @@ module EBookloader
           end
         end
       end
+
+      class << self
+        def get_episode_number episode_number
+          return '%02d' % episode_number if episode_number.match /^\d*$/
+          return '%05.2f' % episode_number if episode_number.match /^\d\.\d*$/
+
+          match = episode_number.match /(?:第|#)(?<first>\d+)(-(?<last>\d+))?(?:話|回)?/
+          return episode_number unless match
+
+          format = match[:last] ? '%02d-%02d' : '%02d'
+          format % [match[:first], match[:last]]
+        end
+      end
     end
   end
 end
