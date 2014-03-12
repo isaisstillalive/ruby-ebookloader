@@ -7,7 +7,6 @@ module EBookloader
 
       def lazy_load
         source = get @uri
-        source.body.force_encoding Encoding::UTF_8
 
         return super if source.body.include? 'viewerNavi.js'
 

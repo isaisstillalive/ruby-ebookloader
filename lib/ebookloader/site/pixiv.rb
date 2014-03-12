@@ -16,7 +16,6 @@ module EBookloader
 
       def lazy_load
         source = get_member @member_id
-        source.body.force_encoding Encoding::UTF_8
 
         update_without_overwrite source.body.match(%r{<tr><th>ニックネーム<td>(?<author>[^<]*?)$}m).extend(Extensions::MatchData)
 

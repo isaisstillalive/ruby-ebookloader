@@ -10,7 +10,6 @@ module EBookloader
       private
       def lazy_load
         source = get @uri
-        source.body.force_encoding Encoding::UTF_8
 
         update_without_overwrite source.body.match(%r{<h2 class="workTextTtl">\s*?<img[^>]*alt="(?<title>[^"]*?)">\s*?</h2>\s*?<p class="workTextAuthor">\s*?著者名： (?<author>.*?)\s*?</p>}m).extend(Extensions::MatchData)
 

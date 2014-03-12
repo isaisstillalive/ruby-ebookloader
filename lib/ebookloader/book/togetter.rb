@@ -9,14 +9,12 @@ module EBookloader
 
       def lazy_load
         source = get @uri
-        source.body.force_encoding Encoding::UTF_8
 
         update_without_overwrite source.body.match(%r{<h1>\s*<a class="info_title" href="[^"]*" title="(?<title>[^"]*)"}m).extend(Extensions::MatchData)
 
         id = @uri.to_s.match(%r{^http://togetter\.com/li/(?<id>[^/]*)})[:id]
         csrf_token = source.body.match(%r{<meta name="csrf_token" content="(?<csrf_token>[^"]*)"/>})[:csrf_token]
         tweets = get URI("http://togetter.com/api/moreTweets/#{id}?page=1&csrf_token=#{csrf_token}")
-        tweets.body.force_encoding Encoding::UTF_8
         body = tweets.body
 
         body.extend EBookloader::Extensions::String
