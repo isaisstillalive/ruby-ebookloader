@@ -23,9 +23,10 @@ module EBookloader
 
         update_without_overwrite author: author, title: doc.text('/response/image/title')
 
-        redirect = head URI("http://seiga.nicovideo.jp/image/source/#{@illust_id}")
-        uri = URI(redirect[:location].gsub '/o/', '/priv/')
-        @page = Page.new uri, name: name
+        @page = Page.new name: name do
+          redirect = head URI("http://seiga.nicovideo.jp/image/source/#{@illust_id}")
+          URI(redirect[:location].gsub '/o/', '/priv/')
+        end
 
         true
       end
