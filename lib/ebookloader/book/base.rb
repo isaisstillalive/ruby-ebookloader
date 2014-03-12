@@ -26,7 +26,7 @@ module EBookloader
       # @see EBookloader::BookInfo#name
       def name
         if self.episode
-          episode = BookInfo.escape_name self.episode
+          episode = BookInfo.escape_name self.episode.strip
           "#{super} #{episode}"
         else
           super
@@ -113,6 +113,11 @@ module EBookloader
             self.episode = options[:episode] if overwrite || !self.episode
             options.delete :episode
           end
+        end
+      end
+
+      def generate_pages enum
+        enum.each do |v|
         end
       end
 

@@ -46,6 +46,14 @@ describe EBookloader::Book::Base do
       expect( subject ).to eql '[author] title episode'
     end
 
+    context 'エピソードの末尾にスペースがある場合' do
+      before{ book.episode = 'episode ' }
+
+      it 'はそれを除去する' do
+        expect( subject ).to eql '[author] title episode'
+      end
+    end
+
     it 'はエピソードをエスケープする' do
       allow( EBookloader::BookInfo ).to receive(:escape_name).with('[author] title').and_call_original
       expect( EBookloader::BookInfo ).to receive(:escape_name).with('episode').and_return('escaped')
@@ -365,6 +373,16 @@ describe EBookloader::Book::Base do
     it 'はページも複製する' do
       expect( subject.page ).to eq page
       expect( subject.page ).to_not eql page
+    end
+  end
+
+  describe '#generate_pages' do
+    subject{ book.__send__ :generate_pages, enum }
+    let(:enum){ double('Enumerable') }
+
+    it 'はEnumerable#eachする' do
+      expect( enum ).to receive(:each)
+      subject
     end
   end
 

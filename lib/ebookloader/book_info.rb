@@ -14,11 +14,11 @@ module EBookloader
     # @!attribute [r] name
     # @return [String] ファイル名
     def name
-      return title unless author
+      return title.strip unless author
 
       authors = author.kind_of?(Array) ? author : [author]
 
-      BookInfo.escape_name('[%s] %s' % [authors.join(', '), title])
+      BookInfo.escape_name('[%s] %s' % [authors.join(', '), title.strip])
     end
 
     # 書籍情報を上書き更新する
@@ -28,10 +28,6 @@ module EBookloader
     # @return [Hash] 処理されなかった書籍情報
     def update options
       update_core options, true
-    end
-
-    def self.escape_name name
-      name.tr('/:*?"<>|\\', '／：＊？”＜＞｜￥')
     end
 
     private
@@ -76,6 +72,10 @@ module EBookloader
     end
 
     class << self
+      def escape_name name
+        name.tr('/:*?"<>|\\', '／：＊？”＜＞｜￥')
+      end
+
       def get_author author
         author.gsub(%r{　|<br />}, ', ').gsub(%r{(, |^).*?[/：]}, '\1')
       end

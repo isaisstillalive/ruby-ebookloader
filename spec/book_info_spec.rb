@@ -62,6 +62,28 @@ describe EBookloader::BookInfo do
         expect( subject ).to eql '[author1, author2] title'
       end
     end
+
+    context '先頭にスペースが入っている場合' do
+      before{
+        book.author = nil
+        book.title =  ' title'
+      }
+
+      it 'は先頭のスペースを除去する' do
+        expect( subject ).to eql 'title'
+      end
+    end
+
+    context '末尾にスペースが入っている場合' do
+      before{
+        book.author = nil
+        book.title =  'title '
+      }
+
+      it 'は先頭のスペースを除去する' do
+        expect( subject ).to eql 'title'
+      end
+    end
   end
 
   describe '.escape_name' do
