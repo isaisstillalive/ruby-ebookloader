@@ -8,14 +8,14 @@ module EBookloader
           require 'rubygems'
           require 'rmagick'
 
-          baseUri = @uri + "./x#{@options[:scale]}/"
+          baseUri = self.uri + "./x#{@options[:scale]}/"
 
           index = 1
           imagelist = Magick::ImageList.new
           @options[:height].times do
             h_imagelist = Magick::ImageList.new
             @options[:width].times do
-              uri = baseUri + "./#{index}.#{@options[:extension]}"
+              uri = baseUri + "./#{index}.#{self.extension}"
               h_imagelist.from_blob get(uri).body
               index += 1
             end

@@ -4,31 +4,107 @@ require_relative '../spec_helper.rb'
 
 describe EBookloader::Book::Page do
   describe '初期化' do
+    let(:uri){ URI('uri') }
     let(:options){ { option: :option } }
-    subject{ described_class.new 'uri', options }
+    let(:block){ proc{ 'uri_block' } }
+    subject{ described_class.new uri, options }
 
     it 'はURIを設定する' do
       instance = subject
-      expect( instance.uri ).to eql URI('uri')
+      expect( instance.instance_variable_get :@uri ).to eql uri
     end
 
     it 'はオプションを設定する' do
       instance = subject
-      expect( instance.options ).to eql({ option: :option, extension: :jpg })
+      expect( instance.options ).to eql({ option: :option })
     end
 
     it 'は引数で渡されたオプションHashを変更しない' do
       instance = subject
       expect( options ).to eql({ option: :option })
     end
+
+    context 'オプションが省略された場合' do
+      subject{ described_class.new uri }
+
+      it 'はオプションを空のハッシュにする' do
+        instance = subject
+        expect( instance.options ).to eql({})
+      end
+    end
+
+    context 'ブロックを渡された場合' do
+      subject{ described_class.new &block }
+
+      it 'は@uriにブロックを設定する' do
+        instance = subject
+        expect( instance.instance_variable_get :@uri ).to eql block
+      end
+
+      context 'オプションも渡された場合' do
+        subject{ described_class.new options, &block }
+
+        it 'は@uriにブロックを設定する' do
+          instance = subject
+          expect( instance.instance_variable_get :@uri ).to eql block
+        end
+
+        it 'はオプションを設定する' do
+          instance = subject
+          expect( instance.options ).to eql({ option: :option })
+        end
+      end
+    end
+
+    context 'URIもブロックも渡されない場合' do
+      subject{ described_class.new }
+
+      it 'は例外を発生させる' do
+        expect{ subject }.to raise_error ArgumentError
+      end
+    end
+
+    context 'URIとブロックが渡された場合' do
+      subject{ described_class.new uri, &block }
+
+      it 'は#to_hashが呼ばれオプションとして設定する' do
+        expect( uri ).to receive(:to_hash).and_return({uri: uri})
+        instance = subject
+        expect( instance.options ).to eql({uri: uri})
+      end
+
+      context 'オプションも渡された場合' do
+        subject{ described_class.new uri, options, &block }
+
+        it 'は例外を発生させる' do
+          expect{ subject }.to raise_error ArgumentError
+        end
+      end
+    end
   end
 
   describe '#uri' do
-    let(:page){ described_class.new 'uri' }
+    let(:page){ described_class.new URI('uri') }
     subject{ page.uri }
 
     it 'はURIを返す' do
       expect( subject ).to eql URI('uri')
+    end
+
+    context '@uriが文字列の場合' do
+      before{ page.instance_variable_set :@uri, 'uri_string' }
+
+      it 'はURIを返す' do
+        expect( subject ).to eql URI('uri_string')
+      end
+    end
+
+    context '初期化時にブロックを渡された場合' do
+      before{ page.instance_variable_set :@uri, proc{ 'uri_block' } }
+
+      it 'はURIを返す' do
+        expect( subject ).to eql URI('uri_block')
+      end
     end
   end
 
@@ -37,7 +113,7 @@ describe EBookloader::Book::Page do
     subject{ page.options }
 
     it 'はオプションを返す' do
-      expect( subject ).to eql option: :option, extension: :jpg
+      expect( subject ).to eql option: :option
     end
 
     it 'は変更不可である' do
