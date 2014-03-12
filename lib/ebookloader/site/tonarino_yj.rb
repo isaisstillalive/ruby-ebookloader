@@ -12,7 +12,9 @@ module EBookloader
         source = get @uri
         source.body.force_encoding Encoding::UTF_8
 
-        update_without_overwrite source.body.match(%r{<h1><img src="[^"]*?" alt="(?<title>.*?)" /></h1>\s*?<h2>(?<author>.*?)</h2>}m).extend(Extensions::MatchData)
+        match = source.body.match(%r{<h1><img src="[^"]*?" alt="(?<title>.*?)" /></h1>\s*?<h2>(?<author>.*?)</h2>}m)
+        author = BookInfo.get_author(match[:author])
+        update_without_overwrite title: match[:title], author: author
 
         source.body.match %r{<div class="backnumber"(?<list>.*?)<!-- backnumber - 番外編 -->(?<extra>.*?)<!-- //.backnumber -->}m do |m|
           list = (m[:extra] + m[:list])

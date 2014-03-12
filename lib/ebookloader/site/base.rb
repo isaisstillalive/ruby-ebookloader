@@ -37,12 +37,6 @@ module EBookloader
 
         true
       end
-
-      class << self
-        def get_author author
-          author.gsub(%r{　|<br />}, ', ').gsub(%r{(, |^).*?[/：]}, '\1')
-        end
-      end
     end
   end
 end

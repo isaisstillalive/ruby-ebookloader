@@ -125,24 +125,4 @@ describe EBookloader::Site::Base do
       expect( subject ).to eql ['books']
     end
   end
-
-  describe '.get_author' do
-    subject{ described_class.get_author author }
-
-    context '原案付きの場合' do
-      let(:author){ '漫画：author1<br />原案：author2' }
-
-      it 'は並列表記する' do
-        expect( subject ).to eql 'author1, author2'
-      end
-    end
-
-    context '作画・原作別の場合' do
-      let(:author){ '原作/author1　作画/author2' }
-
-      it 'は並列表記する' do
-        expect( subject ).to eql 'author1, author2'
-      end
-    end
-  end
 end
