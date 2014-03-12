@@ -36,7 +36,7 @@ describe EBookloader::Book::FlipperU::Page do
         expect( page ).to receive(:get).with(URI("http://example.com/dir/page1/x2/#{i}.jpg")).and_return(double('response', body: "#{i}"))
         expect( h_imagelist ).to receive(:from_blob).with("#{i}")
       end
-      expect( page ).to receive(:filename).with(1).and_return('1.jpg')
+      expect( page ).to receive(:filename).with(0).and_return('1.jpg')
 
       subject
     end

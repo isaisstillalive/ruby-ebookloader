@@ -22,9 +22,19 @@ module EBookloader
             imagelist << h_imagelist.append(false)
           end
 
-          file = dir + filename(offset + page)
+          file = dir + filename(offset)
           image = imagelist.append(true)
           image.write file
+        end
+
+        private
+
+        def tilejpeg file, join_paths
+          Dir.chdir dir.to_s
+          file_paths = files.map(&:basename).join(' ');
+          command = "C:/Users/amioka/Downloads/tilejpeg/bin/tilejpeg.exe #{@options[:width]} #{file_paths}"
+          system(command)
+          file = dir + filename(page)
         end
       end
     end
