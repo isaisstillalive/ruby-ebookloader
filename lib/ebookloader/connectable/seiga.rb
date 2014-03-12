@@ -18,9 +18,7 @@ module EBookloader
         headers ||= {}
         headers['Cookie'] = "user_session=#{session}"
 
-        result = super method, uri, body, headers
-        result.body.force_encoding Encoding::UTF_8
-        result
+        super method, uri, body, headers
       end
 
       def session

@@ -26,7 +26,9 @@ def html path
 end
 
 def response path
-  RSpec::Mocks::Mock.new('response', { :body => html(path) })
+  body = html(path)
+  body.force_encoding Encoding::UTF_8
+  RSpec::Mocks::Mock.new('response', { :body => body })
 end
 
 shared_examples_for 'a LazyLoadable' do |name, with_initialize|

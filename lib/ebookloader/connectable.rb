@@ -13,9 +13,11 @@ module EBookloader
     end
 
     def run_request method, uri, body = nil, headers = {}
-      conn(uri).run_request method, uri.request_uri, body, headers do |g|
+      result = conn(uri).run_request method, uri.request_uri, body, headers do |g|
         g.headers['Connection'] = 'Keep-Alive'
       end
+      result.body.force_encoding Encoding::UTF_8 if result.body.respond_to? :force_encoding
+      result
     end
 
     def get uri, headers = {}

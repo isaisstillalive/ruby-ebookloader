@@ -75,6 +75,20 @@ describe EBookloader::Connectable do
         subject
       end
     end
+
+    it 'は戻り値のbodyのエンコーディングをUTF8にする' do
+      allow( conn ).to receive(:run_request).with(:method, '/path', nil, {}).and_yield(get_options).and_return( double('response', {:body => 'body'.encode(Encoding::ASCII)}) )
+
+      expect( subject.body.encoding ).to eql Encoding::UTF_8
+    end
+
+    context '戻り値のbodyがnilの場合' do
+      it 'は戻り値のbodyのエンコーディングを操作しない' do
+        allow( conn ).to receive(:run_request).with(:method, '/path', nil, {}).and_yield(get_options).and_return( double('response', {:body => nil}) )
+
+        expect( subject.body ).to eql nil
+      end
+    end
   end
 
   describe '#get' do

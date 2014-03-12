@@ -15,9 +15,7 @@ module EBookloader
         headers['Referer'] = 'http://iphone.pxv.jp/'
         headers['Cookie'] = "PHPSESSID=#{session}"
 
-        result = super method, uri, body, headers
-        result.body.force_encoding Encoding::UTF_8
-        result
+        super method, uri, body, headers
       end
 
       def get_csv uri
