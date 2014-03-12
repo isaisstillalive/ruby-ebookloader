@@ -10,7 +10,7 @@ describe EBookloader::Book::AkitashotenReadingCommunicator do
     subject{ book.__send__ :lazy_load }
     before{ book.instance_variable_set :@loaded, true }
 
-    it_behaves_like 'a BookInfo updater', title: 'title episode', author: 'author'
+    it_behaves_like 'a BookInfo updater', title: 'title', author: 'author', episode: 'ep1 episode'
 
     before{
       allow( book ).to receive(:get).and_return(response('/book/akitashoten_reading_communicator/1.html'))

@@ -6,13 +6,38 @@
 <header id="information">
 <h1 id="logo"><a href="/" class="closeViewer"><img alt="Champion タップ！" src="/assets/viewer_tapLogo-8a82f294bd9340c306bce3e86b79d398.png" /></a></h1>
 <div class="titleArea">
-<h1 title="title episode ">title episode <span id="subtitle"></span><span id="author" title="author"> / author</span></h1>
+<h1 title="title ep1 ">title ep1 <span id="subtitle">episode</span><span id="author" title="author"> / author</span></h1>
 <!-- / .titleArea --></div>
 </header>
 
+<aside id="controller">
+<menu>
+<div id="shareTitle">この漫画を共有する</div>
+<a href="#share" class="ctl" id="share" data-method="share" title="共有する">共有する</a>
+<span class="separator">|</span>
+<a href="#scaleUp" class="ctl" id="scaleUp" data-method="scaleUp" title="拡大する">拡大する</a>
+<a href="#scaleDown" class="ctl" id="scaleDown" data-method="scaleDown" title="縮小する">縮小する</a>
+<a href="#fullscreen" class="ctl" id="fullscreen" data-method="fullscreen" title="フルスクリーンで表示する">フルスクリーンで表示する</a>
+<span class="separator">|</span>
+<a href="#last" class="ctl" id="last" data-method="last" title="最後のページへ">最後のページへ</a>
+<a href="#forward" class="ctl" id="forward" data-method="forward" title="次のページへ">次のページへ</a>
+<a href="#back" class="ctl" id="back" data-method="back" title="前のページへ">前のページへ</a>
+<a href="#first" class="ctl" id="first" data-method="first" title="最初のページへ">最初のページへ</a>
+<a href="#close" class="ctl" id="close" data-method="close" title="閉じる">閉じる</a>
+<div id="sliderBox">
+<span id="pageNumber"><span id="currentPage">1</span>/<span id="totalPage">2</span></span>
+<div id="slider">
+<span id="circle"></span>
+<div id="thumbnail"><img id="thumbnailImage" src="/comics/identifier/1/1/thumb" alt="title"></div>
+<!-- / #slider --></div>
+<!-- / #sliderBox --></div>
+</menu>
+
+<!-- / #controller --></aside>
+
 <script>
 $(function(){
-ARC.Comic = { url: '/comics/identifier/1', page_count: 2, title: 'title ', bg: '/comics/identifier/background'};
+ARC.Comic = { url: '/comics/identifier/1', page_count: 2, title: 'title ep1 ', bg: '/comics/identifier/background'};
 ARC.Reader.create();
 });
 </script>

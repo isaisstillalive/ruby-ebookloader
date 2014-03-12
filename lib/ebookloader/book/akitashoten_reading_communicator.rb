@@ -10,7 +10,11 @@ module EBookloader
       def lazy_load
         source = get @uri
 
-        update_without_overwrite source.body.match(%r{<h1 title="(?<title>.*?) ">.*?<span id="author" title="(?<author>.*?)">}m).extend(Extensions::MatchData)
+        bookinfo = source.body.match(%r{<h1 title="(?<epsode_num>[^"]*)">[^<]*<span id="subtitle">(?<episode>[^<]*)</span><span id="author" title="(?<author>.*?)">.*<img id="thumbnailImage" src="[^"]*" alt="(?<title>[^"]*)">}m)
+        title = bookinfo[:title]
+        episode_num = bookinfo[:epsode_num].gsub(/^#{title}\s/, '')
+        episode = Site::Base.get_episode_number(episode_num) + bookinfo[:episode]
+        update_without_overwrite title: title, author: bookinfo[:author], episode: episode
 
         match = source.body.match %r{ARC.Comic = (\{.*?url: '(?<image_path>[^']*)'.*?page_count: (?<page_count>\d*).*?\})}m
         image_path = match[:image_path]
