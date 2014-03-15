@@ -6,19 +6,19 @@ module EBookloader
       require 'rexml/document'
       include Connectable::Seiga
 
-      attr_reader :member_id
+      attr_reader :id
 
-      def initialize member_id, options = {}
-        @member_id = member_id
+      def initialize id, options = {}
+        @id = id
         super
       end
 
       private
 
       def lazy_load
-        update_without_overwrite author: get_author(@member_id)
+        update_without_overwrite author: get_author(@id)
 
-        xml = get URI("http://seiga.nicovideo.jp/api/user/data?id=#{@member_id}")
+        xml = get URI("http://seiga.nicovideo.jp/api/user/data?id=#{@id}")
         doc = REXML::Document.new xml.body
 
         @books = doc.get_elements('/response/image_list/image').map{ |image|

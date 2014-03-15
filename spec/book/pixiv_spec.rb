@@ -10,8 +10,8 @@ describe EBookloader::Book::Pixiv do
     allow( book ).to receive(:write)
   }
 
-  describe '#illust_id' do
-    subject{ book.illust_id }
+  describe '#id' do
+    subject{ book.id }
 
     it 'はイラストIDを返却する' do
       expect( subject ).to eql '12345678'

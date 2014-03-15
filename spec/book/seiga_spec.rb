@@ -7,6 +7,14 @@ describe EBookloader::Book::Seiga do
   let(:book){ described_class.new '12345678' }
   let(:bookinfo){ book }
 
+  describe '#id' do
+    subject{ book.id }
+
+    it 'はイラストIDを返却する' do
+      expect( subject ).to eql '12345678'
+    end
+  end
+
   describe '#lazy_load' do
     subject{ book.__send__ :lazy_load }
     before{ book.instance_variable_set :@loaded, true }

@@ -5,10 +5,10 @@ module EBookloader
     class Pixiv < Base
       include Connectable::Pixiv
 
-      attr_reader :illust_id
+      attr_reader :id
 
-      def initialize illust_id, options = {}
-        @illust_id = illust_id
+      def initialize id, options = {}
+        @id = id
         super
       end
 
@@ -26,7 +26,7 @@ module EBookloader
       end
 
       def update_from_illust_csv
-        csv = get_illust_csv @illust_id
+        csv = get_illust_csv @id
 
         update_without_overwrite title: csv[3], author: csv[5]
 

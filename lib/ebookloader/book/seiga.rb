@@ -6,17 +6,17 @@ module EBookloader
       require 'rexml/document'
       include Connectable::Seiga
 
-      attr_reader :illust_id
+      attr_reader :id
 
-      def initialize illust_id, options = {}
-        @illust_id = illust_id
+      def initialize id, options = {}
+        @id = id
         super
       end
 
       private
 
       def lazy_load
-        xml = get URI("http://seiga.nicovideo.jp/api/illust/info?id=#{@illust_id}")
+        xml = get URI("http://seiga.nicovideo.jp/api/illust/info?id=#{@id}")
         doc = REXML::Document.new xml.body
 
         author = get_author doc.text('/response/image/user_id') unless instance_variable_defined? :@author
@@ -24,7 +24,7 @@ module EBookloader
         update_without_overwrite author: author, title: doc.text('/response/image/title')
 
         @page = Page.new name: name do
-          redirect = head URI("http://seiga.nicovideo.jp/image/source/#{@illust_id}")
+          redirect = head URI("http://seiga.nicovideo.jp/image/source/#{@id}")
           URI(redirect[:location].gsub '/o/', '/priv/')
         end
 

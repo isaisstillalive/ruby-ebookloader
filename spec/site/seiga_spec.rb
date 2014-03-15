@@ -7,8 +7,8 @@ describe EBookloader::Site::Seiga do
   let(:site){ described_class.new '12345678' }
   let(:bookinfo){ site }
 
-  describe '#member_id' do
-    subject{ site.member_id }
+  describe '#id' do
+    subject{ site.id }
 
     it 'はメンバーIDを返却する' do
       expect( subject ).to eql '12345678'
