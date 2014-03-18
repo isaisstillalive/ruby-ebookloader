@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html lang="ja" xmlns:og="http://ogp.me/ns#" xmlns:mixi="http://mixi-platform.com/ns#">
+<head>
+</head>
+
+
+<body class="mode_2 ">
+<div id="wrapper">
+<div id="header_block">
+
+<div class="official_header">
+  <div id="contents">
+            <div class="primaries">
+                  <div class="main_title" >
+        <h1 style="display: inline;">
+        title
+        </h1>
+        <div class="author">
+          <h3>
+            作者:<span>author</span>
+          </h3>
+        </div>
+      </div>
+          </div>
+    <div class="mg_work_detail">
+      <div class="work_detail_inner">
+        <div class="row">
+        <div class="tip common_black">作品紹介</div>
+
+        <div class="description_text">
+                    description
+        </div>
+        </div>
+              </div>
+    </div>
+                      <div class="mg_episode_list info_block ">
+      <div class="list_navigates">
+        <h2>
+          エピソード一覧
+        </h2>
+                  <script type="text/javascript" src="/js/manga/switcher.js"></script>
+          <div class="view_switch switch_group" data-name="mg_comic_list_mode" >
+    <span class="label">表示切替:</span>
+    <a class="switch list" data-switch-type="list" href="javascript:void(0)"><div><span>1列表示</span></div></a>
+        <a class="switch tile" data-switch-type="tile" href="javascript:void(0)"><div><span>5列表示</span></div></a>
+</div>
+<script type="text/javascript" src="/js/manga/switcher.js?201203261452"></script>
+<script type="text/javascript">
+var listSelector = '#episode_list';
+var defaultSelected = 'tile';
+
+$j(function(){
+    var viewSwitcher = new Switcher(".view_switch",defaultSelected,function(target,type){
+      $j(listSelector).removeClass("line_view");
+      $j(listSelector).removeClass("half_view");
+      $j(listSelector).removeClass("tile_view");
+      if($j(target).hasClass("tile")){
+        $j(listSelector).addClass("tile_view");
+      }else if($j(target).hasClass("half")){
+        $j(listSelector).addClass("half_view");
+      }else{
+        $j(listSelector).addClass("line_view");
+      }
+    });
+    if(viewSwitcher.getDefault() == "tile"){
+      $j(".view_switch a.tile").click();
+    }else{
+      $j(".view_switch a.list").click();
+    }
+});
+
+</script>          <div class="sort_switch switch_group">
+            <span class="label">
+            並べ替え:
+            </span>
+            <a class="switch sort asc selected" href="javascript:void(0)">
+              <div>
+                <span>昇順</span>
+              </div>
+            </a>
+            <a class="switch sort desc unselected" href="javascript:void(0)">
+              <div>
+                <span>降順</span>
+              </div>
+            </a>
+          </div>
+                      </div>
+      <div id="episode_list" class=" inner tile_view ">
+                                    <ul style="list-style:none">
+                      <li class="episode_item">
+            <div class="episode" data-number="1"><div class="thumb episode_thumb"><a href="/watch/mg87654321?track=ct_episode"><img src="http://lohas.nicoseiga.jp/thumb/mg_thumb/87654321q?"><span class="mg_status status">11 ページ</span></a></div><div class="description"><div class="title"><a href="/watch/mg87654321?track=ct_episode">episode1</a></div><div class="body "></div><div class="comment_summary ">comments1</div><div class="counter">再生:11111 | コメント:22222</div></div></div>            </li>
+                      <li class="episode_item">
+            <div class="episode" data-number="2"><div class="thumb episode_thumb"><a href="/watch/mg87654322?track=ct_episode"><img src="http://lohas.nicoseiga.jp/thumb/mg_thumb/87654322q?87654322"><span class="mg_status status">22 ページ</span></a></div><div class="description"><div class="title"><a href="/watch/mg87654322?track=ct_episode">episode2</a></div><div class="body "></div><div class="comment_summary ">comments2</div><div class="counter">再生:22222 | コメント:22222</div></div></div>            </li>
+                    </ul>
+                    <div style="clear:both;"></div>
+              </div>
+            <input type="hidden" id="episode_list_more_btn_click" value="0">
+    </div>
+    <div style="clear:both;"></div>
+          <div class="mg_author_info info_block">
+        <h2>
+          作者情報
+        </h2>
+        <div class="mg_author_inner inner">
+        <div class="author_list">
+<div class="author official">
+    <div class="name" >
+        <div class="tip common_black">作者</div>
+                <a href="/manga/list?user_id=12345678">
+                <span class="author_name">author</span>
+                </a>
+            </div>
+
+    <div class="details">
+        <div class="profile_icon">
+            <img class="profile_icon_img" src="http://lohas.nicoseiga.jp/material/12345678/12345678?">
+        </div>
+        <div class="comment">
+            <span class="balloon-top">
+                <img src="/img/manga/watch/comment_left.png">
+            </span>
+            <div class="comment_content">
+                          author_comment
+                        </div>
+        </div>
+    </div>
+</div>
+</div>        </div>
+      </div>
+      <!-- contents -->
+  </div>
+</div>
+</div>
+<!-- ▲Main area -->
+
+</div>
+
+</body>
+</html>

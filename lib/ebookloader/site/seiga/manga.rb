@@ -24,12 +24,12 @@ module EBookloader
           author = doc.text('response/manga/author_name')
           update_without_overwrite author: author, title: title
 
-          rss = get URI("http://seiga.nicovideo.jp/rss/manga/#{@manga_id}")
-          rss_doc = REXML::Document.new rss.body
-
-          @books = rss_doc.get_elements('/rss/channel/item').reverse.map.with_index 1 do |image, episode_num|
-            id = image.text('link').gsub(/^.*mg/, '')
-            episode = image.text('title').gsub(/^#{title}\s/, '')
+          source = get URI("http://seiga.nicovideo.jp/comic/#{@manga_id}")
+          source.body.extend EBookloader::Extensions::String
+          @books = source.body.global_match(%r{<li class="episode_item">.*?<div class="episode" data-number="(?<episode_num>[^"]*)"><div class="thumb episode_thumb"><a href="/watch/mg(?<id>[^\?]*)\?track=ct_episode"><img[^>]*><span[^>]*>(?<page>[^<]*)</span></a></div><div class="description"><div class="title"><a [^>]*>(?<episode>[^<]*)</a></div><div class="body "></div><div class="comment_summary ">(?<tags>[^<]*)</div><div class="counter">[^<]*</div></div></div>            </li>}m).map do |sc|
+            id = sc[:id]
+            episode = sc[:episode]
+            episode_num = sc[:episode_num]
             Book::Seiga::Manga.new id, bookinfo.merge(episode: '%02d %s' % [episode_num, episode]).merge(@options)
           end
 

@@ -23,12 +23,12 @@ describe EBookloader::Site::Seiga::Manga do
 
     before{
       allow( site ).to receive(:get).with(URI('http://seiga.nicovideo.jp/api/manga/info?id=12345678')).and_return(response('/site/seiga/manga_info.xml'))
-      allow( site ).to receive(:get).with(URI('http://seiga.nicovideo.jp/rss/manga/12345678')).and_return(response('/site/seiga/rss_manga.xml'))
+      allow( site ).to receive(:get).with(URI('http://seiga.nicovideo.jp/comic/12345678')).and_return(response('/site/seiga/manga_list.html'))
     }
 
     it 'はAPIからXMLを取得する' do
       expect( site ).to receive(:get).with(URI('http://seiga.nicovideo.jp/api/manga/info?id=12345678')).and_return(response('/site/seiga/manga_info.xml'))
-      expect( site ).to receive(:get).with(URI('http://seiga.nicovideo.jp/rss/manga/12345678')).and_return(response('/site/seiga/rss_manga.xml'))
+      expect( site ).to receive(:get).with(URI('http://seiga.nicovideo.jp/comic/12345678')).and_return(response('/site/seiga/manga_list.html'))
       expect( subject ).to eql true
     end
 
