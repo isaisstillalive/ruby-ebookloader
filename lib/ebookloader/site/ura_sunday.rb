@@ -14,7 +14,7 @@ module EBookloader
         update_without_overwrite source.body.match(%r{<div class="detailComicDetailComicTitle">\s*<h2>(?<title>[^<]*)</h2>\s*</div>\s*<div class="detailComicDetailComicMangaka">\s*<h3>(?<author>[^<]*)</h3>\s*</div>}m).extend(Extensions::MatchData)
 
         source.body.extend EBookloader::Extensions::String
-        @books = source.body.global_match(%r{<ul>\s*<li class="detailComicDetailNLT02NumberBoxH">\s*<p>(?<episode>[^<]*?)</p>\s*</li>\s*<li class="detailComicDetailNLT02NumberBoxB">\s*<a href="(?<uri>.*?)" class="cNum01"><span class="swapImg">1</span></a>\s*</li>.*?</ul>}m).map do |sc|
+        @books = source.body.global_match(%r{(<ul>\s*<li class="detailComicDetailNLT02NumberBoxH">\s*<p>(?<episode>[^<]*?)</p>\s*</li>\s*<li class="detailComicDetailNLT02NumberBoxB">\s*<a href="(?<uri>.*?)" class="cNum01"><span class="swapImg">1</span></a>\s*</li>.*?</ul>)|(<li class="comicsCoverBox2">\n<a href="(?<uri>.*?)"><img.*?<p>(?<episode>[^<]*?)</p>\n</li>)}m).map do |sc|
           uri = @uri + sc[:uri]
           Book::UraSunday.new(uri, bookinfo.merge(episode: sc[:episode]))
         end
