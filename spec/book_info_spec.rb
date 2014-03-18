@@ -33,9 +33,11 @@ describe EBookloader::BookInfo do
 
   describe '#name' do
     subject{ book.name }
+    let(:title){ 'title' }
+    let(:author){ 'author' }
     before{
-      book.title = 'title'
-      book.author = 'author'
+      book.title = title
+      book.author = author
     }
 
     it 'は作者と題名を結合して返す' do
@@ -47,16 +49,33 @@ describe EBookloader::BookInfo do
       expect( subject ).to eql 'escaped'
     end
 
+    context '題名が設定されていない場合' do
+      let(:title){ nil }
+
+      it 'は作者名を返す' do
+        expect( subject ).to eql '[author]'
+      end
+    end
+
     context '作者が設定されていない場合' do
-      before{ book.author = nil }
+      let(:author){ nil }
 
       it 'は題名を返す' do
         expect( subject ).to eql 'title'
       end
     end
 
+    context '題名も作者も設定されていない場合' do
+      let(:title){ nil }
+      let(:author){ nil }
+
+      it 'は空文字を返す' do
+        expect( subject ).to eql ''
+      end
+    end
+
     context '作者が複数設定されている場合' do
-      before{ book.author = ['author1', 'author2'] }
+      let(:author){ ['author1', 'author2'] }
 
       it 'は作者をカンマで区切って返す' do
         expect( subject ).to eql '[author1, author2] title'
@@ -64,10 +83,8 @@ describe EBookloader::BookInfo do
     end
 
     context '先頭にスペースが入っている場合' do
-      before{
-        book.author = nil
-        book.title =  ' title'
-      }
+      let(:title){ ' title' }
+      let(:author){ nil }
 
       it 'は先頭のスペースを除去する' do
         expect( subject ).to eql 'title'
@@ -75,12 +92,10 @@ describe EBookloader::BookInfo do
     end
 
     context '末尾にスペースが入っている場合' do
-      before{
-        book.author = nil
-        book.title =  'title '
-      }
+      let(:title){ 'title ' }
+      let(:author){ nil }
 
-      it 'は先頭のスペースを除去する' do
+      it 'は末尾のスペースを除去する' do
         expect( subject ).to eql 'title'
       end
     end

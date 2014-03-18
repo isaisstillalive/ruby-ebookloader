@@ -14,11 +14,14 @@ module EBookloader
     # @!attribute [r] name
     # @return [String] ファイル名
     def name
-      return title.strip unless author
+      title = self.title ? self.title.strip : ''
+      return title unless self.author
 
-      authors = author.kind_of?(Array) ? author : [author]
+      authors = self.author.kind_of?(Array) ? self.author : [self.author]
+      author = '[%s]' % authors.join(', ')
+      return author unless self.title
 
-      BookInfo.escape_name('[%s] %s' % [authors.join(', '), title.strip])
+      BookInfo.escape_name("#{author} #{title}")
     end
 
     # 書籍情報を上書き更新する
