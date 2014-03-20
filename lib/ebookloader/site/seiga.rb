@@ -1,7 +1,7 @@
 # coding: utf-8
 
 module EBookloader
-  class Site
+  module Site
     class Seiga < Base
       require 'rexml/document'
       include Connectable::Seiga

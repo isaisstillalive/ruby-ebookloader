@@ -1,7 +1,7 @@
 # coding: utf-8
 
 module EBookloader
-  class Site
+  module Site
     class ChampionTap < Base
       def initialize identifier, options = {}
         super "http://tap.akitashoten.co.jp/comics/#{identifier}/", options

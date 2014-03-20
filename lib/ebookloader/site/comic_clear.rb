@@ -1,7 +1,7 @@
 # coding: utf-8
 
 module EBookloader
-  class Site
+  module Site
     class ComicClear < Base
       def initialize identifier, options = {}
         super "http://www.famitsu.com/comic_clear/#{identifier}/", options

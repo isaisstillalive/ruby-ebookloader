@@ -1,7 +1,7 @@
 # coding: utf-8
 
 module EBookloader
-  class Site
+  module Site
     class ComicMeteor < Base
       def initialize identifier, options = {}
         super "http://comic-meteor.jp/#{identifier}/", options

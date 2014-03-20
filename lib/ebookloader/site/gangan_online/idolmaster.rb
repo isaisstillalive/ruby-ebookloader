@@ -1,7 +1,7 @@
 # coding: utf-8
 
 module EBookloader
-  class Site
+  module Site
     class GanganOnline
       class Idolmaster < GanganOnline
         def initialize identifier, options = {}

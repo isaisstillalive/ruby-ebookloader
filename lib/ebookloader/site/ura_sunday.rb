@@ -1,7 +1,7 @@
 # coding: utf-8
 
 module EBookloader
-  class Site
+  module Site
     class UraSunday < Base
       def initialize identifier, options = {}
         super "http://urasunday.com/#{identifier}/index.html", options

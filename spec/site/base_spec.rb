@@ -64,8 +64,8 @@ describe EBookloader::Site::Base do
   describe '#==' do
     subject{ site1 == site2 }
 
-    class Site1 < EBookloader::Site; end
-    class Site2 < EBookloader::Site; end
+    class Site1 < EBookloader::Site::Base; end
+    class Site2 < EBookloader::Site::Base; end
 
     context '@uriとクラスとオプションが同じ場合' do
       let(:site1){ described_class.new('uri', title: :title, option: :option) }

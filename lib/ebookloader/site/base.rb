@@ -1,7 +1,7 @@
 # coding: utf-8
 
 module EBookloader
-  class Site
+  module Site
     # 電子書籍サイトの基本クラス
     # @abstract
     # @!attribute [r] uri

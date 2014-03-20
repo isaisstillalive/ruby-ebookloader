@@ -1,7 +1,7 @@
 # coding: utf-8
 
 module EBookloader
-  class Site
+  module Site
     class DMangaOnline < Base
       def initialize identifier, options = {}
         super "http://d-manga.dengeki.com/work/#{identifier}/", options

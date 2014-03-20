@@ -1,7 +1,7 @@
 # coding: utf-8
 
 module EBookloader
-  class Site
+  module Site
     class AoharuOnline < Base
       def initialize identifier, options = {}
         super "http://aoharu.jp/#{identifier}/", options
