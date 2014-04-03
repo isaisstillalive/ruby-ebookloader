@@ -40,5 +40,16 @@ describe EBookloader::Book::FlipperU::Page do
 
       subject
     end
+
+    context 'スケールが1の場合' do
+      let(:options){ { scale: 1, width: 1, height: 1, extension: :jpg, page: 1 } }
+      subject{ page.save save_dir }
+
+      it 'は結合しない' do
+        expect( page ).to receive(:write).with(Pathname('dirname/1.jpg'), URI("http://example.com/dir/page1/x1.jpg"), nil)
+        expect( page ).to receive(:filename).with(0).and_return('1.jpg')
+        subject
+      end
+    end
   end
 end

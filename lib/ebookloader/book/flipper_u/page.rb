@@ -8,6 +8,13 @@ module EBookloader
           require 'rubygems'
           require 'rmagick'
 
+          if @options[:scale] == 1
+            uri = self.uri + "./x#{@options[:scale]}.#{self.extension}"
+            file = dir + filename(offset)
+            write file, uri, @options[:headers]
+            return
+          end
+
           baseUri = self.uri + "./x#{@options[:scale]}/"
 
           index = 1
