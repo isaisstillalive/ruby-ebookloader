@@ -38,7 +38,7 @@ describe EBookloader::Site::ComicMeteor do
       ]
       expect( site.books.map(&:episode) ).to eql [
         'episode1',
-        'episode3',
+        'episode<b>3</b>',
       ]
     end
   end
