@@ -25,30 +25,51 @@ describe EBookloader::Site::MangaLifeWin do
       allow( site ).to receive(:get).with(URI('http://mangalifewin.takeshobo.co.jp/identifier/?page=2')).and_return(response('/site/manga_life_win/book2.html'))
     }
 
-    it 'はhtmlを取得する' do
-      expect( site ).to receive(:get).with(URI('http://mangalifewin.takeshobo.co.jp/identifier/?page=1')).and_return(response('/site/manga_life_win/book1.html'))
-      expect( site ).to receive(:get).with(URI('http://mangalifewin.takeshobo.co.jp/identifier/?page=2')).and_return(response('/site/manga_life_win/book2.html'))
-      expect( subject ).to eql true
+    context 'ActiBook形式の場合' do
+      it 'はhtmlを取得する' do
+        expect( site ).to receive(:get).with(URI('http://mangalifewin.takeshobo.co.jp/identifier/?page=1')).and_return(response('/site/manga_life_win/book1.html'))
+        expect( site ).to receive(:get).with(URI('http://mangalifewin.takeshobo.co.jp/identifier/?page=2')).and_return(response('/site/manga_life_win/book2.html'))
+        expect( subject ).to eql true
+      end
+
+      it 'は@booksを設定する' do
+        allow( site ).to receive(:get).with(URI('http://mangalifewin.takeshobo.co.jp/identifier/?page=1')).and_return(response('/site/manga_life_win/book1.html'))
+        allow( site ).to receive(:get).with(URI('http://mangalifewin.takeshobo.co.jp/identifier/?page=2')).and_return(response('/site/manga_life_win/book2.html'))
+
+        expect( EBookloader::Book::Base ).to receive(:get_episode_number).with('1').and_return('01').ordered
+        expect( EBookloader::Book::Base ).to receive(:get_episode_number).with('#02').and_return('02').ordered
+        expect( EBookloader::Book::Base ).to receive(:get_episode_number).with('#03').and_return('03').ordered
+
+        subject
+
+        expect( site.books ).to eq [
+          EBookloader::Book::ActiBook.new('http://mangalifewin.takeshobo.co.jp/global-image/manga/identifier2/identifier/001/book/_SWF_Window.html'),
+          EBookloader::Book::ActiBook.new('http://mangalifewin.takeshobo.co.jp/global-image/manga/identifier2/identifier/002/book/_SWF_Window.html'),
+          EBookloader::Book::ActiBook.new('http://mangalifewin.takeshobo.co.jp/global-image/manga/identifier2/identifier/003/book/_SWF_Window.html'),
+        ]
+        expect( site.books.map(&:episode) ).to eql [
+          '01',
+          '02 episode02',
+          '03 episode03',
+        ]
+      end
     end
 
-    it 'は@booksを設定する' do
-      expect( EBookloader::Book::Base ).to receive(:get_episode_number).with('1').and_return('01').ordered
-      expect( EBookloader::Book::Base ).to receive(:get_episode_number).with('#02').and_return('02').ordered
-      expect( EBookloader::Book::Base ).to receive(:get_episode_number).with('#03').and_return('03').ordered
+    context 'ページ単位画像形式の場合' do
+      it 'は@booksを設定する' do
+        allow( site ).to receive(:get).with(URI('http://mangalifewin.takeshobo.co.jp/identifier/?page=1')).and_return(response('/site/manga_life_win/page.html'))
 
-      subject
+        expect( EBookloader::Book::Base ).to receive(:get_episode_number).with('1').and_return('01').ordered
 
-      expect( site.books ).to eq [
-        EBookloader::Book::ActiBook.new('http://mangalifewin.takeshobo.co.jp/global-image/manga/identifier2/identifier/001/book/_SWF_Window.html'),
-        EBookloader::Book::ActiBook.new('http://mangalifewin.takeshobo.co.jp/global-image/manga/identifier2/identifier/002/book/_SWF_Window.html'),
-        EBookloader::Book::ActiBook.new('http://mangalifewin.takeshobo.co.jp/global-image/manga/identifier2/identifier/003/book/_SWF_Window.html'),
-      ]
-      expect( site.books.map(&:episode) ).to eql [
-        '01',
-        '02 episode02',
-        '03 episode03',
-      ]
+        subject
+
+        expect( site.books ).to eq [
+          EBookloader::Book::Direct::Multiple.new('http://mangalifewin.takeshobo.co.jp/global-image/manga/identifier2/identifier/001/[00001-9].jpg'),
+        ]
+        expect( site.books.map(&:episode) ).to eql [
+          '01',
+        ]
+      end
     end
-
   end
 end
