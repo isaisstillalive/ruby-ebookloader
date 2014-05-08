@@ -34,6 +34,19 @@ describe EBookloader::Book::Aoharu do
           EBookloader::Book::Page.new(URI('http://aoharu.jp/comic/identifier/1/iPhone/ipad/1/2.jpg'), page: 2),
         ]
       end
+
+      context '画像サーバが設定されていれば' do
+        let(:book){ described_class.new 'http://aoharu.jp/comic/identifier/1/', img_server: 'http://img' }
+
+        it '画像サーバを使用する' do
+          subject
+
+          expect( book.pages ).to eq [
+            EBookloader::Book::Page.new(URI('http://img/comic/identifier/1/iPhone/ipad/1/1.jpg'), page: 1),
+            EBookloader::Book::Page.new(URI('http://img/comic/identifier/1/iPhone/ipad/1/2.jpg'), page: 2),
+          ]
+        end
+      end
     end
 
     context '横型ビューアの場合' do

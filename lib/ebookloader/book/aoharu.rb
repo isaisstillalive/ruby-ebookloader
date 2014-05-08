@@ -12,9 +12,15 @@ module EBookloader
 
         update_without_overwrite source.body.match(%r{<h1><a href="[^"]*">(?<title>.*?)<span>\[作品紹介\]</span></a></h1><!-- \[!\] タイトル -->.*?<h2>(?<author>.*?)</h2><!-- \[!\] 作者 -->.*?<h3><span>(?<episode>.*?)</span></h3>}m).extend(Extensions::MatchData)
 
+        uri = if @options[:img_server]
+          URI(@options[:img_server]) + @uri.path
+        else
+          @uri
+        end
+
         source.body.extend EBookloader::Extensions::String
         @pages = source.body.global_match(%r{<li><img src="(?<uri>.*?)"(?: width="\d*" height="\d*")? class="undownload" ?/></li>}).map.with_index 1 do |sc, page|
-          Page.new @uri + sc[:uri], page: page
+          Page.new uri + sc[:uri], page: page
         end
 
         true

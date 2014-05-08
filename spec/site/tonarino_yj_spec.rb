@@ -33,11 +33,11 @@ describe EBookloader::Site::TonarinoYJ do
       subject
 
       expect( site.books ).to eq [
-        EBookloader::Book::Aoharu.new('http://tonarinoyj.jp/manga/identifier/1/'),
-        EBookloader::Book::Aoharu.new('http://tonarinoyj.jp/manga/identifier/1_5/'),
-        EBookloader::Book::Aoharu.new('http://tonarinoyj.jp/manga/identifier/2/?viewer=vertical'),
-        EBookloader::Book::Aoharu.new('http://tonarinoyj.jp/manga/identifier/extra-1/'),
-        EBookloader::Book::Aoharu.new('http://tonarinoyj.jp/manga/identifier/extra-2/'),
+        EBookloader::Book::Aoharu.new('http://tonarinoyj.jp/manga/identifier/1/', img_server: 'http://img.tonarinoyj.jp/'),
+        EBookloader::Book::Aoharu.new('http://tonarinoyj.jp/manga/identifier/1_5/', img_server: 'http://img.tonarinoyj.jp/'),
+        EBookloader::Book::Aoharu.new('http://tonarinoyj.jp/manga/identifier/2/?viewer=vertical', img_server: 'http://img.tonarinoyj.jp/'),
+        EBookloader::Book::Aoharu.new('http://tonarinoyj.jp/manga/identifier/extra-1/', img_server: 'http://img.tonarinoyj.jp/'),
+        EBookloader::Book::Aoharu.new('http://tonarinoyj.jp/manga/identifier/extra-2/', img_server: 'http://img.tonarinoyj.jp/'),
       ]
       expect( site.books.map(&:episode) ).to eql [
         'episode1',
