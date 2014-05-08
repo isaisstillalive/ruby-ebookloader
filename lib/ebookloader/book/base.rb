@@ -130,7 +130,7 @@ module EBookloader
           return episode_number unless match
 
           format = match[:last] ? '%02d-%02d' : '%02d'
-          format % [match[:first], match[:last]]
+          format % [match[:first].to_i, match[:last].to_i]
         end
       end
     end

@@ -444,5 +444,13 @@ describe EBookloader::Book::Base do
         expect( subject ).to eql '01-05'
       end
     end
+
+    context '8進数値に見えるもの' do
+      let(:episode){ '#08' }
+
+      it 'は話数を返す' do
+        expect( subject ).to eql '08'
+      end
+    end
   end
 end
