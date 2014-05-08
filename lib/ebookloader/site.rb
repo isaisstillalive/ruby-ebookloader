@@ -14,5 +14,6 @@ module EBookloader
     require_relative 'site/pixiv'
     require_relative 'site/seiga'
     require_relative 'site/ura_sunday'
+    require_relative 'site/manga_life_win'
   end
 end
