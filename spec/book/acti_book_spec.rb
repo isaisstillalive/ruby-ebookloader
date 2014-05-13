@@ -25,8 +25,8 @@ describe EBookloader::Book::ActiBook do
       subject
 
       expect( book.pages ).to eq [
-        EBookloader::Book::Page.new(URI('http://example.com/dir/books/images/2/1.jpg'), page: 1, extension: :jpg, option: :option),
-        EBookloader::Book::Page.new(URI('http://example.com/dir/books/images/2/2.jpg'), page: 2, extension: :jpg, option: :option),
+        EBookloader::Book::Page.new(URI('http://example.com/dir/books/images/1.5/1.jpg'), page: 1, extension: :jpg, option: :option),
+        EBookloader::Book::Page.new(URI('http://example.com/dir/books/images/1.5/2.jpg'), page: 2, extension: :jpg, option: :option),
       ]
     end
   end

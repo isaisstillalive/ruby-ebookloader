@@ -17,7 +17,7 @@
   <h>480</h>
   <PageSizes>
     <PageSize zoom="1" w="640" h="480"/>
-    <PageSize zoom="2" w="640" h="480"/>
+    <PageSize zoom="1.5" w="640" h="480"/>
   </PageSizes>
 <pages>
 <page>
