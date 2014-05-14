@@ -15,7 +15,7 @@ module EBookloader
 
         update_without_overwrite title: doc.text('/book/name')
 
-        zoom = doc.get_elements('/book/PageSizes/PageSize').map{|element| element.attribute('zoom').to_s.to_f }.max
+        zoom = doc.get_elements('/book/PageSizes/PageSize').map{|element| element.attribute('zoom').to_s }.max_by(&:to_f)
 
         @pages = doc.get_elements('/book/pages/page').map do |page|
           page_number = page.text('number')
