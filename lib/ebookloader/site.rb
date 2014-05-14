@@ -16,5 +16,6 @@ module EBookloader
     require_relative 'site/ura_sunday'
     require_relative 'site/manga_life_win'
     require_relative 'site/manga_got_a_chance'
+    require_relative 'site/mavo'
   end
 end

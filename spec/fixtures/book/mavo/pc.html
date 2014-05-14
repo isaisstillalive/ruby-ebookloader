@@ -1,0 +1,459 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>title  episode</title>
+
+<script type="text/javascript">
+//<![CDATA[
+
+var totalpage=6;//全部の枚数
+var pages = Math.floor(totalpage/2)+1;	//見開きの数
+var yoko = 1	;	//横書き＝左綴じかどうか
+
+var currentpage=0;
+var img = new Array(totalpage);	//Imageオブジェクト
+var path = new Array(totalpage);	//画像のパス
+
+var zoom=0;	//ズーム
+var zoomx,zoomy;
+var setW,setH;
+var winH;
+
+var adult = 0;
+
+for(i=0;i<totalpage+1;i++){
+
+	img[i] = new Image();
+	path[i] = new Image();
+}
+path[0]= 'images/howto4.png';path[1]='http://blog-randmax.azurewebsites.net/manga/chisen/identifier/001.png';
+path[2]='http://blog-randmax.azurewebsites.net/manga/chisen/identifier/002.png';
+path[3]='http://blog-randmax.azurewebsites.net/manga/chisen/identifier/003.png';
+path[4]='http://blog-randmax.azurewebsites.net/manga/chisen/identifier/004.png';
+path[5]='http://blog-randmax.azurewebsites.net/manga/chisen/identifier/005.png';
+path[6]='http://blog-randmax.azurewebsites.net/images/last2.png';
+
+
+img[0].src = path[0];
+img[1].src = path[1];
+img[2].src = path[2];
+img[3].src = path[3];
+
+
+var onbtn = new Array();
+var offbtn = new Array();
+for(i=0; i<4; i++){
+	onbtn[i] = new Image();
+	offbtn[i] = new Image();
+}
+onbtn[0].src = "images/next1.png";
+onbtn[1].src = "images/zin1.png";
+onbtn[2].src = "images/zout1.png";
+onbtn[3].src = "images/prev1.png";
+offbtn[0].src = "images/next0.png";
+offbtn[1].src = "images/zin0.png";
+offbtn[2].src = "images/zout0.png";
+offbtn[3].src = "images/prev0.png";
+
+
+
+function zoomIn(x,y){
+	if(zoom<5)
+	zoom++;
+	zm(x,y);
+}
+function zoomOut(x,y){
+	if(zoom>0)
+		zoom--;
+	zm(x,y);
+}
+
+function zm(x,y){
+	zoomx = x;
+	zoomy = y;
+
+var mag;	//倍率
+var width;	//最大幅
+var offsetLeft;	//ズームしてどれだけ左へずれるか
+mag = 1 + zoom*0.2;
+
+width=setW*mag;
+if($(window).width() <= width){
+	offsetLeft = (width-$(window).width())/2;
+	width=$(window).width();
+}else{
+	offsetLeft = 0;
+}
+
+var imageW = Math.floor(setW*mag/2);
+var imageH = setH*mag;
+
+	$('#container').width(width).height($(window).height());
+
+
+
+if(currentpage%2==0){
+
+	$('#front').width(setW*mag).height(imageH).css("top","0px").css("left",-offsetLeft +"px");
+	$('#front #left').width(imageW).height(imageH);	//画像の大きさ
+	$('#front #right').width(imageW).height(imageH);
+}else{
+
+	$('#back').width(setW*mag).height(imageH).css("top","0px").css("left",-offsetLeft +"px");
+	$('#back #bleft').width(imageW).height(imageH);	//画像の大きさ
+	$('#back #bright').width(imageW).height(imageH);
+}
+
+var ox = ($(window).width() - $('#container').width())/2;
+
+var ax = $(window).width()-setW*mag;
+if(ax>=0) ax=0;
+var ay = $(window).height()-setH*mag;
+
+
+
+
+if(zoom != 0){
+if(currentpage%2==0)
+	$('#front').draggable({containment: [ax+ox,ay,ox,0],disabled:false}).css("cursor","move");
+else
+	$('#back').draggable({containment: [ax+ox,ay,ox,0],disabled:false}).css("cursor","move");
+}else{
+
+	$('#front').draggable({disabled: true}).css("cursor","default");
+	$('#back').draggable({disabled: true}).css("cursor","default");
+}
+$('#prev').css("left",width-80+"px");
+
+setToolbar();
+
+//$('#back').css("left",0);
+
+
+}
+
+
+function setPage(){
+	$('#pages').html((currentpage+1)+"/"+pages);
+
+}
+function setToolbar(){
+	//ツールバーの位置
+	var pos = ($('#container').width())/2 - 182;
+	$('#nav').css("left",pos+"px").css("top","0px");
+
+}
+
+function prev(){
+$('#container').width(setW);	//元のサイズに戻す
+	if(currentpage>=1){
+
+		currentpage--;
+
+		if(currentpage%2==0){
+
+			//画像を差し替える
+			$('#front #right').attr("src",img[currentpage*2].src);
+			$('#front #left').attr("src",img[currentpage*2+1].src);
+			//z-indexで一番前に
+			$('#front').css("z-index",2);
+			//右端に準備
+			if(yoko)	//横書き＝左綴じの場合
+				$('#front').css("left",setW*-1).css("top",0);
+			else
+				$('#front').css("left",setW).css("top",0);
+			//アニメ―ション
+			$('#front').animate({"left":"0px"},function(){
+				$('#back').css("z-index",0);
+				$('#front').css("z-index",1);
+				resetSize();
+			});
+		}else{
+
+			//画像を差し替える
+			$('#back #bright').attr("src",img[currentpage*2].src);
+			$('#back #bleft').attr("src",img[currentpage*2+1].src);
+			//z-indexで一番前に
+			$('#back').css("z-index",2);
+			//右端に準備
+			if(yoko)
+				$('#back').css("left",setW*-1).css("top",0);
+			else
+				$('#back').css("left",setW).css("top",0);
+			//アニメ―ション
+			$('#back').animate({"left":"0px"},function(){
+				$('#front').css("z-index",0);
+				$('#back').css("z-index",1);
+				resetSize();
+			});
+		}
+	}
+
+
+	setArrow();
+	setPage();
+	setToolbar();
+	zoom=0;
+}
+
+
+function next(){
+$('#container').width(setW);	//元のサイズに戻す
+if(currentpage<(Math.floor(totalpage/2)-1)){
+
+	currentpage++;
+	img[currentpage*2+2].src = path[currentpage*2+2];
+	img[currentpage*2+3].src = path[currentpage*2+3];
+
+
+}else{	//ラスマイの時
+	if(currentpage<(Math.floor(totalpage/2)))
+	currentpage++;
+}
+	if(yoko)
+		$leftpos=$('#container').width()*-1;
+	else
+		$leftpos=$('#container').width();
+
+	if(currentpage%2==1){	//奇数ページ
+
+	$('#front').animate({"left":$leftpos+"px"},function(){
+		//アニメーション終了後
+	if(currentpage<(Math.floor(totalpage/2))){
+			$('#front #right').attr("src",img[currentpage*2+2].src);
+			$('#front #left').attr("src",img[currentpage*2+3].src);
+	}
+		//前後の入れ替え
+		$('#front').css("top","0px").css("left","0px").css("z-index",0);
+		$('#back').css("z-index",1);
+
+		//画像サイズを元に戻す
+		resetSize();
+	});
+	}else{		//偶数ページ
+
+	$('#back').animate({"left":$leftpos+"px"},function(){
+
+	if(currentpage<(Math.floor(totalpage/2))){
+			$('#back #bright').attr("src",img[currentpage*2+2].src);
+			$('#back #bleft').attr("src",img[currentpage*2+3].src);
+}
+		//前後の入れ替え
+		$('#back').css("top","0px").css("left","0px").css("z-index",0);
+		$('#front').css("z-index",1);
+		//画像サイズを元に戻す
+
+		resetSize();
+	});
+	}
+
+	setArrow();
+	setToolbar();
+	setPage();
+	zoom=0;
+}
+
+function setSize() {
+
+	var imgW = 1134;
+    var imgH = 800;
+	//imgH -= topbar;
+	var winW = $(window).width();
+	var winH = $(window).height();
+	var scaleW = winW / imgW;
+	var scaleH = winH / imgH;
+	var imageW,imageH;
+
+
+	var fixScale = Math.min(scaleW, scaleH);
+	setW = imgW * fixScale;
+	setH = imgH * fixScale;
+	winH = setH;
+
+	$('#container').width(setW).height(setH);
+	$('#front').css("top","0px").css("left","0px");
+
+
+
+	imageW = Math.floor(setW/2);
+
+	$('#front').width(setW).height(setH);//わくの大きさ
+	$('#back').width(setW).height(setH);
+
+	$('#front #left').width(imageW).height(setH);	//画像の大きさ
+	$('#front #right').width(imageW).height(setH);
+	$('#back #bleft').width(imageW).height(setH);	//画像の大きさ
+	$('#back #bright').width(imageW).height(setH);
+
+
+	$('#next').css("height",setH+"px");
+	$('#prev').css("left",setW-80+"px").css("height",setH+"px");
+
+
+	var pos = ($('#container').width())/2 - 182;
+
+	$('#nav').css("left",pos+"px").css("top","0px");
+	$('#nav').hide();
+}
+
+function setArrow(){
+	if(yoko){
+		if(currentpage == 0){	//最初のページ
+			$('#prev').show();
+			$('#next').hide();
+
+		}
+		else if(currentpage == Math.floor(totalpage/2)){	//ラスマイ
+			$('#prev').hide();
+			$('#next').show();
+		}else{
+			$('#prev').show();
+			$('#next').show();
+
+		}
+	}else{
+		if(currentpage == 0){	//最初のページ
+			$('#prev').hide();
+			$('#next').show();
+
+		}
+		else if(currentpage == Math.floor(totalpage/2)){	//ラスマイ
+			$('#prev').show();
+			$('#next').hide();
+		}else{
+			$('#prev').show();
+			$('#next').show();
+
+		}
+
+	}
+	$('#prev').css("left",setW-80+"px");
+}
+
+function over(id,n){
+	$(id).css("background-image","url("+onbtn[n].src+")");
+
+}
+function out(id,n){
+	$(id).css("background-image","url("+offbtn[n].src+")");
+}
+
+function resetSize(){
+	$('#container').width(setW).height(setH);
+	$('#back').width(setW).height(setH).css("top","0px").css("left","0px");
+	$('#front').width(setW).height(setH).css("top","0px").css("left","0px");
+	var imgW=Math.floor(setW/2);
+	$('#back #bleft').width(imgW).height(setH);
+	$('#back #bright').width(imgW).height(setH);
+
+	$('#front #left').width(imgW).height(setH);
+	$('#front #right').width(imgW).height(setH);
+
+	$('#front').draggable({disabled: true}).css("cursor","default");
+	$('#back').draggable({disabled: true}).css("cursor","default");
+
+}
+
+$(function(){
+	if(adult)	//18禁コンテンツ
+		if(window.confirm('この作品には性的な表現が含まれています。\n18歳未満の方は、閲覧できませんのでご注意ください。\n18歳以上の方は「OK」を、そうでない方は「キャンセル」をクリックしてください')){
+
+		}else{
+			history.back();
+			return;
+		}
+
+
+	$('#front #right').attr("src",img[0].src);
+	$('#front #left').attr("src",img[1].src);
+	$('#back #bright').attr("src",img[2].src);
+	$('#back #bleft').attr("src",img[3].src);
+
+	//document.getElementById('page').innerHTML= "1/" + path.length/2;
+
+	$('#container').mousewheel(function(event, delta) {
+
+		if (delta > 0){
+			zoomIn(event.pageX-this.offsetLeft,event.pageY);
+
+		}
+		else if (delta < 0){
+			zoomOut(event.pageX-this.offsetLeft,event.pageY);
+
+		}
+	});
+
+	setSize();
+
+	$(window).resize(function(){
+ 		setSize();
+    });
+	$(document).mousemove(function(event){	//$(window)だとIEで動かない
+		if(event.pageY<50)
+			$('#nav').show();
+		else
+		$('#nav').hide();
+	});
+
+	$('html').keydown(function(event) {
+//alert(event.keyCode);
+
+	if(yoko){
+		if(event.keyCode==37)
+			prev();
+		else if(event.keyCode==39)
+			next();
+	}else{
+		if(event.keyCode==37)
+			next();
+		else if(event.keyCode==39)
+			prev();
+	}
+
+	});
+
+//横書きの場合のＣＳＳ
+
+
+	setArrow();
+	setToolbar();
+	setPage();
+});
+//]]>
+</script>
+
+</head>
+
+<body>
+
+<div id="container">
+
+
+
+
+
+
+  <div id="front"><img src="" id="right" width="850" height="1200" alt=""/>
+    <img src="" id="left"  width="850" height="1200" alt=""/></div>
+  <div id="back"><img src="" id="bright" width="850" height="1200" alt=""/>
+    <img src="" id="bleft" width="850" height="1200" alt=""/></div>
+
+<div id='next' onclick='prev()'> </div><div id='prev' onclick='next()'> </div>
+
+<div id="nav">
+<div id='b1' onmouseover='over(this,0)' onmouseout='out(this,0)' onclick='prev()'></div><div id="b2" onmouseover="over(this,1)" onmouseout="out(this,1)" onclick="zoomIn(setW,0)"></div>
+<div id="pages" onclick="test()">page</div>
+<div id="b3" onmouseover="over(this,2)" onmouseout="out(this,2)" onclick="zoomOut(setW,0)"></div>
+<div id='b4' onmouseover='over(this,3)' onmouseout='out(this,3)' onclick='next()'></div></div>
+
+</div>
+<div id="return_title">
+<a href="title.php?title=identifier">title 目次</a>
+</div>
+<!--<div id="amazon">
+<a href="1">Amazonで同人王を注文</a>
+
+</div>-->
+</body>
+</html>

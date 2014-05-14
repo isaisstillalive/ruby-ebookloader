@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<script type="text/javascript">
+//<![CDATA[
+//スクロールすると画像を追加していくバージョン
+
+var path = new Array(5);
+var currentpage=0;
+var adult = 0;
+
+var total=5;
+
+path[0]= 'images/howto2.png';
+path[1]='http://blog-randmax.azurewebsites.net/manga/chisen/identifier/001.png';
+path[2]='http://blog-randmax.azurewebsites.net/manga/chisen/identifier/002.png';
+path[3]='http://blog-randmax.azurewebsites.net/manga/chisen/identifier/003.png';
+path[4]='http://blog-randmax.azurewebsites.net/manga/chisen/identifier/004.png';
+path[5]='http://blog-randmax.azurewebsites.net/manga/chisen/identifier/005.png';
+
+function addImage(img){
+
+	if(currentpage >= (total-3))	//最後のページ
+
+		//$('#mng').append("<a href='title.php?title="+30+"'><img src='"+img+"' onselectstart='return false' ondragstart='return false' id="+currentpage+" border='0'/></a>");
+
+		$('#mng').append("<a href='title.php?title=identifier'><img src='"+img+"' onselectstart='return false' ondragstart='return false' id="+currentpage+" border='0'/></a>");
+	else
+
+		$('#mng').append("<img src='"+img+"' onselectstart='return false' ondragstart='return false' id="+currentpage+" style='margin-bottom:20px' border='0'/>");
+	setSize();
+
+}
+
+
+$(window).scroll(function () {
+if(currentpage<path.length-2)
+//  if(window.scrollY>800*(currentpage+1)){
+	if(document.documentElement.scrollTop<600*(currentpage+1)){
+			addImage(path[currentpage+2]);
+	currentpage++;
+  }
+
+});
+
+function setSize() {
+
+	var imgW = 850;
+    //var imgH = 1200;
+
+	var winW = $(window).width();
+	//var winH = $(window).height();
+	var scaleW = winW / imgW;
+	//var scaleH = winH / imgH;
+	//var imageW,imageH;
+
+	var fixScale;
+	if(scaleW>1)
+		fixScale = 1;
+	else
+		fixScale = scaleW;
+
+	setW = imgW * fixScale;
+	//setH = imgH * fixScale;
+	//winH = setH;
+
+	$('#mng img').width(setW);
+	$('#container').width(setW);
+	$('table').width(setW);
+
+}
+
+
+$(function(){
+	setSize();
+	if(adult)	//18禁コンテンツ
+		if(window.confirm('この作品には性的な表現が含まれています。\n18歳未満の方は、閲覧できませんのでご注意ください。\n18歳以上の方は「OK」を、そうでない方は「キャンセル」をクリックしてください')){
+
+		}else{
+			history.back();
+			return;
+		}
+
+
+
+	$(window).resize(function(){
+ 		setSize();
+    });
+
+});
+//]]>
+</script>
+
+<style type="text/css">
+body{
+	margin:0;
+	padding:0;
+	background-color:#00689b;
+	font-family:"ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+}
+#container {
+	width:850px;
+	margin:auto;
+}
+#topbar{
+	background-color:#004669;
+	height:100px;
+}
+td{
+	width:189px;
+}
+#page{
+	color:#fff;
+	font-weight:bold;
+	font-size:16px;
+}
+#title{
+	color:#fff;
+	font-weight:bold;
+	font-size:14px;
+	line-height:50px;
+}
+.subtitle{
+	color:#fff;
+	font-weight:bold;
+	font-size:10px;
+}
+#mng img{
+	margin-bottom:20px;
+}
+#return_title a{
+	display:block;
+	position: fixed;
+	top:0;
+	left:0;
+	height:30px;
+	line-height:30px;
+	z-index:3;
+	color:white;
+	font-size:12px;
+	padding-right:5px;
+	padding-left:5px;
+	background-color: #000;
+	-moz-border-radius: 0px 0px 6px 0px;
+	-webkit-border-radius: 0px 0px 6px 0px;
+	border-radius: 0px 0px 6px 0px;
+	opacity: 0.7;
+	text-decoration:none;
+}
+a{
+	color:#fff;
+}
+#header{
+	color:#fff;
+	margin-top:10px;
+	margin-bottom:10px;
+}
+#footer{
+	margin-top:10px;
+	margin-bottom:10px;
+	color:#fff;
+}
+hr{
+	color:#fff;
+}
+</style>
+<link href="css/ui-lightness/jquery-ui-1.8.18.custom.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+<div id="container">
+<table width="850" border="0" cellspacing="0" cellpadding="0" id="topbar">
+  <tr>
+    <td rowspan="2"><a href="title.php?title=identifier"><img src="images/mavologo.png" alt="電脳マヴォ" width="174" height="50" border="0"/></a></td>
+    <td align="center" id="title">title<br/><span class="subtitle">  episode</span></td>
+    <td>&nbsp;</td>
+  </tr>
+
+</table>
+<div id="header">
+</div>
+<div id="mng">
+<img src='http://blog-randmax.azurewebsites.net/images/howto2.png' alt=''/><img src='http://blog-randmax.azurewebsites.net/manga/chisen/06/001.png' alt=''/></div>
+<div id="footer">
+</div>
+<div id="return_title">
+<a href="title.php?title=identifier">title 目次</a>
+</div>
+</div>
+
+
+</body>
+</html>

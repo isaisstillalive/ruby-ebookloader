@@ -17,5 +17,6 @@ module EBookloader
     require_relative 'book/easy_e_paper_viewer'
     require_relative 'book/pixiv'
     require_relative 'book/seiga'
+    require_relative 'book/mavo'
   end
 end

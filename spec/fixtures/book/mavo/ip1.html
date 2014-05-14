@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<script type="text/javascript">
+//<![CDATA[
+//見開きiPhone/iPad用
+
+//var totalpage=6;
+var totalpage=6;//全部の枚数
+var currentpage=0;
+var img = new Array(totalpage);	//Imageオブジェクト
+var path = new Array(totalpage);	//画像のパス
+var adult = 0;
+
+for(i=0;i<totalpage+1;i++){
+	img[i] = new Image();
+	path[i] = new Image();
+}
+
+path[0]= 'images/howto5.png';path[1]='http://blog-randmax.azurewebsites.net/manga/chisen/identifier/001.png';
+path[2]='http://blog-randmax.azurewebsites.net/manga/chisen/identifier/002.png';
+path[3]='http://blog-randmax.azurewebsites.net/manga/chisen/identifier/003.png';
+path[4]='http://blog-randmax.azurewebsites.net/manga/chisen/identifier/004.png';
+path[5]='http://blog-randmax.azurewebsites.net/manga/chisen/identifier/005.png';
+path[6]='http://blog-randmax.azurewebsites.net/images/iplast.png';
+
+
+img[0].src = path[0];
+img[1].src = path[1];
+img[2].src = path[2];
+img[3].src = path[3];
+
+function loadImage(num){
+
+	document.getElementById('right').src = img[num*2].src;
+	document.getElementById('left').src = img[num*2+1].src;
+
+}
+function prev(){
+	if(currentpage>=1){
+		currentpage--;
+		loadImage(currentpage);
+		setPage();
+	}
+	$('#manga #left').attr("onclick","next()");
+}
+function next(){
+
+	if(currentpage*2+3<=totalpage){
+
+		currentpage++;
+		setPage();
+		loadImage(currentpage);
+
+		//先読み処理
+		img[currentpage*2+2].src = path[currentpage*2+2];
+		img[currentpage*2+3].src = path[currentpage*2+3];
+
+	}else{	//最後のページ
+
+
+
+		setPage();
+		loadImage(currentpage);
+
+	}
+
+
+
+}
+function setPage(){
+	document.getElementById('page').innerHTML= (currentpage+1)+"/" + path.length/2;
+
+	if(currentpage*2+1 >= totalpage){
+		$('#manga #left').attr("onclick","document.location = 'title.php?title=identifier'");
+	}
+
+}
+function init(){
+	document.getElementById('right').src = img[0].src;
+	document.getElementById('left').src = img[1].src;
+	document.getElementById('page').innerHTML= "1/" + path.length/2;
+
+
+}
+$(function(){
+/*	$('#confirmDialog').dialog({
+		title:'注意',
+		autoOpen:false,
+		modal:true,
+		width: 450,
+		resizable: false,
+		buttons: {
+			"はい": function() {
+				$(this).dialog("close");
+			},
+			"いいえ": function() {
+				history.back();
+				return;
+			}
+		},
+		open: function(){
+			$(this).siblings('.ui-dialog-buttonpane').find('button:eq(1)').focus();
+		}
+
+	});
+
+
+
+
+	if(adult)	//18禁コンテンツ
+		$('#confirmDialog').dialog("open");
+*/
+	if(adult)	//18禁コンテンツ
+		if(window.confirm('この作品には性的な表現が含まれています。\n18歳未満の方は、閲覧できませんのでご注意ください。\n18歳以上の方は「OK」を、そうでない方は「キャンセル」をクリックしてください')){
+
+		}else{
+			history.back();
+			return;
+		}
+});
+//]]>
+</script>
+
+</head>
+
+<body onload="init()">
+<div id="container">
+
+<table width="1134" border="0" cellspacing="0" cellpadding="0" id="topbar">
+  <tr>
+    <td rowspan="2"><a href="title.php?title=identifier"><img src="images/mavologo.png" width="342" height="100" alt="電脳マヴォ"/></a></td>
+    <td align="center" id="title">title<br/><span class="subtitle">episode</span></td>
+    <td rowspan="2">&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="center" id="page">&nbsp;</td>
+  </tr>
+</table>
+
+
+
+
+
+
+
+<div id="manga">
+<img src='' width='567' height='800' id='left' onclick='next()' alt=''/><img src='' width='567' height='800' id='right' onclick='prev()'  alt=''/></div>
+<div id="return_title">
+<a href="title.php?title=identifier"> </a>
+</div>
+</div>
+
+<div></div>
+</body>
+</html>
